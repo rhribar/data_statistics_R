@@ -1,0 +1,259 @@
+---
+title: "NLB_retail3_analysis"
+author: "Rok Hribar"
+date: "31 1 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# TODO basic info
+## 0. How to Comment?
+Please comment on the line with your initials. For example:
+"## RH: Comment here "
+
+## 1. Data import
+
+Import data here:
+
+```{r}
+mydata <- read.csv("raw_data.csv", header=TRUE, sep = ";", dec = ",")
+mydata <- mydata[-c(1), ] # remove the first row as we do not need it
+nrow(mydata)
+head(mydata)
+```
+
+## 2. Data cleanup
+
+Here we are cleaning our data:
+
+```{r}
+# Lets only keep the surveys of the people for which we have the demographic information for (used as our reference point). We will therefore only keep the people who came to the end of our survey. https://www.1ka.si/d/sl/pomoc/prirocniki/statusi-enot-ustreznost-veljavnost-manjkajoce-vrednosti
+# -3 ... oseba zapustila vprašalnik, -2 ... oseba, ni v našem starostnem rangu
+
+library(dplyr)
+library(naniar)
+library(tidyr)
+
+mydata <- mydata %>% replace_with_na(replace = list(XSPOL1 = c(-2, -3)))
+
+mydata <- drop_na(mydata)
+head(mydata)
+nrow(mydata)
+
+# TODO also figure out what we must do or how we need to clean out our data with "I do not know" answers like Nevem which is equall to -99
+```
+
+## 3. Undersampling based on secondary resources
+
+Here we wanted to under sample our data, because we thought we had too little of young families. Turns out we have enough of them (5.7 %) which is pretty similar to the data we found from 2016 (young families of 20-29 age was 3,9 %). Therefore we have decided that we will not under sample based on this criteria.
+
+https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2017/1_demografija_2017.pdf
+https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2016/2.2_porodi_in_rojstva_2016.pdf
+
+## 4. Hypothesis testing (refer to the document on hypothesis)
+
+### RQ: 3. Why are young people choosing other financial technology solutions instead of traditional banking solutions?
+### H: Young people use financial technology solutions because of its convenience.
+### T: regression model
+
+```{r}
+# idk, we have here numerical scale
+# lm()
+
+```
+
+### RQ: 5. Are young people prepared to pay more for a sustainable banking package compared to a standard banking package?
+### H: Up to 70% of young people would be prepared to pay more for sustainable products.
+### T: test of proportions
+
+```{r}
+# look if normal distribution
+# then test
+```
+
+### RQ: 6. How does the importance of sustainability differ among subgroups (students, employed, young families) in the group of young people?
+### H: Students on average see sustainability as more important compared to employed people.
+### T: independent t-tests
+
+```{r}
+
+```
+
+### RQ: 7. What percentage of young people is interested in using sustainable financial products?
+### H: More than 80% of young people would rather use a financial package that includes sustainable options compared to a financial package without sustainable options.
+### T: test of proportions
+
+```{r}
+
+```
+
+## 5. Perception testing
+
+### RQ: 6. How do young people perceive different banking solutions on the Slovenian market?
+### H: Young people perceive NLB to have the best brand reputation.
+### T: logistic regression model
+
+```{r}
+plot(pressure)
+```
+
+## 6. Pricing testing
+
+Lets look at our Van Westendorp pricing analysis. In our survey VW analysis was measured with the following Qs: Q26	Q27	Q28	Q29.
+
+```{r}
+library(ggplot2)
+
+# DATA CLEANUP: We need to clean the data for these for Qs. We need to filter the people who did not answer this Qs.
+
+myDataPrice <- mydata %>% replace_with_na(replace = list(Q26 = c(-1), Q27 = c(-1), Q28 = c(-1), Q29 = c(-1)))
+myDataPrice <- drop_na(myDataPrice)
+
+# Van Westerdorp analysis TAKE 2
+# 111 to cheap
+myDataPrice[, 111] <- as.numeric(as.character(myDataPrice[, 111])) 
+myDataPrice[, 112] <- as.numeric(as.character(myDataPrice[, 112]))
+myDataPrice[, 113] <- as.numeric(as.character(myDataPrice[, 113]))
+myDataPrice[, 114] <- as.numeric(as.character(myDataPrice[, 114]))
+
+is.numeric(myDataPrice[, 114])
+is.numeric(myDataPrice[, 113])
+is.numeric(myDataPrice[, 112])
+is.numeric(myDataPrice[, 111])
+
+psm_out <- psm_analysis(toocheap = myDataPrice[, 111], 
+             cheap = myDataPrice[, 112], 
+             expensive = myDataPrice[, 113],
+             tooexpensive = myDataPrice[, 114],
+             validate = TRUE)
+
+str(psm_out)
+head(psm_out$data_input)
+head(psm_out$data_vanwestendorp)
+
+psmplot <-  ggplot(data = psm_out$data_vanwestendorp, aes(x = price)) +
+  annotate(geom = "rect", # shaded background area for range of acceptable prices
+           xmin = psm_out$pricerange_lower,
+           xmax = psm_out$pricerange_upper,
+           ymin = 0, ymax = Inf,
+           fill="grey50", alpha = 0.3) +
+  geom_line(aes(y = ecdf_toocheap, # line: too cheap
+                colour = "too cheap",
+                linetype = "too cheap"),
+            size= .5) +
+  geom_line(aes(y = ecdf_tooexpensive, # line: too expensive
+                colour = "too expensive",
+                linetype = "too expensive"),
+            size = .5) + 
+  geom_line(aes(y = ecdf_not_cheap, # line: not cheap
+                colour = "not cheap",
+                linetype = "not cheap"),
+            size = .5) +
+  geom_line(aes(y = ecdf_not_expensive, # line: not expensive
+                colour = "not expensive",
+                linetype = "not expensive"),
+            size = .5) + 
+  annotate(geom = "point", # Indifference Price Point (intersection of "cheap" and "expensive")
+           x = psm_out$idp, 
+           y = psm_out$data_vanwestendorp$ecdf_not_cheap[psm_out$data_vanwestendorp$price == psm_out$idp],
+           size = 3,
+           shape = 2,
+           colour = "#D55E00",
+           fill = "#D55E00",
+           alpha = .8) + 
+  annotate(geom = "point", # Optimal Price Point (intersection of "too cheap" and "too expensive")
+           x = psm_out$opp, 
+           y = psm_out$data_vanwestendorp$ecdf_toocheap[psm_out$data_vanwestendorp$price == psm_out$opp],
+           size = 3,
+           shape = 2,
+           colour = "#D55E00",
+           fill = "#D55E00",
+           alpha = 0.8)
+
+
+# Update plot with labels and colors
+psmplot +
+  labs(x = "Price",
+       y = "Proportion of Respondents",
+       title = "Price Sensitivity Plot for Product X",
+       caption = paste("sample size:",
+                       psm_out$total_sample - psm_out$invalid_cases,
+                       "respondents"))  + 
+  scale_colour_manual(name = "Legend",
+                      values = c("too cheap" = "#040453",
+                                 "not cheap" = "#040453",
+                                 "not expensive" = "#00b0f0",
+                                 "too expensive" = "#00b0f0")) + 
+  scale_linetype_manual(name="Legend",
+                        values = c("too cheap" = "dotted",
+                                   "not cheap" = "solid",
+                                   "not expensive" = "solid",
+                                   "too expensive" = "dotted")) + 
+  annotate(geom = "text", # Label of Indifference Price Point
+           x = psm_out$idp + 5, 
+           y = psm_out$data_vanwestendorp$ecdf_not_cheap[psm_out$data_vanwestendorp$price == psm_out$idp] + .05,
+           label = paste("IDP: ", psm_out$idp)) + 
+  annotate(geom = "text", # Label of Optimal Price Point
+           x = psm_out$opp,
+           y = psm_out$data_vanwestendorp$ecdf_toocheap[psm_out$data_vanwestendorp$price == psm_out$opp] + .05,
+           label = paste("OPP: ", psm_out$opp)) +
+  theme_minimal()
+```
+
+## 7. Social proof testing
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+```
+
+## 8. Additional important key parts (hypothesis)
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+```
+
+## 9. Segmentation
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+```
+
+### 9.1. Demographic Segmentation
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+```
+
+### 9.2. Segmentation analysis based on attitudes
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+```
+
+## 10. Market potential
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+```
+
+## 11. Buyer behaviour
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+```
