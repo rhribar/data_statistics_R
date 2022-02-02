@@ -42,7 +42,7 @@ mydata <- drop_na(mydata)
 head(mydata)
 nrow(mydata)
 
-# TODO also figure out what we must do or how we need to clean out our data with "I do not know" answers like Nevem which is equall to -99
+# TODO also figure out what we must do or how we need to clean out our data with "I do not know" answers like Nevem which is equal to -99
 ```
 
 ## 3. Undersampling based on secondary resources
@@ -65,12 +65,57 @@ https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2016/2
 ```
 
 ### RQ: 5. Are young people prepared to pay more for a sustainable banking package compared to a standard banking package?
-### H: Up to 70% of young people would be prepared to pay more for sustainable products.
+### H: Up to 55 % of young people would be prepared to pay more for sustainable products.
 ### T: test of proportions
 
 ```{r}
-# look if normal distribution
-# then test
+
+# 1. Hypothesis's
+# H0: p = 0.7
+# H1: p =| 0.7
+
+# 2. Data Cleanup
+nrow(mydata) # initial max. of people
+
+myDataPriceNormal <- mydata %>% replace_with_na(replace = list(Q18 = c(-1)))
+myDataPriceNormal <- drop_na(myDataPriceNormal)
+myDataPriceNormal <- as.numeric(as.character(myDataPriceNormal[ ,"Q18"]))
+
+length(myDataPriceNormal)
+
+myDataPriceSustainable <- mydata %>% replace_with_na(replace = list(Q24 = c(-1)))
+myDataPriceSustainable <- drop_na(myDataPriceSustainable)
+myDataPriceSustainable <- as.numeric(as.character(myDataPriceSustainable[ ,"Q24"]))
+
+
+length(myDataPriceSustainable) == length(myDataPriceNormal)
+
+sampleSize <- length(myDataPriceNormal) # max. of people on clean data
+myDataPriceNormal
+
+# 3. Getting the relevant data
+counter <- 0
+
+for(normalP in 1:length(myDataPriceNormal)) {
+  if(myDataPriceNormal[normalP] < myDataPriceSustainable[normalP]) {
+    counter <- counter + 1
+  }
+}
+
+counter
+sampleSize
+
+# 4. Testing whether we need Binomial or prop test
+
+pi0 <- 0.55
+pi0 * sampleSize > 5 && sampleSize * (1 - pi0) > 5
+
+# We can use prop test as above condition holds true.
+
+prop.test(x = counter, n = sampleSize, p = pi0, correct = FALSE, alternative = "greater")
+
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.003506.
+                                     
 ```
 
 ### RQ: 6. How does the importance of sustainability differ among subgroups (students, employed, young families) in the group of young people?
@@ -78,14 +123,130 @@ https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2016/2
 ### T: independent t-tests
 
 ```{r}
+# unit anketiranec
+# employed / unemployed Q: XDS2a4
+# Q19 measures importance of sustainability for people
+
+# 2. Data Cleanup
+
+nrow(mydata) # initial max. of people
+
+# Cleaning data for sustainability views
+
+myDataCorr1 <- mydata %>% replace_with_na(replace = list(Q19a = c(-1, -5), Q19b = c(-1, -5), Q19c = c(-1, -5), Q19d = c(-1, -5), Q19e = c(-1, -5)))
+myDataCorr1 <- drop_na(myDataCorr1)
+
+nrow(myDataCorr1)
+
+myDataCorr1
+
+
+employmentData <- myDataCorr1 %>% replace_with_na(replace = list(XDS2a4 = c(-1, -5)))
+employmentData <- drop_na(employmentData)
+employmentData <- as.numeric(as.character(employmentData[ ,"XDS2a4"]))
+
+length(employmentData)
+
+is.numeric(employmentData)
+
+
+# Data cleaned!
+
+# 3. Getting relevant data
+
+# Let's calculate the average view on sustainability per person
+
+viewsOnSustainabilityQ19a <- as.numeric(as.character(myDataCorr1[, "Q19a"])) 
+viewsOnSustainabilityQ19b <- as.numeric(as.character(myDataCorr1[, "Q19b"]))
+viewsOnSustainabilityQ19c <- as.numeric(as.character(myDataCorr1[, "Q19c"]))
+viewsOnSustainabilityQ19d <- as.numeric(as.character(myDataCorr1[, "Q19d"]))
+viewsOnSustainabilityQ19e <- as.numeric(as.character(myDataCorr1[, "Q19e"]))
+length(viewsOnSustainabilityQ19e)
+
+# Here i just calculated the average of all 5 questions when we measured sustainability 
+for(i in 1:length(viewsOnSustainabilityQ19a)) {
+  viewsOnSustainability[i] <- (viewsOnSustainabilityQ19a[i] + viewsOnSustainabilityQ19b[i] + viewsOnSustainabilityQ19c[i] + viewsOnSustainabilityQ19d[i] + viewsOnSustainabilityQ19e[i]) / 5
+}
+
+viewsOnSustainability
+
+viewsOnSustainabilityReference <- data.frame(mydata["Q19a"], mydata["Q19b"], mydata["Q19c"], mydata["Q19d"], mydata["Q19e"])
+
+viewsOnSustainabilityReference
+
+viewsOnSustainabilityNew <- data.frame(employmentData, viewsOnSustainability)
+
+viewsOnSustainabilityNew$EmployedF <- factor(viewsOnSustainabilityNew$employmentData, levels = c(1, 2), labels = c("Yes", "No")) 
+
+library(psych)
+describeBy(viewsOnSustainabilityNew$viewsOnSustainability, viewsOnSustainabilityNew$EmployedF)
+
+library(ggplot2)
+
+Employed_no <- ggplot(viewsOnSustainabilityNew[viewsOnSustainabilityNew$EmployedF=="No", ], aes(x = viewsOnSustainability)) + theme_linedraw() + geom_histogram() + ggtitle("Not employed")
+
+Employed_no
+
+Employed_yes <- ggplot(viewsOnSustainabilityNew[viewsOnSustainabilityNew$EmployedF=="Yes", ], aes(x = viewsOnSustainability)) + theme_linedraw() + geom_histogram() + ggtitle("Employed")
+
+Employed_yes
+
+library(ggpubr)
+
+ggarrange(Employed_no, Employed_yes, ncol = 2, nrow = 1)
+
+ggqqplot(viewsOnSustainabilityNew, "viewsOnSustainability", facet.by = "EmployedF")
+# some variables should probably be removed
+
+t.test(viewsOnSustainabilityNew$viewsOnSustainability ~ viewsOnSustainabilityNew$EmployedF, paired = FALSE, var.equal = FALSE, alternative = "two.sided")
+
+# VERDICT: We cannot reject  H0 (p = 0.3344), this makes sense because means are very close. TODO: How can we reject it?:)
 
 ```
 
 ### RQ: 7. What percentage of young people is interested in using sustainable financial products?
-### H: More than 80% of young people would rather use a financial package that includes sustainable options compared to a financial package without sustainable options.
+### H: More than 58% of young people would rather use a financial package that includes sustainable options compared to a financial package without sustainable options.
 ### T: test of proportions
 
 ```{r}
+
+# 1. Hypothesis's
+# H0: p = 0.58
+# H1: p =| 0.58
+
+# 2. Data Cleanup
+nrow(mydata) # initial max. of people
+
+myDataH7 <- mydata %>% replace_with_na(replace = list(Q18 = c(-1)))
+myDataH7 <- drop_na(myDataH7)
+myDataH7 <- as.numeric(as.character(myDataH7[ ,"Q22"]))
+
+myDataH7
+
+myDataH7SampleSize <- length(myDataH7) # max. of people on clean data
+myDataH7SampleSize
+
+# 3. Getting the relevant data
+counterH7 <- 0
+
+for(i in 1:myDataH7SampleSize) {
+  if(myDataH7[i] == 1) {
+    counterH7 <- counterH7 + 1
+  }
+}
+
+counterH7
+
+# 4. Testing whether we need Binomial or prop test
+
+pi0_h7 <- 0.58
+pi0_h7 * myDataH7SampleSize > 5 && myDataH7SampleSize * (1 - pi0_h7) > 5
+
+# We can use prop test as above condition holds true.
+
+prop.test(x = counterH7, n = myDataH7SampleSize, p = pi0_h7, correct = FALSE, alternative = "greater")
+
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.002292.
 
 ```
 
@@ -200,8 +361,18 @@ psmplot +
            y = psm_out$data_vanwestendorp$ecdf_toocheap[psm_out$data_vanwestendorp$price == psm_out$opp] + .05,
            label = paste("OPP: ", psm_out$opp)) +
   theme_minimal()
-```
 
+myDataPriceFourQ <- data.frame(myDataPrice[, 111], myDataPrice[, 112], myDataPrice[, 113], myDataPrice[, 114])
+# delete these 3 of them
+myDataPriceFourQ[8, ]
+myDataPriceFourQ[81, ]
+myDataPriceFourQ[110, ]
+myDataPriceFourQ
+myDataPrice["Q26"]
+```
+```{r}
+
+```
 ## 7. Social proof testing
 
 Here we are cleaning our data:
