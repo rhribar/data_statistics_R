@@ -58,6 +58,18 @@ https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2016/2
 ### H: Young people use financial technology solutions because of its convenience.
 ### T: regression model
 
+Consultation Notes:
+- repeated measures to see what stands out, 
+- try to run factor analysis on Q14, skip the Q14f
+- Assumption: a-d into one factor, e into another one
+- We can group 4 together and mark it as convenience.
+- testing the differences on Q3 on those that have a digital bank and those who do not have => t-test 
+- logistic regression do it in MVA setting
+- use factor analysis to see if they go together, a-b will go to one factor etc
+
+- the reason why do they use it => explanatory variable
+- binary logistic regression, based on if they use binary logistic regression based on employment factors
+
 ```{r}
 # idk, we have here numerical scale
 # lm()
@@ -164,11 +176,13 @@ viewsOnSustainabilityQ19e <- as.numeric(as.character(myDataCorr1[, "Q19e"]))
 length(viewsOnSustainabilityQ19e)
 
 # Here i just calculated the average of all 5 questions when we measured sustainability 
+viewsOnSustainability <- as.numeric(as.character(myDataCorr1[, "Q19e"]))
 for(i in 1:length(viewsOnSustainabilityQ19a)) {
   viewsOnSustainability[i] <- (viewsOnSustainabilityQ19a[i] + viewsOnSustainabilityQ19b[i] + viewsOnSustainabilityQ19c[i] + viewsOnSustainabilityQ19d[i] + viewsOnSustainabilityQ19e[i]) / 5
 }
 
 viewsOnSustainability
+employmentData
 
 viewsOnSustainabilityReference <- data.frame(mydata["Q19a"], mydata["Q19b"], mydata["Q19c"], mydata["Q19d"], mydata["Q19e"])
 
@@ -176,10 +190,15 @@ viewsOnSustainabilityReference
 
 viewsOnSustainabilityNew <- data.frame(employmentData, viewsOnSustainability)
 
+viewsOnSustainabilityNew
+
 viewsOnSustainabilityNew$EmployedF <- factor(viewsOnSustainabilityNew$employmentData, levels = c(1, 2), labels = c("Yes", "No")) 
+
+viewsOnSustainabilityNew$EmployedF
 
 library(psych)
 describeBy(viewsOnSustainabilityNew$viewsOnSustainability, viewsOnSustainabilityNew$EmployedF)
+viewsOnSustainabilityNew
 
 library(ggplot2)
 
@@ -254,10 +273,17 @@ prop.test(x = counterH7, n = myDataH7SampleSize, p = pi0_h7, correct = FALSE, al
 
 ### RQ: 6. How do young people perceive different banking solutions on the Slovenian market?
 ### H: Young people perceive NLB to have the best brand reputation.
-### T: logistic regression model
+### T: logistic regression model, rather use perception mapping
+
+Consultations Notes:
+- rather use perception mapping
+- for each segments, repeated measures test for each of Q(parametric one, see if it systematically the best)
+
 
 ```{r}
-plot(pressure)
+
+
+
 ```
 
 ## 6. Pricing testing
@@ -379,6 +405,8 @@ Here we are cleaning our data:
 
 ```{r}
 plot(pressure)
+
+# use correlation between them and see if they are very similar you group them
 ```
 
 ## 8. Additional important key parts (hypothesis)
@@ -387,6 +415,11 @@ Here we are cleaning our data:
 
 ```{r}
 plot(pressure)
+# They ARE prepared to pay more!?
+# Why DOES 1/3 not use the packages!?
+# Do people see n26 as more secure for online shopping!?
+# Include case studies from abroad
+
 ```
 
 ## 9. Segmentation
@@ -413,7 +446,7 @@ Here we are cleaning our data:
 plot(pressure)
 ```
 
-## 10. Market potential
+## 10. Market potential - WE DO NOT NEED
 
 Here we are cleaning our data:
 
@@ -421,7 +454,7 @@ Here we are cleaning our data:
 plot(pressure)
 ```
 
-## 11. Buyer behaviour
+## 11. Buyer behaviour - WE DO NOT NEED
 
 Here we are cleaning our data:
 
