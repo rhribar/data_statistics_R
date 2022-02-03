@@ -525,17 +525,17 @@ Here we are cleaning our data:
 
 # I want to segment our customers
 
-# We need to segment the customers in different segments. 
-# Our variables will be:
+#### We need to segment the customers in different segments. 
+#### Our variables will be:
 
-# Max 5 variables: (iteracija 10)
-# How sustainable is your lifestyle? (stands for Attitude) => avg. 1-7
-# How much do you consider sustainability when making purchases? 
-# How much are you prepared to use sustainable packages? => 1-7
+#### Max 5 variables: (iteracija 10)
+#### How sustainable is your lifestyle? (stands for Attitude) => avg. 1-7
+#### How much do you consider sustainability when making purchases? 
+#### How much are you prepared to use sustainable packages? => 1-7
 
-# How much are you willing to pay for a normal package: Q18
-# How much are you willing to pay for a sustainable package: Q24 
-# How much do you use financial products? (stands for Usage) => avg. 1-7
+#### How much are you willing to pay for a normal package: Q18
+#### How much are you willing to pay for a sustainable package: Q24 
+#### How much do you use financial products? (stands for Usage) => avg. 1-7
 
 ```{r}
 
