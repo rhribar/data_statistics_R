@@ -756,6 +756,15 @@ fit <- aov(cbind(LS_avg, Q21a, Q23b, Q18, Q24) ~ as.factor(Clustering_kmeans), d
 
 summary(fit) # all p values are good
 
+```
+
+```{r}
+
+fit <- aov(cbind(LS_avg, Q21a, Q23b, Q18, Q24) ~ as.factor(Clustering_kmeans), data = segmentationData ) 
+# TODO: Ask: WHICH DATA DO WE USE HERE? STD OR INITIAL????
+
+summary(fit) # all p values are good
+
 # Further ( + descriptive) analysis needs to be perfomed
 
 
