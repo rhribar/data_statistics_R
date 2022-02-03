@@ -51,16 +51,17 @@ mydata <- mydata %>% replace_with_na(replace = list(Q22 = c(-1, -5)))
 
 # Cleanup for pricing testing
 mydata <- mydata %>% replace_with_na(replace = list(Q26 = c(-1), Q27 = c(-1), Q28 = c(-1), Q29 = c(-1)))
-
-
 mydata <- drop_na(mydata)
 
+# ADDITIONAL CLEANUP! of outliers for segmentation
+
+mydata <- mydata[-80, ]
+mydata <- mydata[-63, ]
 
 
-head(mydata)
+
 nrow(mydata)
-
-# TODO also figure out what we must do or how we need to clean out our data with "I do not know" answers like Nevem which is equal to -99
+head(mydata)
 ```
 
 ## 3. Undersampling based on secondary resources
@@ -96,19 +97,18 @@ Consultation Notes:
 ```
 
 ### RQ: 5. Are young people prepared to pay more for a sustainable banking package compared to a standard banking package?
-### H: Up to 55 % of young people would be prepared to pay more for sustainable products.
+### H: 60 % of young people would be prepared to pay more for sustainable products.
 ### T: test of proportions
 
 ```{r}
 
 # 1. Hypothesis's
-# H0: p = 0.7
-# H1: p =| 0.7
+# H0: p = 0.6
+# H1: p =| 0.6
 
 # 2. Data Selecting
 myDataPriceNormal <- as.numeric(as.character(mydata[ ,"Q18"]))
 myDataPriceSustainable <- as.numeric(as.character(mydata[ ,"Q24"]))
-
 
 length(myDataPriceSustainable) == length(myDataPriceNormal)
 
@@ -129,14 +129,15 @@ for(normalP in 1:length(myDataPriceNormal)) {
 
 # 4. Testing whether we need Binomial or prop test
 
-pi0 <- 0.55
+pi0 <- 0.6
 pi0 * sampleSize > 5 && sampleSize * (1 - pi0) > 5
 
 # We can use prop test as above condition holds true.
 
 prop.test(x = counter, n = sampleSize, p = pi0, correct = FALSE, alternative = "greater")
 
-# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.003506.
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.0368.
+
                                      
 ```
 
@@ -188,6 +189,9 @@ viewsOnSustainabilityNew$EmployedF <- factor(viewsOnSustainabilityNew$employment
 library(psych)
 describeBy(viewsOnSustainabilityNew$viewsOnSustainability, viewsOnSustainabilityNew$EmployedF)
 # viewsOnSustainabilityNew
+```
+
+```{r}
 
 library(ggplot2)
 
@@ -202,10 +206,15 @@ Employed_yes <- ggplot(viewsOnSustainabilityNew[viewsOnSustainabilityNew$Employe
 library(ggpubr)
 
 ggarrange(Employed_no, Employed_yes, ncol = 2, nrow = 1)
+```
+
+```{r}
 
 ggqqplot(viewsOnSustainabilityNew, "viewsOnSustainability", facet.by = "EmployedF")
 # some variables should probably be removed
+```
 
+```{r}
 t.test(viewsOnSustainabilityNew$viewsOnSustainability ~ viewsOnSustainabilityNew$EmployedF, paired = FALSE, var.equal = FALSE, alternative = "two.sided")
 
 # VERDICT: We cannot reject  H0 (p = 0.3344), this makes sense because means are very close. TODO: How can we reject it?:)
@@ -219,15 +228,15 @@ t.test(viewsOnSustainabilityNew$viewsOnSustainability ~ viewsOnSustainabilityNew
 ```{r}
 
 # 1. Hypothesis's
-# H0: p = 0.58
-# H1: p =| 0.58
+# H0: p = 0.6
+# H1: p =| 0.6
 
 # 2. Data Selection
 myDataH7 <- as.numeric(as.character(mydata[ ,"Q22"]))
 
 # myDataH7
 
-myDataH7SampleSize
+myDataH7SampleSize <- length(myDataH7)
 
 # 3. Getting the relevant data
 
@@ -243,14 +252,14 @@ counterH7
 
 # 4. Testing whether we need Binomial or prop test
 
-pi0_h7 <- 0.55
+pi0_h7 <- 0.6
 pi0_h7 * myDataH7SampleSize > 5 && myDataH7SampleSize * (1 - pi0_h7) > 5
 
 # We can use prop test as above condition holds true.
 
 prop.test(x = counterH7, n = myDataH7SampleSize, p = pi0_h7, correct = FALSE, alternative = "greater")
 
-# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.002292.
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.01384
 
 ```
 
@@ -278,11 +287,13 @@ odgovornostEnka <- c(4.5, 5.0, 4.6, 4.3, 4.5, 4.8, 4.5)
 finalEnka <- data.frame(dostopnostEnka, cenaEnka, ugledEnka, odgovornostEnka)
 rownames(finalEnka) <- c("NKBM", "NLB", "SKB", "DH", "N26", "Revolut", "mBills")
 finalEnka
+```
 
+```{r}
 pc.percEnka <- princomp(finalEnka, cor = TRUE)
-pc.percEnka
+# pc.percEnka
 
-biplot(pc.percEnka)
+# biplot(pc.percEnka) => done later
 
 library(ggpubr)
 
@@ -359,10 +370,14 @@ final <- data.frame(dostopnost, cena, ugled, odgovornost)
 rownames(final) <- c("NKBM", "NLB", "SKB", "DH", "N26", "Revolut", "mBills")
 final
 
-pc.perc <- princomp(final, cor = TRUE)
-pc.perc
+```
 
-biplot(pc.perc)
+```{r}
+
+pc.perc <- princomp(final, cor = TRUE)
+# pc.perc 
+
+# biplot(pc.perc) => done later
 
 ggarrange(biplot(pc.perc), biplot(pc.percEnka), ncol = 2, nrow = 1)
 # use the best one:)
@@ -377,8 +392,6 @@ Lets look at our Van Westendorp pricing analysis. In our survey VW analysis was 
 library(ggplot2)
 
 # DATA CLEANUP: We need to clean the data for these for Qs. We need to filter the people who did not answer this Qs.
-
-
 
 # Van Westerdorp analysis TAKE 2
 # 111 to cheap
@@ -473,11 +486,12 @@ psmplot +
   theme_minimal()
 
 myDataPriceFourQ <- data.frame(mydata[, 111], mydata[, 112], mydata[, 113], mydata[, 114])
-# delete these 3 of them
-myDataPriceFourQ[8, ]
-myDataPriceFourQ[81, ]
-myDataPriceFourQ[110, ]
-myDataPriceFourQ
+
+# TODO: do additional cleanup here, someone put a price of 200, should I remove the whole dataset?
+# myDataPriceFourQ[8, ]
+# myDataPriceFourQ[81, ]
+# myDataPriceFourQ[110, ]
+# myDataPriceFourQ
 
 mydata["Q26"]
 ```
@@ -499,7 +513,6 @@ Here we are cleaning our data:
 Here we are cleaning our data:
 
 ```{r}
-plot(pressure)
 # TODO:
 # They ARE prepared to pay more!?
 # Why DOES 1/3 not use the packages!?
@@ -535,21 +548,21 @@ typeof(viewsOnSustainability)
 is.numeric(viewsOnSustainability)
 
 segmentationData["LS_avg"] <- viewsOnSustainability
-segmentationData["LS_avg"]
+# segmentationData["LS_avg"]
 
 # Q21: How much do you consider sustainability when making purchases? 
 nrow(segmentationData[c("Q21a")])
 # How much are you prepared to use sustainable packages? => 1-7
 segmentationData["Q23b"] <- as.numeric(as.character(segmentationData[ ,"Q23b"]))
-segmentationData["Q23b"]
+# segmentationData["Q23b"]
 
 # How much are you willing to pay for a normal package: Q18
 segmentationData["Q18"] <- as.numeric(as.character(segmentationData[ ,"Q18"]))
-segmentationData["Q18"]
+# segmentationData["Q18"]
 
 # How much are you willing to pay for a sustainable package: Q24 
 segmentationData["Q24"] <- as.numeric(as.character(segmentationData[ ,"Q24"]))
-segmentationData["Q24"]
+# segmentationData["Q24"]
 
 
 summary(segmentationData[c("LS_avg", "Q21a", "Q23b", "Q18", "Q24")])
@@ -563,13 +576,22 @@ segmentationData_std$Dissimilarity = sqrt(segmentationData_std$LS_avg^2 + segmen
 
 head(segmentationData_std[order(-segmentationData_std$Dissimilarity), ], 5)
 
-print(segmentationData[82, ])
+# print(segmentationData[82, ]) # Checking outliers
 
-segmentationData_std_NoDissimilarity <- segmentationData_std
+# nrow(segmentationData)
+
+```
+
+```{r}
+
+segmentationData_std_NoDissimilarity <- segmentationData_std # this step is REQUIRED, REMOVE DISSIMILARITY BEFORE DOING FURTHER ANALYSIS
 segmentationData_std_NoDissimilarity$Dissimilarity <- NULL
 
 round(cor(segmentationData_std_NoDissimilarity), 2)
 
+```
+
+```{r}
 library(factoextra)
 
 Distances <- get_dist(segmentationData_std_NoDissimilarity, method = "euclidian")
@@ -578,18 +600,22 @@ fviz_dist(Distances)
 
 get_clust_tendency(segmentationData_std_NoDissimilarity, n = nrow(segmentationData_std_NoDissimilarity) - 1, graph = FALSE)
 
+```
+
+```{r}
 library(dplyr)
 
 (WARD <- segmentationData_std_NoDissimilarity %>% get_dist(method = "euclidian") %>% hclust(method = "ward.D2"))
 
-
 fviz_dend(WARD)
 
-fviz_dend(WARD, k = 3, palette = "Set1", rect = TRUE) # 12 proposed 3 as the best number of clusters
+fviz_dend(WARD, k = 3, palette = "Set1", rect = TRUE) # 15 proposed 3 as the best number of clusters
 
 fviz_dend(WARD, k = 5, palette = "Set1", rect = TRUE)
 
+```
 
+```{r}
 set.seed(1)
 
 library(NbClust)
@@ -605,13 +631,28 @@ Leaders_initial <- aggregate(segmentationData_std_NoDissimilarity, by = list(seg
 
 Leaders_initial
 
+```
+
+```{r}
+
 (kmeans_clu <- hkmeans(segmentationData_std_NoDissimilarity, k = 3, hc.metric = "euclidean", hc.method = "ward.D2"))
 
+```
+
+```{r}
 fviz_cluster(kmeans_clu, palette = "Set1", repel = FALSE, ggtheme = theme_linedraw())
+
+```
+
+```{r}
 
 R <- cor(segmentationData_std_NoDissimilarity)
 
 round(R, 3)
+
+```
+
+```{r}
 
 library(psych)
 
@@ -619,25 +660,48 @@ cortest.bartlett(R, n = nrow(segmentationData_std_NoDissimilarity))
 
 KMO(R) # TODO: Problem here, MSA and individual
 
+```
+
+```{r}
+
 library(FactoMineR)
 components <- PCA(segmentationData_std_NoDissimilarity, scale.unit = FALSE, graph = FALSE)
 
 get_eigenvalue(components)
 
+```
+
+```{r}
+
 fviz_eig(components, choice = "eigenvalue", main = "Screeplot", ylab = "Eigenvalues", xlab = "Principal Component", addlabels = TRUE)
+
+```
+
+```{r}
 
 fa.parallel(segmentationData_std_NoDissimilarity, sim = FALSE, fa = "pc")
 
+```
+
+```{r}
 (components <- PCA(segmentationData_std_NoDissimilarity, scale.unit = FALSE, graph = FALSE, ncp = 2))
 
 print(components$var$cor)
 
 fviz_pca_var(components, repel = TRUE)
+```
+
+```{r}
 
 fviz_pca_biplot(components)
 
+```
+
+```{r}
+
 segmentationData$Clustering_kmeans <- kmeans_clu$cluster
 
+# Check if we need optimization
 head(segmentationData) # => uneven
 
 table(segmentationData$Clustering_Ward)
@@ -645,8 +709,16 @@ table(segmentationData$Clustering_kmeans)
 
 table(segmentationData$Clustering_Ward, segmentationData$Clustering_kmeans)
 
+```
+
+```{r}
+
 Leaders_final <- kmeans_clu$centers
 Leaders_final
+
+```
+
+```{r}
 
 # DESCRIBING CLUSTERS
 
@@ -675,11 +747,18 @@ ggplot(Figure, aes(x = NameF, y = value)) +
   xlab("Cluster variables") +
   ylim(-2.2, 2.2)
 
-fit <- aov(cbind(LS_avg, Q21a, Q23b, Q18, Q24) ~ as.factor(Clustering_kmeans), data = segmentationData ) 
-# TODO: WHICH DATA DO WE USE HERE? STD OR INITIAL????
+```
 
-summary(fit)
+```{r}
+
+fit <- aov(cbind(LS_avg, Q21a, Q23b, Q18, Q24) ~ as.factor(Clustering_kmeans), data = segmentationData ) 
+# TODO: Ask: WHICH DATA DO WE USE HERE? STD OR INITIAL????
+
+summary(fit) # all p values are good
 
 # Further ( + descriptive) analysis needs to be perfomed
+
+
+# calculate effect size => r**2 = 2.12/ (2.12 + 82.44) => sqrt(r**2) ... check lecture notes
 
 ```
