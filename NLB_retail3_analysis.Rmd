@@ -1,0 +1,685 @@
+---
+title: "NLB_retail3_analysis"
+author: "Rok Hribar"
+date: "31 1 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# TODO basic info
+## 0. How to Comment?
+Please comment on the line with your initials. For example:
+"## RH: Comment here "
+
+## 1. Data import
+
+Import data here:
+
+```{r}
+mydata <- read.csv("raw_data.csv", header=TRUE, sep = ";", dec = ",")
+mydata <- mydata[-c(1), ] # remove the first row as we do not need it
+nrow(mydata)
+head(mydata)
+```
+
+## 2. Data cleanup
+
+Here we are cleaning our data:
+
+```{r}
+# Lets only keep the surveys of the people for which we have the demographic information for (used as our reference point). We will therefore only keep the people who came to the end of our survey. https://www.1ka.si/d/sl/pomoc/prirocniki/statusi-enot-ustreznost-veljavnost-manjkajoce-vrednosti
+# -3 ... oseba zapustila vprašalnik, -2 ... oseba, ni v našem starostnem rangu
+
+library(dplyr)
+library(naniar)
+library(tidyr)
+
+mydata <- mydata %>% replace_with_na(replace = list(XSPOL1 = c(-2, -3))) # checking if they came to the end, initial cleanup
+
+# We can afford to remove people that did not answer to our key survey questions
+# Cleanup for RQ5
+mydata <- mydata %>% replace_with_na(replace = list(Q18 = c(-1), Q24 = c(-1)))
+
+# Cleanup for RQ6
+mydata <- mydata %>% replace_with_na(replace = list(Q19a = c(-1, -5), Q19b = c(-1, -5), Q19c = c(-1, -5), Q19d = c(-1, -5), Q19e = c(-1, -5), Q18 = c(-1), Q24 = c(-1)))
+mydata <- mydata %>% replace_with_na(replace = list(XDS2a4 = c(-1, -5)))
+
+# Cleanup for RQ7
+mydata <- mydata %>% replace_with_na(replace = list(Q22 = c(-1, -5)))
+
+# Cleanup for pricing testing
+mydata <- mydata %>% replace_with_na(replace = list(Q26 = c(-1), Q27 = c(-1), Q28 = c(-1), Q29 = c(-1)))
+
+
+mydata <- drop_na(mydata)
+
+
+
+head(mydata)
+nrow(mydata)
+
+# TODO also figure out what we must do or how we need to clean out our data with "I do not know" answers like Nevem which is equal to -99
+```
+
+## 3. Undersampling based on secondary resources
+
+Here we wanted to under sample our data, because we thought we had too little of young families. Turns out we have enough of them (5.7 %) which is pretty similar to the data we found from 2016 (young families of 20-29 age was 3,9 %). Therefore we have decided that we will not under sample based on this criteria.
+
+https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2017/1_demografija_2017.pdf
+https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2016/2.2_porodi_in_rojstva_2016.pdf
+
+## 4. Hypothesis testing (refer to the document on hypothesis)
+
+### RQ: 3. Why are young people choosing other financial technology solutions instead of traditional banking solutions?
+### H: Young people use financial technology solutions because of its convenience.
+### T: regression model
+
+Consultation Notes:
+- repeated measures to see what stands out, 
+- try to run factor analysis on Q14, skip the Q14f
+- Assumption: a-d into one factor, e into another one
+- We can group 4 together and mark it as convenience.
+- testing the differences on Q3 on those that have a digital bank and those who do not have => t-test 
+- logistic regression do it in MVA setting
+- use factor analysis to see if they go together, a-b will go to one factor etc
+
+- the reason why do they use it => explanatory variable
+- binary logistic regression, based on if they use binary logistic regression based on employment factors
+
+```{r}
+# idk, we have here numerical scale
+# lm()
+# TODO
+
+```
+
+### RQ: 5. Are young people prepared to pay more for a sustainable banking package compared to a standard banking package?
+### H: Up to 55 % of young people would be prepared to pay more for sustainable products.
+### T: test of proportions
+
+```{r}
+
+# 1. Hypothesis's
+# H0: p = 0.7
+# H1: p =| 0.7
+
+# 2. Data Selecting
+myDataPriceNormal <- as.numeric(as.character(mydata[ ,"Q18"]))
+myDataPriceSustainable <- as.numeric(as.character(mydata[ ,"Q24"]))
+
+
+length(myDataPriceSustainable) == length(myDataPriceNormal)
+
+sampleSize <- length(myDataPriceNormal) # max. of people on clean data
+# myDataPriceNormal
+
+# 3. Getting the relevant data
+counter <- 0
+
+for(normalP in 1:length(myDataPriceNormal)) {
+  if(myDataPriceNormal[normalP] < myDataPriceSustainable[normalP]) {
+    counter <- counter + 1
+  }
+}
+
+# counter
+# sampleSize
+
+# 4. Testing whether we need Binomial or prop test
+
+pi0 <- 0.55
+pi0 * sampleSize > 5 && sampleSize * (1 - pi0) > 5
+
+# We can use prop test as above condition holds true.
+
+prop.test(x = counter, n = sampleSize, p = pi0, correct = FALSE, alternative = "greater")
+
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.003506.
+                                     
+```
+
+### RQ: 6. How does the importance of sustainability differ among subgroups (students, employed, young families) in the group of young people?
+### H: Students on average see sustainability as more important compared to employed people.
+### T: independent t-tests
+
+```{r}
+
+# employed / unemployed Q: XDS2a4
+# Q19 measures importance of sustainability for people
+
+# 2. Data Selection
+
+employmentData <- as.numeric(as.character(mydata[ ,"XDS2a4"]))
+
+# Data cleaned!
+
+# 3. Getting relevant data
+
+# Let's calculate the average view on sustainability per person
+
+viewsOnSustainabilityQ19a <- as.numeric(as.character(mydata[, "Q19a"])) 
+viewsOnSustainabilityQ19b <- as.numeric(as.character(mydata[, "Q19b"]))
+viewsOnSustainabilityQ19c <- as.numeric(as.character(mydata[, "Q19c"]))
+viewsOnSustainabilityQ19d <- as.numeric(as.character(mydata[, "Q19d"]))
+viewsOnSustainabilityQ19e <- as.numeric(as.character(mydata[, "Q19e"]))
+
+viewsOnSustainability <- as.numeric(as.character(mydata[, "Q19e"])) # Dummy assign
+
+# Here i just calculated the average of all 5 questions when we measured sustainability 
+for(i in 1:length(viewsOnSustainabilityQ19a)) {
+  viewsOnSustainability[i] <- (viewsOnSustainabilityQ19a[i] + viewsOnSustainabilityQ19b[i] + viewsOnSustainabilityQ19c[i] + viewsOnSustainabilityQ19d[i] + viewsOnSustainabilityQ19e[i]) / 5
+}
+
+# length(viewsOnSustainability)
+# employmentData
+
+viewsOnSustainabilityReference <- data.frame(mydata["Q19a"], mydata["Q19b"], mydata["Q19c"], mydata["Q19d"], mydata["Q19e"])
+
+# viewsOnSustainabilityReference
+
+viewsOnSustainabilityNew <- data.frame(employmentData, viewsOnSustainability)
+
+# viewsOnSustainabilityNew
+
+viewsOnSustainabilityNew$EmployedF <- factor(viewsOnSustainabilityNew$employmentData, levels = c(1, 2), labels = c("Yes", "No")) 
+
+library(psych)
+describeBy(viewsOnSustainabilityNew$viewsOnSustainability, viewsOnSustainabilityNew$EmployedF)
+# viewsOnSustainabilityNew
+
+library(ggplot2)
+
+Employed_no <- ggplot(viewsOnSustainabilityNew[viewsOnSustainabilityNew$EmployedF=="No", ], aes(x = viewsOnSustainability)) + theme_linedraw() + geom_histogram() + ggtitle("Not employed")
+
+# Employed_no
+
+Employed_yes <- ggplot(viewsOnSustainabilityNew[viewsOnSustainabilityNew$EmployedF=="Yes", ], aes(x = viewsOnSustainability)) + theme_linedraw() + geom_histogram() + ggtitle("Employed")
+
+#Employed_yes
+
+library(ggpubr)
+
+ggarrange(Employed_no, Employed_yes, ncol = 2, nrow = 1)
+
+ggqqplot(viewsOnSustainabilityNew, "viewsOnSustainability", facet.by = "EmployedF")
+# some variables should probably be removed
+
+t.test(viewsOnSustainabilityNew$viewsOnSustainability ~ viewsOnSustainabilityNew$EmployedF, paired = FALSE, var.equal = FALSE, alternative = "two.sided")
+
+# VERDICT: We cannot reject  H0 (p = 0.3344), this makes sense because means are very close. TODO: How can we reject it?:)
+
+```
+
+### RQ: 7. What percentage of young people is interested in using sustainable financial products?
+### H: More than 58% of young people would rather use a financial package that includes sustainable options compared to a financial package without sustainable options.
+### T: test of proportions
+
+```{r}
+
+# 1. Hypothesis's
+# H0: p = 0.58
+# H1: p =| 0.58
+
+# 2. Data Selection
+myDataH7 <- as.numeric(as.character(mydata[ ,"Q22"]))
+
+# myDataH7
+
+myDataH7SampleSize
+
+# 3. Getting the relevant data
+
+counterH7 <- 0
+
+for(i in 1:length(myDataH7)) { # run only once, unless you know what u are doing
+  if(myDataH7[i] == 1) {
+    counterH7 <- counterH7 + 1
+  }
+}
+
+counterH7
+
+# 4. Testing whether we need Binomial or prop test
+
+pi0_h7 <- 0.55
+pi0_h7 * myDataH7SampleSize > 5 && myDataH7SampleSize * (1 - pi0_h7) > 5
+
+# We can use prop test as above condition holds true.
+
+prop.test(x = counterH7, n = myDataH7SampleSize, p = pi0_h7, correct = FALSE, alternative = "greater")
+
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.002292.
+
+```
+
+## 5. Perception testing
+
+### RQ: 6. How do young people perceive different banking solutions on the Slovenian market?
+### H: Young people perceive NLB to have the best brand reputation.
+### T: logistic regression model, rather use perception mapping
+
+Consultations Notes:
+- rather use perception mapping
+- for each segments, repeated measures test for each of Q(parametric one, see if it systematically the best)
+
+
+```{r}
+
+# TAKE 1: Just take the cleaned averages from 1ka duhhhh
+
+dostopnostEnka <- c(4.5, 5.8, 4.9, 4.1, 5.1, 5.3, 4.4)
+cenaEnka <- c(4.6, 4.9, 4.6, 3.9, 3.8, 4.4, 3.8)
+ugledEnka <- c(4.8, 5.2, 5.0, 4.5, 5.2, 5.5, 4.1)
+odgovornostEnka <- c(4.5, 5.0, 4.6, 4.3, 4.5, 4.8, 4.5)
+
+
+finalEnka <- data.frame(dostopnostEnka, cenaEnka, ugledEnka, odgovornostEnka)
+rownames(finalEnka) <- c("NKBM", "NLB", "SKB", "DH", "N26", "Revolut", "mBills")
+finalEnka
+
+pc.percEnka <- princomp(finalEnka, cor = TRUE)
+pc.percEnka
+
+biplot(pc.percEnka)
+
+library(ggpubr)
+
+# TAKE 2: Do our own analysis
+
+# 1. Cleaning the data
+
+# Q4 - dostopnost, 
+# Q5 - cena, 
+# Q6 - ugled, 
+# Q7 - družbena in okoljska odgovornost
+
+myDataPerceptionQ4 <- mydata %>% replace_with_na(replace = list(Q4a = c(-1, -5, -99), Q4b = c(-1, -5, -99), Q4c = c(-1, -5, -99), Q4d = c(-1, -5, -99), Q4e = c(-1, -5, -99), Q4f = c(-1, -5, -99), Q4g = c(-1, -5, -99)))
+
+myDataPerceptionQ5 <- mydata %>% replace_with_na(replace = list(Q5a = c(-1, -5, -99), Q5b = c(-1, -5, -99), Q5c = c(-1, -5, -99), Q5d = c(-1, -5, -99), Q5e = c(-1, -5, -99), Q5f = c(-1, -5, -99), Q5g = c(-1, -5, -99)))
+
+myDataPerceptionQ6 <- mydata %>% replace_with_na(replace = list(Q6a = c(-1, -5, -99), Q6b = c(-1, -5, -99), Q6c = c(-1, -5, -99), Q6d = c(-1, -5, -99), Q6e = c(-1, -5, -99), Q6f = c(-1, -5, -99), Q6g = c(-1, -5, -99)))
+
+myDataPerceptionQ7 <- mydata %>% replace_with_na(replace = list(Q7a = c(-1, -5, -99), Q7b = c(-1, -5, -99), Q7c = c(-1, -5, -99), Q7d = c(-1, -5, -99), Q7e = c(-1, -5, -99), Q7f = c(-1, -5, -99), Q7g = c(-1, -5, -99)))
+
+
+myDataPerceptionQ4dropped <- drop_na(myDataPerceptionQ4)
+nrow(myDataPerceptionQ4dropped) # 39 here
+
+myDataPerceptionQ5dropped <- drop_na(myDataPerceptionQ5)
+nrow(myDataPerceptionQ5dropped) # 22 here
+
+myDataPerceptionQ6dropped <- drop_na(myDataPerceptionQ6)
+nrow(myDataPerceptionQ6dropped) # 56 here
+
+myDataPerceptionQ7dropped <- drop_na(myDataPerceptionQ7)
+nrow(myDataPerceptionQ7dropped) # 29 here
+
+NKBM_dostopnost <- mean(as.numeric(as.character(myDataPerceptionQ4dropped[, "Q4a"])))
+NLB_dostopnost <- mean(as.numeric(as.character(myDataPerceptionQ4dropped[, "Q4b"])))
+SKB_dostopnost <- mean(as.numeric(as.character(myDataPerceptionQ4dropped[, "Q4c"])))
+DH_dostopnost <- mean(as.numeric(as.character(myDataPerceptionQ4dropped[, "Q4d"])))
+N26_dostopnost <- mean(as.numeric(as.character(myDataPerceptionQ4dropped[, "Q4e"])))
+Rev_dostopnost <- mean(as.numeric(as.character(myDataPerceptionQ4dropped[, "Q4f"])))
+Bills_dostopnost <- mean(as.numeric(as.character(myDataPerceptionQ4dropped[, "Q4g"])))
+
+NKBM_ugled <- mean(as.numeric(as.character(myDataPerceptionQ5dropped[, "Q5a"])))
+NLB_ugled <- mean(as.numeric(as.character(myDataPerceptionQ5dropped[, "Q5b"])))
+SKB_ugled <- mean(as.numeric(as.character(myDataPerceptionQ5dropped[, "Q5c"])))
+DH_ugled <- mean(as.numeric(as.character(myDataPerceptionQ5dropped[, "Q5d"])))
+N26_ugled <- mean(as.numeric(as.character(myDataPerceptionQ5dropped[, "Q5e"])))
+Rev_ugled <- mean(as.numeric(as.character(myDataPerceptionQ5dropped[, "Q5f"])))
+Bills_ugled <- mean(as.numeric(as.character(myDataPerceptionQ5dropped[, "Q5g"])))
+
+NKBM_cena <- mean(as.numeric(as.character(myDataPerceptionQ6dropped[, "Q6a"])))
+NLB_cena <- mean(as.numeric(as.character(myDataPerceptionQ6dropped[, "Q6b"])))
+SKB_cena <- mean(as.numeric(as.character(myDataPerceptionQ6dropped[, "Q6c"])))
+DH_cena <- mean(as.numeric(as.character(myDataPerceptionQ6dropped[, "Q6d"])))
+N26_cena <- mean(as.numeric(as.character(myDataPerceptionQ6dropped[, "Q6e"])))
+Rev_cena <- mean(as.numeric(as.character(myDataPerceptionQ6dropped[, "Q6f"])))
+Bills_cena <- mean(as.numeric(as.character(myDataPerceptionQ6dropped[, "Q6g"])))
+
+NKBM_odgovornost <- mean(as.numeric(as.character(myDataPerceptionQ7dropped[, "Q7a"])))
+NLB_odgovornost <- mean(as.numeric(as.character(myDataPerceptionQ7dropped[, "Q7b"])))
+SKB_odgovornost <- mean(as.numeric(as.character(myDataPerceptionQ7dropped[, "Q7c"])))
+DH_odgovornost <- mean(as.numeric(as.character(myDataPerceptionQ7dropped[, "Q7d"])))
+N26_odgovornost <- mean(as.numeric(as.character(myDataPerceptionQ7dropped[, "Q7e"])))
+Rev_odgovornost <- mean(as.numeric(as.character(myDataPerceptionQ7dropped[, "Q7f"])))
+Bills_odgovornost <- mean(as.numeric(as.character(myDataPerceptionQ7dropped[, "Q7g"])))
+
+
+dostopnost <- c(NKBM_dostopnost, NLB_dostopnost, SKB_dostopnost, DH_dostopnost, N26_dostopnost, Rev_dostopnost, Bills_dostopnost)
+cena <- c(NKBM_cena, NLB_cena, SKB_cena, DH_cena, N26_cena, Rev_cena, Bills_cena)
+ugled <- c(NKBM_ugled, NLB_ugled, SKB_ugled, DH_ugled, N26_ugled, Rev_ugled, Bills_ugled)
+odgovornost <- c(NKBM_odgovornost, NLB_odgovornost, SKB_odgovornost, DH_odgovornost, N26_odgovornost, Rev_odgovornost, Bills_odgovornost)
+
+
+final <- data.frame(dostopnost, cena, ugled, odgovornost)
+rownames(final) <- c("NKBM", "NLB", "SKB", "DH", "N26", "Revolut", "mBills")
+final
+
+pc.perc <- princomp(final, cor = TRUE)
+pc.perc
+
+biplot(pc.perc)
+
+ggarrange(biplot(pc.perc), biplot(pc.percEnka), ncol = 2, nrow = 1)
+# use the best one:)
+
+```
+
+## 6. Pricing testing
+
+Lets look at our Van Westendorp pricing analysis. In our survey VW analysis was measured with the following Qs: Q26	Q27	Q28	Q29.
+
+```{r}
+library(ggplot2)
+
+# DATA CLEANUP: We need to clean the data for these for Qs. We need to filter the people who did not answer this Qs.
+
+
+
+# Van Westerdorp analysis TAKE 2
+# 111 to cheap
+mydata[, 111] <- as.numeric(as.character(mydata[, 111])) 
+mydata[, 112] <- as.numeric(as.character(mydata[, 112]))
+mydata[, 113] <- as.numeric(as.character(mydata[, 113]))
+mydata[, 114] <- as.numeric(as.character(mydata[, 114]))
+
+is.numeric(mydata[, 114])
+is.numeric(mydata[, 113])
+is.numeric(mydata[, 112])
+is.numeric(mydata[, 111])
+
+library(pricesensitivitymeter)
+
+psm_out <- psm_analysis(toocheap = mydata[, 111], 
+             cheap = mydata[, 112], 
+             expensive = mydata[, 113],
+             tooexpensive = mydata[, 114],
+             validate = TRUE)
+
+str(psm_out)
+head(psm_out$data_input)
+head(psm_out$data_vanwestendorp)
+
+psmplot <-  ggplot(data = psm_out$data_vanwestendorp, aes(x = price)) +
+  annotate(geom = "rect", # shaded background area for range of acceptable prices
+           xmin = psm_out$pricerange_lower,
+           xmax = psm_out$pricerange_upper,
+           ymin = 0, ymax = Inf,
+           fill="grey50", alpha = 0.3) +
+  geom_line(aes(y = ecdf_toocheap, # line: too cheap
+                colour = "too cheap",
+                linetype = "too cheap"),
+            size= .5) +
+  geom_line(aes(y = ecdf_tooexpensive, # line: too expensive
+                colour = "too expensive",
+                linetype = "too expensive"),
+            size = .5) + 
+  geom_line(aes(y = ecdf_not_cheap, # line: not cheap
+                colour = "not cheap",
+                linetype = "not cheap"),
+            size = .5) +
+  geom_line(aes(y = ecdf_not_expensive, # line: not expensive
+                colour = "not expensive",
+                linetype = "not expensive"),
+            size = .5) + 
+  annotate(geom = "point", # Indifference Price Point (intersection of "cheap" and "expensive")
+           x = psm_out$idp, 
+           y = psm_out$data_vanwestendorp$ecdf_not_cheap[psm_out$data_vanwestendorp$price == psm_out$idp],
+           size = 3,
+           shape = 2,
+           colour = "#D55E00",
+           fill = "#D55E00",
+           alpha = .8) + 
+  annotate(geom = "point", # Optimal Price Point (intersection of "too cheap" and "too expensive")
+           x = psm_out$opp, 
+           y = psm_out$data_vanwestendorp$ecdf_toocheap[psm_out$data_vanwestendorp$price == psm_out$opp],
+           size = 3,
+           shape = 2,
+           colour = "#D55E00",
+           fill = "#D55E00",
+           alpha = 0.8)
+
+
+# Update plot with labels and colors
+psmplot +
+  labs(x = "Price",
+       y = "Proportion of Respondents",
+       title = "Price Sensitivity Plot for Product X",
+       caption = paste("sample size:",
+                       psm_out$total_sample - psm_out$invalid_cases,
+                       "respondents"))  + 
+  scale_colour_manual(name = "Legend",
+                      values = c("too cheap" = "#040453",
+                                 "not cheap" = "#040453",
+                                 "not expensive" = "#00b0f0",
+                                 "too expensive" = "#00b0f0")) + 
+  scale_linetype_manual(name="Legend",
+                        values = c("too cheap" = "dotted",
+                                   "not cheap" = "solid",
+                                   "not expensive" = "solid",
+                                   "too expensive" = "dotted")) + 
+  annotate(geom = "text", # Label of Indifference Price Point
+           x = psm_out$idp + 5, 
+           y = psm_out$data_vanwestendorp$ecdf_not_cheap[psm_out$data_vanwestendorp$price == psm_out$idp] + .05,
+           label = paste("IDP: ", psm_out$idp)) + 
+  annotate(geom = "text", # Label of Optimal Price Point
+           x = psm_out$opp,
+           y = psm_out$data_vanwestendorp$ecdf_toocheap[psm_out$data_vanwestendorp$price == psm_out$opp] + .05,
+           label = paste("OPP: ", psm_out$opp)) +
+  theme_minimal()
+
+myDataPriceFourQ <- data.frame(mydata[, 111], mydata[, 112], mydata[, 113], mydata[, 114])
+# delete these 3 of them
+myDataPriceFourQ[8, ]
+myDataPriceFourQ[81, ]
+myDataPriceFourQ[110, ]
+myDataPriceFourQ
+
+mydata["Q26"]
+```
+```{r}
+
+```
+## 7. Social proof testing
+
+Here we are cleaning our data:
+
+```{r}
+# TODO:
+
+# use correlation between them and see if they are very similar you group them
+```
+
+## 8. Additional important key parts (hypothesis)
+
+Here we are cleaning our data:
+
+```{r}
+plot(pressure)
+# TODO:
+# They ARE prepared to pay more!?
+# Why DOES 1/3 not use the packages!?
+# Do people see n26 as more secure for online shopping!?
+# Include case studies from abroad
+
+```
+
+## 9. Segmentation
+
+# I want to segment our customers
+
+# We need to segment the customers in different segments. 
+# Our variables will be:
+
+# Max 5 variables: (iteracija 10)
+# How sustainable is your lifestyle? (stands for Attitude) => avg. 1-7
+# How much do you consider sustainability when making purchases? 
+# How much are you prepared to use sustainable packages? => 1-7
+
+# How much are you willing to pay for a normal package: Q18
+# How much are you willing to pay for a sustainable package: Q24 
+# How much do you use financial products? (stands for Usage) => avg. 1-7
+
+```{r}
+
+segmentationData <- mydata
+
+# How much do you use financial products? (stands for Usage) => avg. 1-7 => maybe added maybe not
+# How sustainable is your lifestyle? (stands for Attitude) => avg. 1-7
+viewsOnSustainability
+typeof(viewsOnSustainability)
+is.numeric(viewsOnSustainability)
+
+segmentationData["LS_avg"] <- viewsOnSustainability
+segmentationData["LS_avg"]
+
+# Q21: How much do you consider sustainability when making purchases? 
+nrow(segmentationData[c("Q21a")])
+# How much are you prepared to use sustainable packages? => 1-7
+segmentationData["Q23b"] <- as.numeric(as.character(segmentationData[ ,"Q23b"]))
+segmentationData["Q23b"]
+
+# How much are you willing to pay for a normal package: Q18
+segmentationData["Q18"] <- as.numeric(as.character(segmentationData[ ,"Q18"]))
+segmentationData["Q18"]
+
+# How much are you willing to pay for a sustainable package: Q24 
+segmentationData["Q24"] <- as.numeric(as.character(segmentationData[ ,"Q24"]))
+segmentationData["Q24"]
+
+
+summary(segmentationData[c("LS_avg", "Q21a", "Q23b", "Q18", "Q24")])
+
+segmentationData_std <- as.data.frame(scale(segmentationData[c("LS_avg", "Q21a", "Q23b", "Q18", "Q24")]))
+
+segmentationData_std
+
+# Finding outliers
+segmentationData_std$Dissimilarity = sqrt(segmentationData_std$LS_avg^2 + segmentationData_std$Q21a^2 + segmentationData_std$Q23b^2 + segmentationData_std$Q18^2 + segmentationData_std$Q24^2)
+
+head(segmentationData_std[order(-segmentationData_std$Dissimilarity), ], 5)
+
+print(segmentationData[82, ])
+
+segmentationData_std_NoDissimilarity <- segmentationData_std
+segmentationData_std_NoDissimilarity$Dissimilarity <- NULL
+
+round(cor(segmentationData_std_NoDissimilarity), 2)
+
+library(factoextra)
+
+Distances <- get_dist(segmentationData_std_NoDissimilarity, method = "euclidian")
+
+fviz_dist(Distances)
+
+get_clust_tendency(segmentationData_std_NoDissimilarity, n = nrow(segmentationData_std_NoDissimilarity) - 1, graph = FALSE)
+
+library(dplyr)
+
+(WARD <- segmentationData_std_NoDissimilarity %>% get_dist(method = "euclidian") %>% hclust(method = "ward.D2"))
+
+
+fviz_dend(WARD)
+
+fviz_dend(WARD, k = 3, palette = "Set1", rect = TRUE) # 12 proposed 3 as the best number of clusters
+
+fviz_dend(WARD, k = 5, palette = "Set1", rect = TRUE)
+
+
+set.seed(1)
+
+library(NbClust)
+
+Index <- NbClust(segmentationData_std_NoDissimilarity, distance = "euclidean", method = "ward.D2", index = "all", min.nc = 2, max.nc = 6)
+
+
+segmentationData$Clustering_Ward <- cutree(WARD, k = 3)
+
+head(segmentationData)
+
+Leaders_initial <- aggregate(segmentationData_std_NoDissimilarity, by = list(segmentationData$Clustering_Ward), FUN = mean)
+
+Leaders_initial
+
+(kmeans_clu <- hkmeans(segmentationData_std_NoDissimilarity, k = 3, hc.metric = "euclidean", hc.method = "ward.D2"))
+
+fviz_cluster(kmeans_clu, palette = "Set1", repel = FALSE, ggtheme = theme_linedraw())
+
+R <- cor(segmentationData_std_NoDissimilarity)
+
+round(R, 3)
+
+library(psych)
+
+cortest.bartlett(R, n = nrow(segmentationData_std_NoDissimilarity))
+
+KMO(R) # TODO: Problem here, MSA and individual
+
+library(FactoMineR)
+components <- PCA(segmentationData_std_NoDissimilarity, scale.unit = FALSE, graph = FALSE)
+
+get_eigenvalue(components)
+
+fviz_eig(components, choice = "eigenvalue", main = "Screeplot", ylab = "Eigenvalues", xlab = "Principal Component", addlabels = TRUE)
+
+fa.parallel(segmentationData_std_NoDissimilarity, sim = FALSE, fa = "pc")
+
+(components <- PCA(segmentationData_std_NoDissimilarity, scale.unit = FALSE, graph = FALSE, ncp = 2))
+
+print(components$var$cor)
+
+fviz_pca_var(components, repel = TRUE)
+
+fviz_pca_biplot(components)
+
+segmentationData$Clustering_kmeans <- kmeans_clu$cluster
+
+head(segmentationData) # => uneven
+
+table(segmentationData$Clustering_Ward)
+table(segmentationData$Clustering_kmeans)
+
+table(segmentationData$Clustering_Ward, segmentationData$Clustering_kmeans)
+
+Leaders_final <- kmeans_clu$centers
+Leaders_final
+
+# DESCRIBING CLUSTERS
+
+Figure <- as.data.frame(Leaders_final)
+
+Figure$ID <- 1:nrow(Figure)
+
+library(tidyr)
+
+Figure <- pivot_longer(Figure, cols = c("LS_avg", "Q21a", "Q23b", "Q18", "Q24"))
+
+Figure$Group <- factor(Figure$ID, levels = c(1, 2, 3), labels = c("1", "2", "3"))
+
+Figure$NameF <- factor(Figure$name,
+                       levels = c("LS_avg", "Q21a", "Q23b", "Q18", "Q24"),
+                       labels = c("LifeSust.", "Sust. Purchases", "UseOfSustPckg", "NormalPckgPrice", "SustPckgPrice"))
+
+library(ggplot2)
+
+ggplot(Figure, aes(x = NameF, y = value)) +
+  geom_hline(yintercept = 0) +
+  theme_linedraw() +
+  geom_point(aes(shape = Group, col = Group), size = 3) +
+  geom_line(aes(group = ID), size = 1) +
+  ylab("Averages") +
+  xlab("Cluster variables") +
+  ylim(-2.2, 2.2)
+
+fit <- aov(cbind(LS_avg, Q21a, Q23b, Q18, Q24) ~ as.factor(Clustering_kmeans), data = segmentationData ) 
+# TODO: WHICH DATA DO WE USE HERE? STD OR INITIAL????
+
+summary(fit)
+
+# Further ( + descriptive) analysis needs to be perfomed
+
+```
