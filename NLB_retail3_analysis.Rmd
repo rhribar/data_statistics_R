@@ -38,6 +38,10 @@ library(tidyr)
 
 mydata <- mydata %>% replace_with_na(replace = list(XSPOL1 = c(-2, -3))) # checking if they came to the end, initial cleanup
 
+names(mydata)[1] <- "Age" # WE NEED TO RENAME
+
+mydata <- mydata %>% replace_with_na(replace = list(Age = c(-1))) # checking if they answered the start
+
 # We can afford to remove people that did not answer to our key survey questions
 # Cleanup for RQ5
 mydata <- mydata %>% replace_with_na(replace = list(Q18 = c(-1), Q24 = c(-1)))
@@ -55,10 +59,11 @@ mydata <- drop_na(mydata)
 
 # ADDITIONAL CLEANUP! of outliers for segmentation
 
-mydata <- mydata[-80, ]
-mydata <- mydata[-63, ]
 
+mydata <- mydata[-80, ] # RUN ONLY ONCE
+mydata <- mydata[-63, ] # RUN ONLY ONCE
 
+# ADDITIONAL CLEANUP for segmentation
 
 nrow(mydata)
 head(mydata)
@@ -757,15 +762,67 @@ fit <- aov(cbind(LS_avg, Q21a, Q23b, Q18, Q24) ~ as.factor(Clustering_kmeans), d
 summary(fit) # all p values are good
 
 ```
+### VALIDATION
 
 ```{r}
 
-fit <- aov(cbind(LS_avg, Q21a, Q23b, Q18, Q24) ~ as.factor(Clustering_kmeans), data = segmentationData ) 
-# TODO: Ask: WHICH DATA DO WE USE HERE? STD OR INITIAL????
-
-summary(fit) # all p values are good
-
 # Further ( + descriptive) analysis needs to be perfomed
+
+# PRIMARY FACTORS:
+# GenderF
+segmentationData$GenderF <- factor(segmentationData$XSPOL1, 
+                            levels = c(1, 2), 
+                            labels = c("M", "F"))
+
+# AgeF
+segmentationData$AgeF <- factor(segmentationData$Age, 
+                            levels = c(2, 3, 4, 5, 6, 7, 8, 9, 10, 11), 
+                            labels = c("18", "19", "20", "21", "22", "23", "24", "25", "26", "27"))
+
+# NeobankUseF
+segmentationData$NeobankUseF <- factor(segmentationData$Q16, 
+                            levels = c(1, 2), 
+                            labels = c("Yes", "No"))
+
+# FrequencyOfDigitalPurchasesF
+segmentationData$FrequencyOfDigitalPurchasesF <- factor(segmentationData$Q11a, 
+                            levels = c(1, 2, 3, 4, 5), 
+                            labels = c("Not at all", "=< Once per month", "=< Several times per month", "=< Several times per week", "Every day"))
+
+# ADDITIONAL: 
+# BankTypePreferenceF
+segmentationData$BankTypePreferenceF <- factor(segmentationData$Q17, 
+                            levels = c(1, 2), 
+                            labels = c("Yes", "No"))
+
+# ImpactOnEnvironmentF
+segmentationData$ImpactOnEnvironmentF <- factor(segmentationData$Q22, 
+                            levels = c(1, 2), 
+                            labels = c("Yes", "No"))
+# EmploymentF
+segmentationData$EmploymentF <- factor(segmentationData$XDS2a4, 
+                            levels = c(1, 2), 
+                            labels = c("Student", "Employed"))
+
+# LivingAloneF
+segmentationData$LivingAloneF <- factor(segmentationData$Q31, 
+                            levels = c(1, 2), 
+                            labels = c("Yes", "No"))
+
+# KidsF
+segmentationData$KidsF <- factor(segmentationData$XSPOL1, 
+                            levels = c(1, 2), 
+                            labels = c("Yes", "No"))
+
+# SalaryF
+segmentationData$SalaryF <- factor(segmentationData$Q30, 
+                            levels = c(1, 2, 3, 4, 5, 6, 7), 
+                            labels = c("Brez dohodka", "0-499", "500-999", "1000-1499", "1500-1999", "2000-2499", "2500+"))
+
+# EducationF
+segmentationData$EducationF <- factor(segmentationData$XIZ1a2, 
+                            levels = c(1, 2, 3, 4, 5, 6, 7), 
+                            labels = c("Srednja sola", "Visja sola", "Visoka sola", "Uni. sola", "Magister", "Doktorat", "Other"))
 
 
 # calculate effect size => r**2 = 2.12/ (2.12 + 82.44) => sqrt(r**2) ... check lecture notes
