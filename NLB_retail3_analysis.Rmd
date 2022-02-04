@@ -180,6 +180,7 @@ for(i in 1:length(viewsOnSustainabilityQ19a)) {
 
 # length(viewsOnSustainability)
 # employmentData
+viewsOnSustainability
 
 viewsOnSustainabilityReference <- data.frame(mydata["Q19a"], mydata["Q19b"], mydata["Q19c"], mydata["Q19d"], mydata["Q19e"])
 
@@ -498,7 +499,7 @@ myDataPriceFourQ <- data.frame(mydata[, 111], mydata[, 112], mydata[, 113], myda
 # myDataPriceFourQ[110, ]
 # myDataPriceFourQ
 
-mydata["Q26"]
+# mydata["Q26"]
 ```
 ```{r}
 
@@ -551,6 +552,7 @@ segmentationData <- mydata
 viewsOnSustainability
 typeof(viewsOnSustainability)
 is.numeric(viewsOnSustainability)
+# segmentationData
 
 segmentationData["LS_avg"] <- viewsOnSustainability
 # segmentationData["LS_avg"]
@@ -574,7 +576,7 @@ summary(segmentationData[c("LS_avg", "Q21a", "Q23b", "Q18", "Q24")])
 
 segmentationData_std <- as.data.frame(scale(segmentationData[c("LS_avg", "Q21a", "Q23b", "Q18", "Q24")]))
 
-segmentationData_std
+# segmentationData_std
 
 # Finding outliers
 segmentationData_std$Dissimilarity = sqrt(segmentationData_std$LS_avg^2 + segmentationData_std$Q21a^2 + segmentationData_std$Q23b^2 + segmentationData_std$Q18^2 + segmentationData_std$Q24^2)
@@ -770,7 +772,7 @@ summary(fit) # all p values are good
 
 # PRIMARY FACTORS:
 # GenderF
-segmentationData$GenderF <- factor(segmentationData$XSPOL1, 
+segmentationData$GenderF <- factor(segmentationData$XSPOL, 
                             levels = c(1, 2), 
                             labels = c("M", "F"))
 
@@ -787,13 +789,17 @@ segmentationData$NeobankUseF <- factor(segmentationData$Q16,
 # FrequencyOfDigitalPurchasesF
 segmentationData$FrequencyOfDigitalPurchasesF <- factor(segmentationData$Q11a, 
                             levels = c(1, 2, 3, 4, 5), 
-                            labels = c("Not at all", "=< Once per month", "=< Several times per month", "=< Several times per week", "Every day"))
+                            labels = c("Not at all", " Once per month", "Several times per month", "Several times per week", "Every day"))
 
-# ADDITIONAL: 
+# ADDITIONAL:
+#DigitalBankF
+segmentationData$DigitalBankF <- factor(segmentationData$Q16, 
+                            levels = c(1, 2), 
+                            labels = c("Yes", "No"))
 # BankTypePreferenceF
 segmentationData$BankTypePreferenceF <- factor(segmentationData$Q17, 
                             levels = c(1, 2), 
-                            labels = c("Yes", "No"))
+                            labels = c("Digital", "Traditional"))
 
 # ImpactOnEnvironmentF
 segmentationData$ImpactOnEnvironmentF <- factor(segmentationData$Q22, 
@@ -804,8 +810,8 @@ segmentationData$EmploymentF <- factor(segmentationData$XDS2a4,
                             levels = c(1, 2), 
                             labels = c("Student", "Employed"))
 
-# LivingAloneF
-segmentationData$LivingAloneF <- factor(segmentationData$Q31, 
+# LivingParentsF
+segmentationData$LivingParentsF <- factor(segmentationData$Q31, 
                             levels = c(1, 2), 
                             labels = c("Yes", "No"))
 
@@ -825,6 +831,153 @@ segmentationData$EducationF <- factor(segmentationData$XIZ1a2,
                             labels = c("Srednja sola", "Visja sola", "Visoka sola", "Uni. sola", "Magister", "Doktorat", "Other"))
 
 
-# calculate effect size => r**2 = 2.12/ (2.12 + 82.44) => sqrt(r**2) ... check lecture notes
 
+
+segmentationData$AgeF <- as.numeric(as.character(segmentationData$AgeF))
+
+aggregate(segmentationData$AgeF,
+          by = list(segmentationData$Clustering_kmeans),
+          FUN = 'mean')
+
+
+Fit <- aov(AgeF ~ as.factor(Clustering_kmeans), data= segmentationData)
+
+summary(Fit)
 ```
+#### Calculating the effect size: r**2=22.5/(22.5 + 1317.5) = 0.017
+#### Effect size is small, the differences are small. 
+
+```{r}
+
+segmentationData$Q11a <- as.numeric(as.character(segmentationData$Q11a))
+
+aggregate(segmentationData$Q11a,
+          by = list(segmentationData$Clustering_kmeans),
+          FUN = 'mean')
+
+Fit1 <- aov(Q11a ~ as.factor(Clustering_kmeans), data= segmentationData)
+
+summary(Fit1)
+```
+#### H0: meanG1 = meanG2 = meanG3
+#### H1: At least one mean is different.
+#### We cannot reject H0 because p-value is too high. The means of the three groups are too similar to be statistically significant.
+
+```{r}
+chisq_resultsGen <- chisq.test(segmentationData$GenderF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsGen
+
+addmargins(chisq_resultsGen$observed)
+```
+#### This is acceptable because all values are above 5.
+```{r}
+round(chisq_resultsGen$res, 2)
+```
+#### No validation because none of these are higher than 1.64 in absolute terms - values are too low to be statistically significant.
+
+```{r}
+chisq_resultsImp <- chisq.test(segmentationData$ImpactOnEnvironmentF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsImp
+
+addmargins(chisq_resultsImp$observed)
+```
+#### This is acceptable because all of these values are above 5.
+
+```{r}
+round(chisq_resultsImp$expected, 2)
+
+round(chisq_resultsImp$res, 2)
+```
+#### With the variable ImpactonEnvironmentF, we validated the results because the results were not what we expected.In Group 2, there are less people than expected who want to know about their impact on the environment and more people than expected who do not want to know about their impact.
+
+```{r}
+chisq_resultsEdu <- chisq.test(segmentationData$EducationF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsEdu
+
+addmargins(chisq_resultsEdu$observed)
+
+round(chisq_resultsEdu$res, 2)
+```
+#### Not statistically significant because values are too low.
+```{r}
+chisq_resultsNeo<- chisq.test(segmentationData$NeobankUseF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsNeo
+
+addmargins(chisq_resultsNeo$observed)
+
+round(chisq_resultsNeo$expected, 2)
+
+round(chisq_resultsNeo$res, 2)
+```
+#### Values are too low to be statistically significant.
+
+```{r}
+chisq_resultsDig<- chisq.test(segmentationData$DigitalBankF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsDig
+
+addmargins(chisq_resultsDig$observed)
+
+round(chisq_resultsDig$res, 2)
+```
+#### Values are too low to be statistically significant.
+
+```{r}
+chisq_resultsType <- chisq.test(segmentationData$BankTypePreferenceF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsType
+
+addmargins(chisq_resultsType$observed)
+
+round(chisq_resultsType$expected, 2)
+
+round(chisq_resultsType$res, 2)
+```
+#### None of the groups are statistically significant - values are too low.
+#### I do not think this variable can be used for segmentation because not all respondents answered this question.
+
+```{r}
+chisq_resultsEmp <- chisq.test(segmentationData$EmploymentF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsEmp
+
+addmargins(chisq_resultsEmp$observed)
+
+round(chisq_resultsEmp$res, 2)
+```
+#### Values are too low to be statistically significant.
+
+```{r}
+chisq_resultsLiv <- chisq.test(segmentationData$LivingParentsF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsLiv
+
+addmargins(chisq_resultsLiv$observed)
+
+round(chisq_resultsLiv$res, 2)
+```
+#### Values are too low to be statistically significant.
+
+```{r}
+chisq_resultsKids <- chisq.test(segmentationData$KidsF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsKids
+
+addmargins(chisq_resultsKids$observed)
+
+round(chisq_resultsKids$res, 2)
+```
+#### Values are too low to be statistically significant.
+
+```{r}
+chisq_resultsSal <- chisq.test(segmentationData$SalaryF, as.factor(segmentationData$Clustering_kmeans))
+chisq_resultsSal
+
+addmargins(chisq_resultsSal$observed)
+
+round(chisq_resultsSal$res, 2)
+```
+#### Values are too low to be statistically significant.
+
+# We performed hierarchical clustering of 217 units based on 5 cluster variables (Squared Euclidean Distance, Ward Algorithm). The results were further optimized with k-means clustering.
+
+#### Description of Cluster 1:
+
+#### Name: ECONOMICAL RECYCLERS
+
+#### Cluster 1 represents the largest group of customers (estimated at 41 %) who believe that sustainability is important. They lead a sustainable lifestyle on a daily basis, consider sustainability when making purchases and would be interested in using a sustainable financial solution integrated into their digital bank. More than expected, this group would like to know their impact on the environment based on their spending habits. These customers are not prepared to pay either for a normal banking package or for a sustainable banking package. In this group, there are 37 % of men and 63 % of women, 64 % use a digital bank and 36 % do not. The first group consists of 79 % students and 21 % of employed young individuals which could explain the fact that customers in this group are not prepared to pay for banking packages since students mostly have less money to spend than employed individuals.  
