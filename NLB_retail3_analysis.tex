@@ -1,0 +1,3159 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={NLB\_retail3\_analysis},
+  pdfauthor={Rok Hribar},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{NLB\_retail3\_analysis}
+\author{Rok Hribar}
+\date{31 1 2022}
+
+\begin{document}
+\maketitle
+
+\hypertarget{todo-basic-info}{%
+\section{TODO basic info}\label{todo-basic-info}}
+
+\hypertarget{how-to-comment}{%
+\subsection{0. How to Comment?}\label{how-to-comment}}
+
+Please comment on the line with your initials. For example: ``\#\# RH:
+Comment here''
+
+\hypertarget{data-import}{%
+\subsection{1. Data import}\label{data-import}}
+
+Import data here:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mydata }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"raw\_data.csv"}\NormalTok{, }\AttributeTok{header=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{sep =} \StringTok{";"}\NormalTok{, }\AttributeTok{dec =} \StringTok{","}\NormalTok{)}
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{), ] }\CommentTok{\# remove the first row as we do not need it}
+\FunctionTok{nrow}\NormalTok{(mydata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 468
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(mydata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   ď.żXSTAR2a4 Q1a Q1b Q1c Q1d Q1e Q1f Q1g    Q1g_text Q2a Q2b Q2c Q2d Q2e Q2f
+## 2           7   0   0   0   1   1   0   0          -2   1   0   0   1   0   0
+## 3           6  -3  -3  -3  -3  -3  -3  -3          -3  -3  -3  -3  -3  -3  -3
+## 4           6  -3  -3  -3  -3  -3  -3  -3          -3  -3  -3  -3  -3  -3  -3
+## 5           6   0   0   0   0   0   0   1 Investicije   1   0   0   0   0   0
+## 6           9   1   0   0   1   0   1   0          -2   1   0   0   0   0   0
+## 7           6   1   0   0   0   0   1   0          -2   1   0   0   0   1   0
+##   Q2g Q2h Q2h_text Q3a Q3b Q3c Q3d Q3e Q3f Q4a Q4b Q4c Q4d Q4e Q4f Q4g Q5a Q5b
+## 2   0   0       -2   5   5   6   6   6   5  -3  -3  -3  -3  -3  -3  -3  -3  -3
+## 3  -3  -3       -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3
+## 4  -3  -3       -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3
+## 5   1   0       -2   5   5   2   5   7   6   6   6 -99   4   6 -99 -99   5 -99
+## 6   1   0       -2   5   5   7   7   7   7 -99   4   4   3 -99 -99 -99   7   7
+## 7   0   0       -2   6   5   7   7   5   7 -99   6 -99 -99 -99   6 -99 -99   6
+##   Q5c Q5d Q5e Q5f Q5g Q6a Q6b Q6c Q6d Q6e Q6f Q6g Q7a Q7b Q7c Q7d Q7e Q7f Q7g
+## 2  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3
+## 3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3
+## 4  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3  -3
+## 5 -99 -99   1 -99 -99   6   7 -99   4   6 -99 -99 -99 -99 -99 -99 -99 -99 -99
+## 6   7   7 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+## 7 -99 -99 -99   7 -99   7   7   7   6   7   7   7   7   7 -99   5 -99   6 -99
+##   Q8 Q8_12_text Q9a Q9b Q9c Q9d Q10 Q11a Q11b Q11c Q11d Q11e Q11f Q11g
+## 2 -3         -3  -3  -3  -3  -3  -3   -3   -3   -3   -3   -3   -3   -3
+## 3 -3         -3  -3  -3  -3  -3  -3   -3   -3   -3   -3   -3   -3   -3
+## 4 -3         -3  -3  -3  -3  -3  -3   -3   -3   -3   -3   -3   -3   -3
+## 5  7         -2   3   6   6   5   3   -1    4    5    3    1    4   -1
+## 6  8         -2   5   5   5   5   3    3    1    2    3    1    2   -1
+## 7  8         -2   7   7   7   7   1    3    4    2    1    1    5   -1
+##   Q11g_text Q12a Q12b Q12c Q12d Q12e Q12f Q12g Q12h Q12i Q12j Q12k Q12l
+## 2        -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3
+## 3        -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3
+## 4        -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3   -3
+## 5        -1    0    0    0    0    0    0    1    1    0    0    0    0
+## 6        -1    0    0    0    1    0    0    0    1    0    0    0    0
+## 7        -1    0    0    0    0    0    0    0    1    0    1    0    0
+##   Q12l_text Q13 Q14a Q14b Q14c Q14d Q14e Q14f Q14f_text Q15a Q15b Q15c Q15d Q16
+## 2        -3  -3   -3   -3   -3   -3   -3   -3        -3   -3   -3   -3   -3  -3
+## 3        -3  -3   -3   -3   -3   -3   -3   -3        -3   -3   -3   -3   -3  -3
+## 4        -3  -3   -3   -3   -3   -3   -3   -3        -3   -3   -3   -3   -3  -3
+## 5        -2   1    6    7    7    7    6   -1        -1    7    7    6    4   1
+## 6        -2   2   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   1
+## 7        -2   1    7    7    7    7    7   -1        -1    7    7    6    5   2
+##   Q17 Q18 Q19a Q19b Q19c Q19d Q19e Q21a Q22 Q23a Q23b Q23c Q23d Q23e Q23f
+## 2  -3  -3   -3   -3   -3   -3   -3   -3  -3   -3   -3   -3   -3   -3   -3
+## 3  -3  -3   -3   -3   -3   -3   -3   -3  -3   -3   -3   -3   -3   -3   -3
+## 4  -3  -3   -3   -3   -3   -3   -3   -3  -3   -3   -3   -3   -3   -3   -3
+## 5   1   0    6    5    5    4    2    5   1    5    6    6    6    6   -1
+## 6   1   5    5    7    3    3    1    1   1    7    7    7    7    7   -1
+## 7  -2  10    7    7    7    7    5    7   1    3    5    7    7    7   -1
+##   Q23f_text Q24 Q26 Q27 Q28 Q29 XSPOL XIZ1a2 XIZ1a2_7_text XDS2a4 Q30
+## 2        -3  -3  -3  -3  -3  -3    -3     -3            -3     -3  -3
+## 3        -3  -3  -3  -3  -3  -3    -3     -3            -3     -3  -3
+## 4        -3  -3  -3  -3  -3  -3    -3     -3            -3     -3  -3
+## 5        -1   2   2   3   5   5     1      1            -2      1   2
+## 6        -1   5   3   3   6  10     2      1            -2      2   4
+## 7        -1  12   5  10  20  20     1      4            -2      1   2
+##   Q30_7_text Q31 XLOKACREGs XSPOL1
+## 2         -3  -3         -3     -3
+## 3         -3  -3         -3     -3
+## 4         -3  -3         -3     -3
+## 5         -2   1          4      1
+## 6         -2   1          4      2
+## 7         -2   1          8      2
+\end{verbatim}
+
+\hypertarget{data-cleanup}{%
+\subsection{2. Data cleanup}\label{data-cleanup}}
+
+Here we are cleaning our data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lets only keep the surveys of the people for which we have the demographic information for (used as our reference point). We will therefore only keep the people who came to the end of our survey. https://www.1ka.si/d/sl/pomoc/prirocniki/statusi{-}enot{-}ustreznost{-}veljavnost{-}manjkajoce{-}vrednosti}
+\CommentTok{\# {-}3 ... oseba zapustila vprašalnik, {-}2 ... oseba, ni v našem starostnem rangu}
+
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(naniar)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'naniar' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyr)}
+
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{XSPOL1 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{))) }\CommentTok{\# checking if they came to the end, initial cleanup}
+
+\FunctionTok{names}\NormalTok{(mydata)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Age"} \CommentTok{\# WE NEED TO RENAME}
+
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Age =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{))) }\CommentTok{\# checking if they answered the start}
+
+\CommentTok{\# We can afford to remove people that did not answer to our key survey questions}
+\CommentTok{\# Cleanup for RQ5}
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q18 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }\AttributeTok{Q24 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)))}
+
+\CommentTok{\# Cleanup for RQ6}
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q19a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{), }\AttributeTok{Q19b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{), }\AttributeTok{Q19c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{), }\AttributeTok{Q19d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{), }\AttributeTok{Q19e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{), }\AttributeTok{Q18 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }\AttributeTok{Q24 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)))}
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{XDS2a4 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{)))}
+
+\CommentTok{\# Cleanup for RQ7}
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q22 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{)))}
+
+\CommentTok{\# Cleanup for pricing testing}
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q26 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }\AttributeTok{Q27 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }\AttributeTok{Q28 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }\AttributeTok{Q29 =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)))}
+\NormalTok{mydata }\OtherTok{\textless{}{-}} \FunctionTok{drop\_na}\NormalTok{(mydata)}
+
+\CommentTok{\# ADDITIONAL CLEANUP! of outliers for segmentation}
+
+
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata[}\SpecialCharTok{{-}}\DecValTok{80}\NormalTok{, ] }\CommentTok{\# RUN ONLY ONCE}
+\NormalTok{mydata }\OtherTok{\textless{}{-}}\NormalTok{ mydata[}\SpecialCharTok{{-}}\DecValTok{63}\NormalTok{, ] }\CommentTok{\# RUN ONLY ONCE}
+
+\CommentTok{\# ADDITIONAL CLEANUP for segmentation}
+
+\FunctionTok{nrow}\NormalTok{(mydata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(mydata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Age Q1a Q1b Q1c Q1d Q1e Q1f Q1g    Q1g_text Q2a Q2b Q2c Q2d Q2e Q2f Q2g Q2h
+## 1   6   0   0   0   0   0   0   1 Investicije   1   0   0   0   0   0   1   0
+## 2   9   1   0   0   1   0   1   0          -2   1   0   0   0   0   0   1   0
+## 3   6   1   0   0   0   0   1   0          -2   1   0   0   0   1   0   0   0
+## 4   9   0   0   0   0   1   0   0          -2   1   0   0   1   0   0   0   0
+## 5   9   0   1   0   1   0   0   0          -2   1   0   0   1   1   0   0   0
+## 6   7   1   1   1   1   1   1   0          -2   0   1   1   0   0   0   0   0
+##   Q2h_text Q3a Q3b Q3c Q3d Q3e Q3f Q4a Q4b Q4c Q4d Q4e Q4f Q4g Q5a Q5b Q5c Q5d
+## 1       -2   5   5   2   5   7   6   6   6 -99   4   6 -99 -99   5 -99 -99 -99
+## 2       -2   5   5   7   7   7   7 -99   4   4   3 -99 -99 -99   7   7   7   7
+## 3       -2   6   5   7   7   5   7 -99   6 -99 -99 -99   6 -99 -99   6 -99 -99
+## 4       -2   7   5   5   7   6   7   7 -99 -99 -99 -99 -99 -99   7 -99 -99 -99
+## 5       -2   6   6   7   7   7   7   7 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+## 6       -2   1   1   4   6   6   7 -99   7   5   3 -99 -99 -99 -99   4 -99   4
+##   Q5e Q5f Q5g Q6a Q6b Q6c Q6d Q6e Q6f Q6g Q7a Q7b Q7c Q7d Q7e Q7f Q7g Q8
+## 1   1 -99 -99   6   7 -99   4   6 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  8
+## 3 -99   7 -99   7   7   7   6   7   7   7   7   7 -99   5 -99   6 -99  8
+## 4 -99 -99 -99   6   6 -99   6 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 5 -99 -99 -99   6 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 6 -99 -99 -99 -99   5   5   4 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  8
+##   Q8_12_text Q9a Q9b Q9c Q9d Q10 Q11a Q11b Q11c Q11d Q11e Q11f Q11g Q11g_text
+## 1         -2   3   6   6   5   3   -1    4    5    3    1    4   -1        -1
+## 2         -2   5   5   5   5   3    3    1    2    3    1    2   -1        -1
+## 3         -2   7   7   7   7   1    3    4    2    1    1    5   -1        -1
+## 4         -2   5   7   6   5   3    3    1    3    3    2    3   -1        -1
+## 5         -2   7   7   7   7   1    3    3    4    1    1    1    1        -1
+## 6         -2   5   7   6   6   4    2    2    3    2    2    1   -1        -1
+##   Q12a Q12b Q12c Q12d Q12e Q12f Q12g Q12h Q12i Q12j Q12k Q12l Q12l_text Q13
+## 1    0    0    0    0    0    0    1    1    0    0    0    0        -2   1
+## 2    0    0    0    1    0    0    0    1    0    0    0    0        -2   2
+## 3    0    0    0    0    0    0    0    1    0    1    0    0        -2   1
+## 4    0    0    0    0    0    0    1    0    0    0    0    0        -2   2
+## 5    0    0    1    0    0    0    1    0    0    0    0    0        -2   1
+## 6    0    0    0    0    0    0    0    1    0    1    0    0        -2   2
+##   Q14a Q14b Q14c Q14d Q14e Q14f Q14f_text Q15a Q15b Q15c Q15d Q16 Q17 Q18 Q19a
+## 1    6    7    7    7    6   -1        -1    7    7    6    4   1   1   0    6
+## 2   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   1   1   5    5
+## 3    7    7    7    7    7   -1        -1    7    7    6    5   2  -2  10    7
+## 4   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   1   2   5    5
+## 5    1    1    1    1    1    1        -1    7    7  -99  -99   2  -2   3    5
+## 6   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   2  -2  10    4
+##   Q19b Q19c Q19d Q19e Q21a Q22 Q23a Q23b Q23c Q23d Q23e Q23f Q23f_text Q24 Q26
+## 1    5    5    4    2    5   1    5    6    6    6    6   -1        -1   2   2
+## 2    7    3    3    1    1   1    7    7    7    7    7   -1        -1   5   3
+## 3    7    7    7    5    7   1    3    5    7    7    7   -1        -1  12   5
+## 4    6    5    6    4    4   1    4    5    7    7    7   -1        -1   7   1
+## 5    7    7    5    3    5   1    7    7    7    7    7   -1        -1   5   3
+## 6    7    1    2    4    4   2    1    1    7    7    7    1        -1   2   6
+##   Q27 Q28 Q29 XSPOL XIZ1a2 XIZ1a2_7_text XDS2a4 Q30 Q30_7_text Q31 XLOKACREGs
+## 1   3   5   5     1      1            -2      1   2         -2   1          4
+## 2   3   6  10     2      1            -2      2   4         -2   1          4
+## 3  10  20  20     1      4            -2      1   2         -2   1          8
+## 4   3  10   6     2      4            -2      2   4         -2   1          4
+## 5   5  10  13     2      4            -2      1   1         -2   2         12
+## 6   4  10   5     2      4            -2      1   3         -2   1          8
+##   XSPOL1
+## 1      1
+## 2      2
+## 3      2
+## 4      2
+## 5      2
+## 6      2
+\end{verbatim}
+
+\hypertarget{undersampling-based-on-secondary-resources}{%
+\subsection{3. Undersampling based on secondary
+resources}\label{undersampling-based-on-secondary-resources}}
+
+Here we wanted to under sample our data, because we thought we had too
+little of young families. Turns out we have enough of them (5.7 \%)
+which is pretty similar to the data we found from 2016 (young families
+of 20-29 age was 3,9 \%). Therefore we have decided that we will not
+under sample based on this criteria.
+
+\url{https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2017/1_demografija_2017.pdf}
+\url{https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2016/2.2_porodi_in_rojstva_2016.pdf}
+
+\hypertarget{hypothesis-testing-refer-to-the-document-on-hypothesis}{%
+\subsection{4. Hypothesis testing (refer to the document on
+hypothesis)}\label{hypothesis-testing-refer-to-the-document-on-hypothesis}}
+
+\hypertarget{rq-3.-why-are-young-people-choosing-other-financial-technology-solutions-instead-of-traditional-banking-solutions}{%
+\subsubsection{RQ: 3. Why are young people choosing other financial
+technology solutions instead of traditional banking
+solutions?}\label{rq-3.-why-are-young-people-choosing-other-financial-technology-solutions-instead-of-traditional-banking-solutions}}
+
+\hypertarget{h-young-people-use-financial-technology-solutions-because-of-its-price.}{%
+\subsubsection{H: Young people use financial technology solutions
+because of its
+price.}\label{h-young-people-use-financial-technology-solutions-because-of-its-price.}}
+
+\hypertarget{t-one-way-anova}{%
+\subsubsection{T: one way anova}\label{t-one-way-anova}}
+
+Consultation Notes: - repeated measures to see what stands out, - try to
+run factor analysis on Q14, skip the Q14f - Assumption: a-d into one
+factor, e into another one - We can group 4 together and mark it as
+convenience. - testing the differences on Q3 on those that have a
+digital bank and those who do not have =\textgreater{} t-test - logistic
+regression do it in MVA setting - use factor analysis to see if they go
+together, a-b will go to one factor etc
+
+\begin{itemize}
+\tightlist
+\item
+  the reason why do they use it =\textgreater{} explanatory variable
+\item
+  binary logistic regression, based on if they use binary logistic
+  regression based on employment factors
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# idk, we have here numerical scale}
+
+\CommentTok{\# hočem ugotoviti, kateri je najbolj vplival!:)}
+\CommentTok{\# avg za vsakega uporabnika}
+\CommentTok{\# potem primerjaš med odgovori}
+
+\CommentTok{\# 1. Cleanup}
+
+\NormalTok{myDataReasons }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q14a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q14b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q14c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q14d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q14e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{myDataReasons }\OtherTok{\textless{}{-}} \FunctionTok{drop\_na}\NormalTok{(myDataReasons)}
+\FunctionTok{nrow}\NormalTok{(myDataReasons) }\CommentTok{\# 83 makes sense as data is cleaned}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 81
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataReasons}\SpecialCharTok{$}\NormalTok{Q14a }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataReasons}\SpecialCharTok{$}\NormalTok{Q14a))}
+\NormalTok{myDataReasons}\SpecialCharTok{$}\NormalTok{Q14b }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataReasons}\SpecialCharTok{$}\NormalTok{Q14b))}
+\NormalTok{myDataReasons}\SpecialCharTok{$}\NormalTok{Q14c }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataReasons}\SpecialCharTok{$}\NormalTok{Q14c))}
+\NormalTok{myDataReasons}\SpecialCharTok{$}\NormalTok{Q14d }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataReasons}\SpecialCharTok{$}\NormalTok{Q14d))}
+\NormalTok{myDataReasons}\SpecialCharTok{$}\NormalTok{Q14e }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataReasons}\SpecialCharTok{$}\NormalTok{Q14e))}
+
+\CommentTok{\# myDataReasons$Q14a}
+\NormalTok{myDataReasons }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(myDataReasons}\SpecialCharTok{$}\NormalTok{Q14a, myDataReasons}\SpecialCharTok{$}\NormalTok{Q14b, myDataReasons}\SpecialCharTok{$}\NormalTok{Q14c, myDataReasons}\SpecialCharTok{$}\NormalTok{Q14d, myDataReasons}\SpecialCharTok{$}\NormalTok{Q14e)}
+
+\NormalTok{myDataReasons }\OtherTok{\textless{}{-}}\NormalTok{ tibble}\SpecialCharTok{::}\FunctionTok{rowid\_to\_column}\NormalTok{(myDataReasons, }\StringTok{"ID"}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(myDataReasons)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   ID myDataReasons.Q14a myDataReasons.Q14b myDataReasons.Q14c
+## 1  1                  6                  7                  7
+## 2  2                  7                  7                  7
+## 3  3                  1                  1                  1
+## 4  4                  5                  1                  6
+## 5  5                  4                  6                  5
+## 6  6                  7                  2                  4
+##   myDataReasons.Q14d myDataReasons.Q14e
+## 1                  7                  6
+## 2                  7                  7
+## 3                  1                  1
+## 4                  7                  6
+## 5                  6                  6
+## 6                  5                  5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rstatix)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'rstatix' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'rstatix'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     filter
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tidyverse' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.4     v stringr 1.4.0
+## v readr   2.0.1     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x rstatix::filter() masks dplyr::filter(), stats::filter()
+## x dplyr::lag()      masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(myDataReasons)[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Spletni\_nakupi"}
+\FunctionTok{names}\NormalTok{(myDataReasons)[}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Brezplacni\_dvigi"}
+\FunctionTok{names}\NormalTok{(myDataReasons)[}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Enostavna\_aplikacija"}
+\FunctionTok{names}\NormalTok{(myDataReasons)[}\DecValTok{5}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Brezplacna\_aplikacija"}
+\FunctionTok{names}\NormalTok{(myDataReasons)[}\DecValTok{6}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Priporocilo\_prijateljev"}
+
+\NormalTok{myDataReasons\_long }\OtherTok{\textless{}{-}}\NormalTok{ myDataReasons }\SpecialCharTok{\%\textgreater{}\%}
+                 \FunctionTok{gather}\NormalTok{(}\AttributeTok{key =} \StringTok{"Reason"}\NormalTok{, }\AttributeTok{value =} \StringTok{"Importance"}\NormalTok{, Spletni\_nakupi, Brezplacni\_dvigi, Enostavna\_aplikacija, Brezplacna\_aplikacija, Priporocilo\_prijateljev) }\SpecialCharTok{\%\textgreater{}\%}
+                 \FunctionTok{convert\_as\_factor}\NormalTok{(Reason)}
+
+
+\FunctionTok{tail}\NormalTok{(myDataReasons\_long, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     ID                  Reason Importance
+## 396 72 Priporocilo_prijateljev          3
+## 397 73 Priporocilo_prijateljev          4
+## 398 74 Priporocilo_prijateljev          6
+## 399 75 Priporocilo_prijateljev          7
+## 400 76 Priporocilo_prijateljev          1
+## 401 77 Priporocilo_prijateljev          7
+## 402 78 Priporocilo_prijateljev          6
+## 403 79 Priporocilo_prijateljev          7
+## 404 80 Priporocilo_prijateljev          5
+## 405 81 Priporocilo_prijateljev          6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggpubr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'ggpubr' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggboxplot}\NormalTok{(myDataReasons\_long, }
+          \AttributeTok{x =} \StringTok{"Reason"}\NormalTok{, }
+          \AttributeTok{y =} \StringTok{"Importance"}\NormalTok{, }
+          \AttributeTok{add =} \StringTok{"jitter"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\hypertarget{repeated-measures-anova}{%
+\subsubsection{Repeated measures ANOVA}\label{repeated-measures-anova}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(ggpubr)}
+\FunctionTok{library}\NormalTok{(rstatix)}
+
+\FunctionTok{head}\NormalTok{(myDataReasons\_long)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   ID         Reason Importance
+## 1  1 Spletni_nakupi          6
+## 2  2 Spletni_nakupi          7
+## 3  3 Spletni_nakupi          1
+## 4  4 Spletni_nakupi          5
+## 5  5 Spletni_nakupi          4
+## 6  6 Spletni_nakupi          7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataReasons\_long }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Reason) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{identify\_outliers}\NormalTok{(Importance)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 30 x 5
+##    Reason                   ID Importance is.outlier is.extreme
+##    <fct>                 <int>      <dbl> <lgl>      <lgl>     
+##  1 Brezplacna_aplikacija     3          1 TRUE       TRUE      
+##  2 Brezplacna_aplikacija    11          4 TRUE       FALSE     
+##  3 Brezplacna_aplikacija    12          4 TRUE       FALSE     
+##  4 Brezplacna_aplikacija    18          3 TRUE       FALSE     
+##  5 Brezplacna_aplikacija    24          4 TRUE       FALSE     
+##  6 Brezplacna_aplikacija    40          2 TRUE       TRUE      
+##  7 Brezplacna_aplikacija    51          4 TRUE       FALSE     
+##  8 Brezplacna_aplikacija    53          4 TRUE       FALSE     
+##  9 Brezplacna_aplikacija    54          4 TRUE       FALSE     
+## 10 Brezplacna_aplikacija    56          4 TRUE       FALSE     
+## # ... with 20 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataReasons\_long }\OtherTok{\textless{}{-}}\NormalTok{ myDataReasons\_long }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{3}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{11}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{12}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{18}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{24}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{40}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{51}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{53}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{54}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{56}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{57}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{61}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{63}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{3}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{20}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{41}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{57}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{61}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{63}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{3}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{11}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{12}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{23}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{26}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{27}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{36}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{57}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{61}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{63}\NormalTok{, }\SpecialCharTok{!}\NormalTok{ID }\SpecialCharTok{==} \DecValTok{74}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataReasons\_long }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Reason) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{shapiro\_test}\NormalTok{(Importance)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 5 x 4
+##   Reason                  variable   statistic        p
+##   <fct>                   <chr>          <dbl>    <dbl>
+## 1 Brezplacna_aplikacija   Importance     0.502 4.55e-13
+## 2 Brezplacni_dvigi        Importance     0.784 4.52e- 8
+## 3 Enostavna_aplikacija    Importance     0.640 5.84e-11
+## 4 Priporocilo_prijateljev Importance     0.840 1.36e- 6
+## 5 Spletni_nakupi          Importance     0.751 7.92e- 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggqqplot}\NormalTok{(myDataReasons\_long, }\StringTok{"Importance"}\NormalTok{, }\AttributeTok{facet.by =} \StringTok{"Reason"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rstatix)}
+\NormalTok{myDataReasons\_long }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Reason) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{get\_summary\_stats}\NormalTok{(Importance, }\AttributeTok{type =} \StringTok{"common"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 5 x 11
+##   Reason         variable     n   min   max median   iqr  mean    sd    se    ci
+##   <fct>          <chr>    <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 Brezplacna_ap~ Importa~    61     5     7      7     0  6.70 0.641 0.082 0.164
+## 2 Brezplacni_dv~ Importa~    61     1     7      6     4  5.05 2.27  0.29  0.581
+## 3 Enostavna_apl~ Importa~    61     2     7      7     1  6.39 1.05  0.135 0.27 
+## 4 Priporocilo_p~ Importa~    61     1     7      6     3  5.23 1.86  0.239 0.478
+## 5 Spletni_nakupi Importa~    61     3     7      7     1  6.18 1.10  0.141 0.283
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ANOVA\_results }\OtherTok{\textless{}{-}} \FunctionTok{anova\_test}\NormalTok{(}\AttributeTok{dv =}\NormalTok{ Importance, }\CommentTok{\#Dependent variable}
+                            \AttributeTok{wid =}\NormalTok{ ID, }\CommentTok{\#Subject identifier}
+                            \AttributeTok{within =}\NormalTok{ Reason, }\CommentTok{\#Within{-}subject factor variable}
+                            \AttributeTok{data =}\NormalTok{ myDataReasons\_long)}
+
+\FunctionTok{get\_anova\_table}\NormalTok{(ANOVA\_results)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ANOVA Table (type III tests)
+## 
+##   Effect  DFn    DFd      F        p p<.05   ges
+## 1 Reason 2.44 146.38 15.834 7.26e-08     * 0.161
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwc }\OtherTok{\textless{}{-}}\NormalTok{ myDataReasons\_long }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pairwise\_t\_test}\NormalTok{(Importance }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Reason, }
+                  \AttributeTok{paired =} \ConstantTok{TRUE}\NormalTok{,}
+                  \AttributeTok{p.adjust.method =} \StringTok{"bonferroni"}\NormalTok{)}
+
+\NormalTok{pwc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 10
+##    .y.        group1 group2    n1    n2 statistic    df       p   p.adj p.adj.signif
+##  * <chr>      <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>   <dbl> <chr>       
+##  1 Importance Brezp~ Brezp~    61    61     5.67     60 4.29e-7 4.29e-6 ****        
+##  2 Importance Brezp~ Enost~    61    61     3.09     60 3   e-3 3   e-2 *           
+##  3 Importance Brezp~ Pripo~    61    61     5.75     60 3.23e-7 3.23e-6 ****        
+##  4 Importance Brezp~ Splet~    61    61     3.99     60 1.81e-4 2   e-3 **          
+##  5 Importance Brezp~ Enost~    61    61    -4.68     60 1.67e-5 1.67e-4 ***         
+##  6 Importance Brezp~ Pripo~    61    61    -0.539    60 5.92e-1 1   e+0 ns          
+##  7 Importance Brezp~ Splet~    61    61    -3.41     60 1   e-3 1.2 e-2 *           
+##  8 Importance Enost~ Pripo~    61    61     4.02     60 1.63e-4 2   e-3 **          
+##  9 Importance Enost~ Splet~    61    61     1.44     60 1.55e-1 1   e+0 ns          
+## 10 Importance Pripo~ Splet~    61    61    -3.20     60 2   e-3 2.2 e-2 *
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rstatix)}
+\NormalTok{pwc }\OtherTok{\textless{}{-}}\NormalTok{ pwc }\SpecialCharTok{\%\textgreater{}\%} 
+       \FunctionTok{add\_y\_position}\NormalTok{(}\AttributeTok{fun =} \StringTok{"median"}\NormalTok{, }\AttributeTok{step.increase =} \FloatTok{0.35}\NormalTok{)}
+
+\FunctionTok{library}\NormalTok{(ggpubr)}
+\FunctionTok{ggboxplot}\NormalTok{(myDataReasons\_long, }\AttributeTok{x =} \StringTok{"Reason"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Importance"}\NormalTok{, }\AttributeTok{add =} \StringTok{"point"}\NormalTok{, }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{18}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_pvalue\_manual}\NormalTok{(pwc, }\AttributeTok{hide.ns =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_summary}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ mean, }\AttributeTok{geom =} \StringTok{"point"}\NormalTok{, }\AttributeTok{shape =} \DecValTok{16}\NormalTok{, }\AttributeTok{size =} \DecValTok{4}\NormalTok{,}
+               \FunctionTok{aes}\NormalTok{(}\AttributeTok{group =}\NormalTok{ Reason), }\AttributeTok{color =} \StringTok{"darkred"}\NormalTok{,}
+               \AttributeTok{position =} \FunctionTok{position\_dodge}\NormalTok{(}\AttributeTok{width =} \FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_summary}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ mean, }\AttributeTok{colour =} \StringTok{"darkred"}\NormalTok{, }
+               \AttributeTok{position =} \FunctionTok{position\_dodge}\NormalTok{(}\AttributeTok{width =} \FloatTok{0.8}\NormalTok{),}
+               \AttributeTok{geom =} \StringTok{"text"}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{hjust =} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{,}
+               \FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{round}\NormalTok{(..y.., }\AttributeTok{digits =} \DecValTok{2}\NormalTok{), }\AttributeTok{group =}\NormalTok{ Reason)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{subtitle =} \FunctionTok{get\_test\_label}\NormalTok{(ANOVA\_results,  }\AttributeTok{detailed =} \ConstantTok{TRUE}\NormalTok{),}
+       \AttributeTok{caption =} \FunctionTok{get\_pwc\_label}\NormalTok{(pwc))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\hypertarget{rq-1.-what-percentage-of-young-people-use-digital-banking}{%
+\subsubsection{RQ: 1. What percentage of young people use digital
+banking?}\label{rq-1.-what-percentage-of-young-people-use-digital-banking}}
+
+\hypertarget{h-more-than-60-of-young-people-use-digital-banking.}{%
+\subsubsection{H: More than 60 \% of young people use digital
+banking.}\label{h-more-than-60-of-young-people-use-digital-banking.}}
+
+\hypertarget{t-test-of-proportions}{%
+\subsubsection{T: test of proportions}\label{t-test-of-proportions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 1. Hypothesis\textquotesingle{}s}
+\CommentTok{\# H0: p = 0.6}
+\CommentTok{\# H1: p =| 0.6}
+
+\CommentTok{\# 2. Data Selecting}
+
+\NormalTok{mydata}\SpecialCharTok{$}\NormalTok{Q16 }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata}\SpecialCharTok{$}\NormalTok{Q16))}
+
+\CommentTok{\# 3. Getting the relevant data}
+
+\NormalTok{counterNDigital }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(mydata}\SpecialCharTok{$}\NormalTok{Q16)) \{}
+  \ControlFlowTok{if}\NormalTok{(mydata}\SpecialCharTok{$}\NormalTok{Q16[i] }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) \{}
+\NormalTok{    counterNDigital }\OtherTok{\textless{}{-}}\NormalTok{ counterNDigital }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{counterNDigital}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 138
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(mydata}\SpecialCharTok{$}\NormalTok{Q16)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 4. Testing whether we need Binomial or prop test}
+
+\NormalTok{pi0\_H1 }\OtherTok{\textless{}{-}} \FloatTok{0.58}
+\NormalTok{pi0\_H1 }\SpecialCharTok{*} \FunctionTok{length}\NormalTok{(mydata}\SpecialCharTok{$}\NormalTok{Q16) }\SpecialCharTok{\textgreater{}} \DecValTok{5} \SpecialCharTok{\&\&} \FunctionTok{length}\NormalTok{(mydata}\SpecialCharTok{$}\NormalTok{Q16)}\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ pi0\_H1) }\SpecialCharTok{\textgreater{}} \DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can use prop test as above condition holds true.}
+
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x =}\NormalTok{ counterNDigital, }\AttributeTok{n =} \FunctionTok{length}\NormalTok{(mydata}\SpecialCharTok{$}\NormalTok{Q16), }\AttributeTok{p =}\NormalTok{ pi0\_H1, }\AttributeTok{correct =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{alternative =} \StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test without continuity correction
+## 
+## data:  counterNDigital out of length(mydata$Q16), null probability pi0_H1
+## X-squared = 2.788, df = 1, p-value = 0.04748
+## alternative hypothesis: true p is greater than 0.58
+## 95 percent confidence interval:
+##  0.5808494 1.0000000
+## sample estimates:
+##         p 
+## 0.6359447
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p{-}value = 0.04748}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{rq-5.-are-young-people-prepared-to-pay-more-for-a-sustainable-banking-package-compared-to-a-standard-banking-package}{%
+\subsubsection{RQ: 5. Are young people prepared to pay more for a
+sustainable banking package compared to a standard banking
+package?}\label{rq-5.-are-young-people-prepared-to-pay-more-for-a-sustainable-banking-package-compared-to-a-standard-banking-package}}
+
+\hypertarget{h-60-of-young-people-would-be-prepared-to-pay-more-for-sustainable-products.}{%
+\subsubsection{H: 60 \% of young people would be prepared to pay more
+for sustainable
+products.}\label{h-60-of-young-people-would-be-prepared-to-pay-more-for-sustainable-products.}}
+
+\hypertarget{t-test-of-proportions-1}{%
+\subsubsection{T: test of proportions}\label{t-test-of-proportions-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 1. Hypothesis\textquotesingle{}s}
+\CommentTok{\# H0: p = 0.6}
+\CommentTok{\# H1: p =| 0.6}
+
+\CommentTok{\# 2. Data Selecting}
+\NormalTok{myDataPriceNormal }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[ ,}\StringTok{"Q18"}\NormalTok{]))}
+\NormalTok{myDataPriceSustainable }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[ ,}\StringTok{"Q24"}\NormalTok{]))}
+
+\FunctionTok{length}\NormalTok{(myDataPriceSustainable) }\SpecialCharTok{==} \FunctionTok{length}\NormalTok{(myDataPriceNormal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sampleSize }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(myDataPriceNormal) }\CommentTok{\# max. of people on clean data}
+\CommentTok{\# myDataPriceNormal}
+
+\CommentTok{\# 3. Getting the relevant data}
+\NormalTok{counter }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{(normalP }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(myDataPriceNormal)) \{}
+  \ControlFlowTok{if}\NormalTok{(myDataPriceNormal[normalP] }\SpecialCharTok{\textless{}}\NormalTok{ myDataPriceSustainable[normalP]) \{}
+\NormalTok{    counter }\OtherTok{\textless{}{-}}\NormalTok{ counter }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\CommentTok{\# counter}
+\CommentTok{\# sampleSize}
+
+\CommentTok{\# 4. Testing whether we need Binomial or prop test}
+
+\NormalTok{pi0 }\OtherTok{\textless{}{-}} \FloatTok{0.6}
+\NormalTok{pi0 }\SpecialCharTok{*}\NormalTok{ sampleSize }\SpecialCharTok{\textgreater{}} \DecValTok{5} \SpecialCharTok{\&\&}\NormalTok{ sampleSize }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ pi0) }\SpecialCharTok{\textgreater{}} \DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can use prop test as above condition holds true.}
+
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x =}\NormalTok{ counter, }\AttributeTok{n =}\NormalTok{ sampleSize, }\AttributeTok{p =}\NormalTok{ pi0, }\AttributeTok{correct =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{alternative =} \StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test without continuity correction
+## 
+## data:  counter out of sampleSize, null probability pi0
+## X-squared = 3.6567, df = 1, p-value = 0.02792
+## alternative hypothesis: true p is greater than 0.6
+## 95 percent confidence interval:
+##  0.60911 1.00000
+## sample estimates:
+##         p 
+## 0.6635945
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p{-}value = 0.02792.}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{rq-6.-how-does-the-importance-of-sustainability-differ-among-subgroups-students-employed-young-families-in-the-group-of-young-people}{%
+\subsubsection{RQ: 6. How does the importance of sustainability differ
+among subgroups (students, employed, young families) in the group of
+young
+people?}\label{rq-6.-how-does-the-importance-of-sustainability-differ-among-subgroups-students-employed-young-families-in-the-group-of-young-people}}
+
+\hypertarget{h-students-on-average-see-sustainability-as-more-important-compared-to-employed-people.}{%
+\subsubsection{H: Students on average see sustainability as more
+important compared to employed
+people.}\label{h-students-on-average-see-sustainability-as-more-important-compared-to-employed-people.}}
+
+\hypertarget{t-independent-t-tests}{%
+\subsubsection{T: independent t-tests}\label{t-independent-t-tests}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# employed / unemployed Q: XDS2a4}
+\CommentTok{\# Q19 measures importance of sustainability for people}
+
+\CommentTok{\# 2. Data Selection}
+
+\NormalTok{employmentData }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[ ,}\StringTok{"XDS2a4"}\NormalTok{]))}
+
+\CommentTok{\# Data cleaned!}
+
+\CommentTok{\# 3. Getting relevant data}
+
+\CommentTok{\# Let\textquotesingle{}s calculate the average view on sustainability per person}
+
+\NormalTok{viewsOnSustainabilityQ19a }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[, }\StringTok{"Q19a"}\NormalTok{])) }
+\NormalTok{viewsOnSustainabilityQ19b }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[, }\StringTok{"Q19b"}\NormalTok{]))}
+\NormalTok{viewsOnSustainabilityQ19c }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[, }\StringTok{"Q19c"}\NormalTok{]))}
+\NormalTok{viewsOnSustainabilityQ19d }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[, }\StringTok{"Q19d"}\NormalTok{]))}
+\NormalTok{viewsOnSustainabilityQ19e }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[, }\StringTok{"Q19e"}\NormalTok{]))}
+
+\NormalTok{viewsOnSustainability }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[, }\StringTok{"Q19e"}\NormalTok{])) }\CommentTok{\# Dummy assign}
+
+\CommentTok{\# Here i just calculated the average of all 5 questions when we measured sustainability }
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(viewsOnSustainabilityQ19a)) \{}
+\NormalTok{  viewsOnSustainability[i] }\OtherTok{\textless{}{-}}\NormalTok{ (viewsOnSustainabilityQ19a[i] }\SpecialCharTok{+}\NormalTok{ viewsOnSustainabilityQ19b[i] }\SpecialCharTok{+}\NormalTok{ viewsOnSustainabilityQ19c[i] }\SpecialCharTok{+}\NormalTok{ viewsOnSustainabilityQ19d[i] }\SpecialCharTok{+}\NormalTok{ viewsOnSustainabilityQ19e[i]) }\SpecialCharTok{/} \DecValTok{5}
+\NormalTok{\}}
+
+\CommentTok{\# length(viewsOnSustainability)}
+\CommentTok{\# employmentData}
+
+\NormalTok{viewsOnSustainabilityReference }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(mydata[}\StringTok{"Q19a"}\NormalTok{], mydata[}\StringTok{"Q19b"}\NormalTok{], mydata[}\StringTok{"Q19c"}\NormalTok{], mydata[}\StringTok{"Q19d"}\NormalTok{], mydata[}\StringTok{"Q19e"}\NormalTok{])}
+
+\CommentTok{\# viewsOnSustainabilityReference}
+
+\NormalTok{viewsOnSustainabilityNew }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(employmentData, viewsOnSustainability)}
+
+\CommentTok{\# viewsOnSustainabilityNew}
+
+\NormalTok{viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{EmployedF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{employmentData, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{)) }
+
+\FunctionTok{library}\NormalTok{(psych)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'psych' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'psych'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{describeBy}\NormalTok{(viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{viewsOnSustainability, viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{EmployedF)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Descriptive statistics by group 
+## group: Yes
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 158 5.23 1.04    5.4    5.28 1.19   2   7     5 -0.49    -0.12 0.08
+## ------------------------------------------------------------ 
+## group: No
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 59 5.08 1.02    5.2    5.15 0.89 2.2   7   4.8 -0.58    -0.17 0.13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# viewsOnSustainabilityNew}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\NormalTok{Employed\_no }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(viewsOnSustainabilityNew[viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{EmployedF}\SpecialCharTok{==}\StringTok{"No"}\NormalTok{, ], }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ viewsOnSustainability)) }\SpecialCharTok{+} \FunctionTok{theme\_linedraw}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Not employed"}\NormalTok{)}
+
+\CommentTok{\# Employed\_no}
+
+\NormalTok{Employed\_yes }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(viewsOnSustainabilityNew[viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{EmployedF}\SpecialCharTok{==}\StringTok{"Yes"}\NormalTok{, ], }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ viewsOnSustainability)) }\SpecialCharTok{+} \FunctionTok{theme\_linedraw}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Employed"}\NormalTok{)}
+
+\CommentTok{\#Employed\_yes}
+
+\FunctionTok{library}\NormalTok{(ggpubr)}
+
+\FunctionTok{ggarrange}\NormalTok{(Employed\_no, Employed\_yes, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggqqplot}\NormalTok{(viewsOnSustainabilityNew, }\StringTok{"viewsOnSustainability"}\NormalTok{, }\AttributeTok{facet.by =} \StringTok{"EmployedF"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# some variables should probably be removed}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{t.test}\NormalTok{(viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{viewsOnSustainability }\SpecialCharTok{\textasciitilde{}}\NormalTok{ viewsOnSustainabilityNew}\SpecialCharTok{$}\NormalTok{EmployedF, }\AttributeTok{paired =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{var.equal =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  viewsOnSustainabilityNew$viewsOnSustainability by viewsOnSustainabilityNew$EmployedF
+## t = 0.93706, df = 105.64, p-value = 0.3509
+## alternative hypothesis: true difference in means between group Yes and group No is not equal to 0
+## 95 percent confidence interval:
+##  -0.1634619  0.4564462
+## sample estimates:
+## mean in group Yes  mean in group No 
+##          5.227848          5.081356
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# VERDICT: We cannot reject  H0 (p = 0.3509), this makes sense because means are very close. }\AlertTok{TODO}\CommentTok{: How can we reject it?:)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{rq-7.-what-percentage-of-young-people-is-interested-in-using-sustainable-financial-products}{%
+\subsubsection{RQ: 7. What percentage of young people is interested in
+using sustainable financial
+products?}\label{rq-7.-what-percentage-of-young-people-is-interested-in-using-sustainable-financial-products}}
+
+\hypertarget{h-more-than-60-of-young-people-would-rather-use-a-financial-package-that-includes-sustainable-options-compared-to-a-financial-package-without-sustainable-options.}{%
+\subsubsection{H: More than 60\% of young people would rather use a
+financial package that includes sustainable options compared to a
+financial package without sustainable
+options.}\label{h-more-than-60-of-young-people-would-rather-use-a-financial-package-that-includes-sustainable-options-compared-to-a-financial-package-without-sustainable-options.}}
+
+\hypertarget{t-test-of-proportions-2}{%
+\subsubsection{T: test of proportions}\label{t-test-of-proportions-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 1. Hypothesis\textquotesingle{}s}
+\CommentTok{\# H0: p = 0.6}
+\CommentTok{\# H1: p =| 0.6}
+
+\CommentTok{\# 2. Data Selection}
+\NormalTok{myDataH7 }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(mydata[ ,}\StringTok{"Q22"}\NormalTok{]))}
+
+\CommentTok{\# myDataH7}
+
+\NormalTok{myDataH7SampleSize }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(myDataH7)}
+
+\CommentTok{\# 3. Getting the relevant data}
+
+\NormalTok{counterH7 }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(myDataH7)) \{ }\CommentTok{\# run only once, unless you know what u are doing}
+  \ControlFlowTok{if}\NormalTok{(myDataH7[i] }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) \{}
+\NormalTok{    counterH7 }\OtherTok{\textless{}{-}}\NormalTok{ counterH7 }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{counterH7}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 148
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 4. Testing whether we need Binomial or prop test}
+
+\NormalTok{pi0\_h7 }\OtherTok{\textless{}{-}} \FloatTok{0.6}
+\NormalTok{pi0\_h7 }\SpecialCharTok{*}\NormalTok{ myDataH7SampleSize }\SpecialCharTok{\textgreater{}} \DecValTok{5} \SpecialCharTok{\&\&}\NormalTok{ myDataH7SampleSize }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ pi0\_h7) }\SpecialCharTok{\textgreater{}} \DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can use prop test as above condition holds true.}
+
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x =}\NormalTok{ counterH7, }\AttributeTok{n =}\NormalTok{ myDataH7SampleSize, }\AttributeTok{p =}\NormalTok{ pi0\_h7, }\AttributeTok{correct =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{alternative =} \StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test without continuity correction
+## 
+## data:  counterH7 out of myDataH7SampleSize, null probability pi0_h7
+## X-squared = 6.0837, df = 1, p-value = 0.006822
+## alternative hypothesis: true p is greater than 0.6
+## 95 percent confidence interval:
+##  0.6280599 1.0000000
+## sample estimates:
+##         p 
+## 0.6820276
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p{-}value = 0.006822}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{perception-testing}{%
+\subsection{5. Perception testing}\label{perception-testing}}
+
+\hypertarget{rq-6.-how-do-young-people-perceive-different-banking-solutions-on-the-slovenian-market}{%
+\subsubsection{RQ: 6. How do young people perceive different banking
+solutions on the Slovenian
+market?}\label{rq-6.-how-do-young-people-perceive-different-banking-solutions-on-the-slovenian-market}}
+
+\hypertarget{h-young-people-perceive-nlb-to-have-the-best-brand-reputation.}{%
+\subsubsection{H: Young people perceive NLB to have the best brand
+reputation.}\label{h-young-people-perceive-nlb-to-have-the-best-brand-reputation.}}
+
+\hypertarget{t-logistic-regression-model-rather-use-perception-mapping}{%
+\subsubsection{T: logistic regression model, rather use perception
+mapping}\label{t-logistic-regression-model-rather-use-perception-mapping}}
+
+Consultations Notes: - rather use perception mapping - for each
+segments, repeated measures test for each of Q(parametric one, see if it
+systematically the best)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# TAKE 1: Just take the cleaned averages from 1ka duhhhh}
+
+\NormalTok{dostopnostEnka }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{4.5}\NormalTok{, }\FloatTok{5.8}\NormalTok{, }\FloatTok{4.9}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\FloatTok{5.1}\NormalTok{, }\FloatTok{5.3}\NormalTok{, }\FloatTok{4.4}\NormalTok{)}
+\NormalTok{cenaEnka }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{4.6}\NormalTok{, }\FloatTok{4.9}\NormalTok{, }\FloatTok{4.6}\NormalTok{, }\FloatTok{3.9}\NormalTok{, }\FloatTok{3.8}\NormalTok{, }\FloatTok{4.4}\NormalTok{, }\FloatTok{3.8}\NormalTok{)}
+\NormalTok{ugledEnka }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{4.8}\NormalTok{, }\FloatTok{5.2}\NormalTok{, }\FloatTok{5.0}\NormalTok{, }\FloatTok{4.5}\NormalTok{, }\FloatTok{5.2}\NormalTok{, }\FloatTok{5.5}\NormalTok{, }\FloatTok{4.1}\NormalTok{)}
+\NormalTok{odgovornostEnka }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{4.5}\NormalTok{, }\FloatTok{5.0}\NormalTok{, }\FloatTok{4.6}\NormalTok{, }\FloatTok{4.3}\NormalTok{, }\FloatTok{4.5}\NormalTok{, }\FloatTok{4.8}\NormalTok{, }\FloatTok{4.5}\NormalTok{)}
+
+
+\NormalTok{finalEnka }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(dostopnostEnka, cenaEnka, ugledEnka, odgovornostEnka)}
+\FunctionTok{rownames}\NormalTok{(finalEnka) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"NKBM"}\NormalTok{, }\StringTok{"NLB"}\NormalTok{, }\StringTok{"SKB"}\NormalTok{, }\StringTok{"DH"}\NormalTok{, }\StringTok{"N26"}\NormalTok{, }\StringTok{"Revolut"}\NormalTok{, }\StringTok{"mBills"}\NormalTok{)}
+\NormalTok{finalEnka}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         dostopnostEnka cenaEnka ugledEnka odgovornostEnka
+## NKBM               4.5      4.6       4.8             4.5
+## NLB                5.8      4.9       5.2             5.0
+## SKB                4.9      4.6       5.0             4.6
+## DH                 4.1      3.9       4.5             4.3
+## N26                5.1      3.8       5.2             4.5
+## Revolut            5.3      4.4       5.5             4.8
+## mBills             4.4      3.8       4.1             4.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# TAKE 2: Fully cleaned data}
+\NormalTok{pc.percEnka }\OtherTok{\textless{}{-}} \FunctionTok{princomp}\NormalTok{(finalEnka, }\AttributeTok{cor =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# pc.percEnka}
+
+\CommentTok{\# biplot(pc.percEnka) =\textgreater{} done later}
+
+\FunctionTok{library}\NormalTok{(ggpubr)}
+
+\CommentTok{\# TAKE 2: Do our own analysis}
+
+\CommentTok{\# 1. Cleaning the data}
+
+\CommentTok{\# Q4 {-} dostopnost, }
+\CommentTok{\# Q5 {-} cena, }
+\CommentTok{\# Q6 {-} ugled, }
+\CommentTok{\# Q7 {-} družbena in okoljska odgovornost}
+
+\NormalTok{myDataPerceptionQ4 }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q4a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{myDataPerceptionQ5 }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q5a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{myDataPerceptionQ6 }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q6a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{myDataPerceptionQ7 }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q7a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+
+\NormalTok{myDataPerceptionQ4dropped }\OtherTok{\textless{}{-}} \FunctionTok{drop\_na}\NormalTok{(myDataPerceptionQ4)}
+\FunctionTok{nrow}\NormalTok{(myDataPerceptionQ4dropped) }\CommentTok{\# 39 here}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 34
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataPerceptionQ5dropped }\OtherTok{\textless{}{-}} \FunctionTok{drop\_na}\NormalTok{(myDataPerceptionQ5)}
+\FunctionTok{nrow}\NormalTok{(myDataPerceptionQ5dropped) }\CommentTok{\# 22 here}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 19
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataPerceptionQ6dropped }\OtherTok{\textless{}{-}} \FunctionTok{drop\_na}\NormalTok{(myDataPerceptionQ6)}
+\FunctionTok{nrow}\NormalTok{(myDataPerceptionQ6dropped) }\CommentTok{\# 56 here}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 49
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataPerceptionQ7dropped }\OtherTok{\textless{}{-}} \FunctionTok{drop\_na}\NormalTok{(myDataPerceptionQ7)}
+\FunctionTok{nrow}\NormalTok{(myDataPerceptionQ7dropped) }\CommentTok{\# 29 here}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 24
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{NKBM\_dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4dropped[, }\StringTok{"Q4a"}\NormalTok{])))}
+\NormalTok{NLB\_dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4dropped[, }\StringTok{"Q4b"}\NormalTok{])))}
+\NormalTok{SKB\_dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4dropped[, }\StringTok{"Q4c"}\NormalTok{])))}
+\NormalTok{DH\_dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4dropped[, }\StringTok{"Q4d"}\NormalTok{])))}
+\NormalTok{N26\_dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4dropped[, }\StringTok{"Q4e"}\NormalTok{])))}
+\NormalTok{Rev\_dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4dropped[, }\StringTok{"Q4f"}\NormalTok{])))}
+\NormalTok{Bills\_dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4dropped[, }\StringTok{"Q4g"}\NormalTok{])))}
+
+\NormalTok{NKBM\_ugled }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5dropped[, }\StringTok{"Q5a"}\NormalTok{])))}
+\NormalTok{NLB\_ugled }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5dropped[, }\StringTok{"Q5b"}\NormalTok{])))}
+\NormalTok{SKB\_ugled }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5dropped[, }\StringTok{"Q5c"}\NormalTok{])))}
+\NormalTok{DH\_ugled }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5dropped[, }\StringTok{"Q5d"}\NormalTok{])))}
+\NormalTok{N26\_ugled }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5dropped[, }\StringTok{"Q5e"}\NormalTok{])))}
+\NormalTok{Rev\_ugled }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5dropped[, }\StringTok{"Q5f"}\NormalTok{])))}
+\NormalTok{Bills\_ugled }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5dropped[, }\StringTok{"Q5g"}\NormalTok{])))}
+
+\NormalTok{NKBM\_cena }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6dropped[, }\StringTok{"Q6a"}\NormalTok{])))}
+\NormalTok{NLB\_cena }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6dropped[, }\StringTok{"Q6b"}\NormalTok{])))}
+\NormalTok{SKB\_cena }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6dropped[, }\StringTok{"Q6c"}\NormalTok{])))}
+\NormalTok{DH\_cena }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6dropped[, }\StringTok{"Q6d"}\NormalTok{])))}
+\NormalTok{N26\_cena }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6dropped[, }\StringTok{"Q6e"}\NormalTok{])))}
+\NormalTok{Rev\_cena }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6dropped[, }\StringTok{"Q6f"}\NormalTok{])))}
+\NormalTok{Bills\_cena }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6dropped[, }\StringTok{"Q6g"}\NormalTok{])))}
+
+\NormalTok{NKBM\_odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7dropped[, }\StringTok{"Q7a"}\NormalTok{])))}
+\NormalTok{NLB\_odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7dropped[, }\StringTok{"Q7b"}\NormalTok{])))}
+\NormalTok{SKB\_odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7dropped[, }\StringTok{"Q7c"}\NormalTok{])))}
+\NormalTok{DH\_odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7dropped[, }\StringTok{"Q7d"}\NormalTok{])))}
+\NormalTok{N26\_odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7dropped[, }\StringTok{"Q7e"}\NormalTok{])))}
+\NormalTok{Rev\_odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7dropped[, }\StringTok{"Q7f"}\NormalTok{])))}
+\NormalTok{Bills\_odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7dropped[, }\StringTok{"Q7g"}\NormalTok{])))}
+
+
+\NormalTok{dostopnost }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_dostopnost, NLB\_dostopnost, SKB\_dostopnost, DH\_dostopnost, N26\_dostopnost, Rev\_dostopnost, Bills\_dostopnost)}
+\NormalTok{cena }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_cena, NLB\_cena, SKB\_cena, DH\_cena, N26\_cena, Rev\_cena, Bills\_cena)}
+\NormalTok{ugled }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_ugled, NLB\_ugled, SKB\_ugled, DH\_ugled, N26\_ugled, Rev\_ugled, Bills\_ugled)}
+\NormalTok{odgovornost }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_odgovornost, NLB\_odgovornost, SKB\_odgovornost, DH\_odgovornost, N26\_odgovornost, Rev\_odgovornost, Bills\_odgovornost)}
+
+
+\NormalTok{final }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(dostopnost, cena, ugled, odgovornost)}
+\FunctionTok{rownames}\NormalTok{(final) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"NKBM"}\NormalTok{, }\StringTok{"NLB"}\NormalTok{, }\StringTok{"SKB"}\NormalTok{, }\StringTok{"DH"}\NormalTok{, }\StringTok{"N26"}\NormalTok{, }\StringTok{"Revolut"}\NormalTok{, }\StringTok{"mBills"}\NormalTok{)}
+\NormalTok{final}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         dostopnost     cena    ugled odgovornost
+## NKBM      3.911765 4.244898 4.210526    4.000000
+## NLB       5.676471 5.061224 4.684211    4.250000
+## SKB       4.617647 4.714286 4.000000    3.916667
+## DH        3.676471 4.122449 3.368421    3.875000
+## N26       3.823529 4.632653 2.894737    3.791667
+## Revolut   4.323529 5.040816 3.368421    3.458333
+## mBills    3.500000 3.469388 2.947368    3.625000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Na instead of {-}99, the average correctly}
+\CommentTok{\# mean()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# TAKE 3: Calculate the AVG with NA}
+
+\FunctionTok{library}\NormalTok{(ggpubr)}
+
+\NormalTok{myDataPerceptionQ4NA }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q4a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q4g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{myDataPerceptionQ5NA }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q5a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q5g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{myDataPerceptionQ6NA }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q6a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q6g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{myDataPerceptionQ7NA }\OtherTok{\textless{}{-}}\NormalTok{ mydata }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_with\_na}\NormalTok{(}\AttributeTok{replace =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q7a =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7b =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7c =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7d =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7e =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7f =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{), }\AttributeTok{Q7g =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{99}\NormalTok{)))}
+
+\NormalTok{NKBM\_dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4NA[, }\StringTok{"Q4a"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{NLB\_dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4NA[, }\StringTok{"Q4b"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{SKB\_dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4NA[, }\StringTok{"Q4c"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{DH\_dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4NA[, }\StringTok{"Q4d"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{N26\_dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4NA[, }\StringTok{"Q4e"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Rev\_dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4NA[, }\StringTok{"Q4f"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Bills\_dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ4NA[, }\StringTok{"Q4g"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{NKBM\_ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5NA[, }\StringTok{"Q5a"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{NLB\_ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5NA[, }\StringTok{"Q5b"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{SKB\_ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5NA[, }\StringTok{"Q5c"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{DH\_ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5NA[, }\StringTok{"Q5d"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{N26\_ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5NA[, }\StringTok{"Q5e"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Rev\_ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5NA[, }\StringTok{"Q5f"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Bills\_ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ5NA[, }\StringTok{"Q5g"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{NKBM\_cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6NA[, }\StringTok{"Q6a"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{NLB\_cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6NA[, }\StringTok{"Q6b"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{SKB\_cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6NA[, }\StringTok{"Q6c"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{DH\_cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6NA[, }\StringTok{"Q6d"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{N26\_cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6NA[, }\StringTok{"Q6e"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Rev\_cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6NA[, }\StringTok{"Q6f"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Bills\_cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ6NA[, }\StringTok{"Q6g"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{NKBM\_odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7NA[, }\StringTok{"Q7a"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{NLB\_odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7NA[, }\StringTok{"Q7b"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{SKB\_odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7NA[, }\StringTok{"Q7c"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{DH\_odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7NA[, }\StringTok{"Q7d"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{N26\_odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7NA[, }\StringTok{"Q7e"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Rev\_odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7NA[, }\StringTok{"Q7f"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{Bills\_odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataPerceptionQ7NA[, }\StringTok{"Q7g"}\NormalTok{])), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{dostopnostNA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_dostopnostNA, NLB\_dostopnostNA, SKB\_dostopnostNA, DH\_dostopnostNA, N26\_dostopnostNA, Rev\_dostopnostNA, Bills\_dostopnostNA)}
+\NormalTok{cenaNA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_cenaNA, NLB\_cenaNA, SKB\_cenaNA, DH\_cenaNA, N26\_cenaNA, Rev\_cenaNA, Bills\_cenaNA)}
+\NormalTok{ugledNA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_ugledNA, NLB\_ugledNA, SKB\_ugledNA, DH\_ugledNA, N26\_ugledNA, Rev\_ugledNA, Bills\_ugledNA)}
+\NormalTok{odgovornostNA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(NKBM\_odgovornostNA, NLB\_odgovornostNA, SKB\_odgovornostNA, DH\_odgovornostNA, N26\_odgovornostNA, Rev\_odgovornostNA, Bills\_odgovornostNA)}
+
+\NormalTok{Convenience }\OtherTok{\textless{}{-}}\NormalTok{ dostopnostNA}
+\NormalTok{Price }\OtherTok{\textless{}{-}}\NormalTok{ cenaNA}
+\NormalTok{Brand\_Reputation }\OtherTok{\textless{}{-}}\NormalTok{ ugledNA}
+\NormalTok{Responsibility }\OtherTok{\textless{}{-}}\NormalTok{ odgovornostNA}
+
+\NormalTok{finalNA }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(Convenience, Price, Brand\_Reputation, Responsibility)}
+\FunctionTok{rownames}\NormalTok{(finalNA) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"NKBM"}\NormalTok{, }\StringTok{"NLB"}\NormalTok{, }\StringTok{"SKB"}\NormalTok{, }\StringTok{"DH"}\NormalTok{, }\StringTok{"N26"}\NormalTok{, }\StringTok{"Revolut"}\NormalTok{, }\StringTok{"mBills"}\NormalTok{)}
+\NormalTok{ugledNA}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.553846 4.924138 4.629630 3.769231 3.506329 4.206897 3.666667
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{finalNA}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Convenience    Price Brand_Reputation Responsibility
+## NKBM       4.495726 4.676692         4.553846       4.440678
+## NLB        6.016854 5.133690         4.924138       4.919540
+## SKB        4.975806 5.006711         4.629630       4.661538
+## DH         4.064815 4.465116         3.769231       4.203704
+## N26        5.206186 5.287037         3.506329       4.520833
+## Revolut    5.326733 5.598214         4.206897       4.527273
+## mBills     4.357143 4.019608         3.666667       4.313725
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pc.percNA }\OtherTok{\textless{}{-}} \FunctionTok{princomp}\NormalTok{(finalNA, }\AttributeTok{cor =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pc.perc }\OtherTok{\textless{}{-}} \FunctionTok{princomp}\NormalTok{(final, }\AttributeTok{cor =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{ggarrange}\NormalTok{(}\FunctionTok{biplot}\NormalTok{(pc.perc), }\FunctionTok{biplot}\NormalTok{(pc.percEnka), }\FunctionTok{biplot}\NormalTok{(pc.percNA), }\AttributeTok{ncol =} \DecValTok{3}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-23-1.pdf}
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-23-2.pdf}
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-23-3.pdf}
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-23-4.pdf}
+
+\hypertarget{pricing-testing}{%
+\subsection{6. Pricing testing}\label{pricing-testing}}
+
+Lets look at our Van Westendorp pricing analysis. In our survey VW
+analysis was measured with the following Qs: Q26 Q27 Q28 Q29.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ mydata}
+
+\CommentTok{\# DATA CLEANUP: We need to clean the data for these for Qs. We need to filter the people who did not answer this Qs.}
+
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{8}\NormalTok{, ]}
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{213}\NormalTok{, ]}
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{196}\NormalTok{, ]}
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{175}\NormalTok{, ]}
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{168}\NormalTok{, ]}
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{103}\NormalTok{, ]}
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{78}\NormalTok{, ]}
+\NormalTok{myDataVW }\OtherTok{\textless{}{-}}\NormalTok{ myDataVW[}\SpecialCharTok{{-}}\DecValTok{33}\NormalTok{, ]}
+
+
+\CommentTok{\# Van Westerdorp analysis TAKE 2}
+\NormalTok{myDataVW}\SpecialCharTok{$}\NormalTok{Q26 }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataVW}\SpecialCharTok{$}\NormalTok{Q26))}
+\NormalTok{myDataVW}\SpecialCharTok{$}\NormalTok{Q27 }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataVW}\SpecialCharTok{$}\NormalTok{Q27))}
+\NormalTok{myDataVW}\SpecialCharTok{$}\NormalTok{Q28 }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataVW}\SpecialCharTok{$}\NormalTok{Q28))}
+\NormalTok{myDataVW}\SpecialCharTok{$}\NormalTok{Q29 }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(myDataVW}\SpecialCharTok{$}\NormalTok{Q29))}
+
+
+\FunctionTok{library}\NormalTok{(pricesensitivitymeter)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'pricesensitivitymeter' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{psm\_out }\OtherTok{\textless{}{-}} \FunctionTok{psm\_analysis}\NormalTok{(}\AttributeTok{toocheap =}\NormalTok{ myDataVW}\SpecialCharTok{$}\NormalTok{Q26, }
+             \AttributeTok{cheap =}\NormalTok{ myDataVW}\SpecialCharTok{$}\NormalTok{Q27, }
+             \AttributeTok{expensive =}\NormalTok{ myDataVW}\SpecialCharTok{$}\NormalTok{Q28,}
+             \AttributeTok{tooexpensive =}\NormalTok{ myDataVW}\SpecialCharTok{$}\NormalTok{Q29,}
+             \AttributeTok{validate =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{str}\NormalTok{(psm\_out)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 11
+##  $ data_input        :'data.frame':  110 obs. of  4 variables:
+##   ..$ toocheap    : num [1:110] 3 1 0 1 1 2 2 2 2 10 ...
+##   ..$ cheap       : num [1:110] 5 2 6 3 5 5 3 10 4 15 ...
+##   ..$ expensive   : num [1:110] 10 5 10 10 9 7 10 25 8 40 ...
+##   ..$ tooexpensive: num [1:110] 13 7 15 15 10 10 13 30 10 50 ...
+##  $ validated         : logi TRUE
+##  $ invalid_cases     : int 99
+##  $ total_sample      : int 209
+##  $ data_vanwestendorp:'data.frame':  27 obs. of  7 variables:
+##   ..$ price             : num [1:27] 0 1 2 3 4 5 6 7 8 9 ...
+##   ..$ ecdf_toocheap     : num [1:27] 0.873 0.7 0.491 0.282 0.264 ...
+##   ..$ ecdf_cheap        : num [1:27] 1 0.955 0.909 0.709 0.609 ...
+##   ..$ ecdf_expensive    : num [1:27] 0 0 0 0.00909 0.01818 ...
+##   ..$ ecdf_tooexpensive : num [1:27] 0 0 0 0 0.00909 ...
+##   ..$ ecdf_not_cheap    : num [1:27] 0 0.0455 0.0909 0.2909 0.3909 ...
+##   ..$ ecdf_not_expensive: num [1:27] 1 1 1 0.991 0.982 ...
+##  $ pricerange_lower  : num 3
+##  $ pricerange_upper  : num 13
+##  $ idp               : num 8
+##  $ opp               : num 7
+##  $ weighted          : logi FALSE
+##  $ NMS               : logi FALSE
+##  - attr(*, "class")= chr "psm"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(psm\_out}\SpecialCharTok{$}\NormalTok{data\_input)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    toocheap cheap expensive tooexpensive
+## 5         3     5        10           13
+## 7         1     2         5            7
+## 11        0     6        10           15
+## 12        1     3        10           15
+## 15        1     5         9           10
+## 16        2     5         7           10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   price ecdf_toocheap ecdf_cheap ecdf_expensive ecdf_tooexpensive
+## 1     0     0.8727273  1.0000000    0.000000000       0.000000000
+## 2     1     0.7000000  0.9545455    0.000000000       0.000000000
+## 3     2     0.4909091  0.9090909    0.000000000       0.000000000
+## 4     3     0.2818182  0.7090909    0.009090909       0.000000000
+## 5     4     0.2636364  0.6090909    0.018181818       0.009090909
+## 6     5     0.1090909  0.3727273    0.127272727       0.009090909
+##   ecdf_not_cheap ecdf_not_expensive
+## 1     0.00000000          1.0000000
+## 2     0.04545455          1.0000000
+## 3     0.09090909          1.0000000
+## 4     0.29090909          0.9909091
+## 5     0.39090909          0.9818182
+## 6     0.62727273          0.8727273
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{psmplot }\OtherTok{\textless{}{-}}  \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ price)) }\SpecialCharTok{+}
+  \FunctionTok{annotate}\NormalTok{(}\AttributeTok{geom =} \StringTok{"rect"}\NormalTok{, }\CommentTok{\# shaded background area for range of acceptable prices}
+           \AttributeTok{xmin =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{pricerange\_lower,}
+           \AttributeTok{xmax =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{pricerange\_upper,}
+           \AttributeTok{ymin =} \DecValTok{0}\NormalTok{, }\AttributeTok{ymax =} \ConstantTok{Inf}\NormalTok{,}
+           \AttributeTok{fill=}\StringTok{"grey50"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ecdf\_toocheap, }\CommentTok{\# line: too cheap}
+                \AttributeTok{colour =} \StringTok{"too cheap"}\NormalTok{,}
+                \AttributeTok{linetype =} \StringTok{"too cheap"}\NormalTok{),}
+            \AttributeTok{size=}\NormalTok{ .}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ecdf\_tooexpensive, }\CommentTok{\# line: too expensive}
+                \AttributeTok{colour =} \StringTok{"too expensive"}\NormalTok{,}
+                \AttributeTok{linetype =} \StringTok{"too expensive"}\NormalTok{),}
+            \AttributeTok{size =}\NormalTok{ .}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ecdf\_not\_cheap, }\CommentTok{\# line: not cheap}
+                \AttributeTok{colour =} \StringTok{"not cheap"}\NormalTok{,}
+                \AttributeTok{linetype =} \StringTok{"not cheap"}\NormalTok{),}
+            \AttributeTok{size =}\NormalTok{ .}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ecdf\_not\_expensive, }\CommentTok{\# line: not expensive}
+                \AttributeTok{colour =} \StringTok{"not expensive"}\NormalTok{,}
+                \AttributeTok{linetype =} \StringTok{"not expensive"}\NormalTok{),}
+            \AttributeTok{size =}\NormalTok{ .}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{annotate}\NormalTok{(}\AttributeTok{geom =} \StringTok{"point"}\NormalTok{, }\CommentTok{\# Indifference Price Point (intersection of "cheap" and "expensive")}
+           \AttributeTok{x =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{idp, }
+           \AttributeTok{y =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{ecdf\_not\_cheap[psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{price }\SpecialCharTok{==}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{idp],}
+           \AttributeTok{size =} \DecValTok{3}\NormalTok{,}
+           \AttributeTok{shape =} \DecValTok{2}\NormalTok{,}
+           \AttributeTok{colour =} \StringTok{"\#D55E00"}\NormalTok{,}
+           \AttributeTok{fill =} \StringTok{"\#D55E00"}\NormalTok{,}
+           \AttributeTok{alpha =}\NormalTok{ .}\DecValTok{8}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{annotate}\NormalTok{(}\AttributeTok{geom =} \StringTok{"point"}\NormalTok{, }\CommentTok{\# Optimal Price Point (intersection of "too cheap" and "too expensive")}
+           \AttributeTok{x =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{opp, }
+           \AttributeTok{y =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{ecdf\_toocheap[psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{price }\SpecialCharTok{==}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{opp],}
+           \AttributeTok{size =} \DecValTok{3}\NormalTok{,}
+           \AttributeTok{shape =} \DecValTok{2}\NormalTok{,}
+           \AttributeTok{colour =} \StringTok{"\#D55E00"}\NormalTok{,}
+           \AttributeTok{fill =} \StringTok{"\#D55E00"}\NormalTok{,}
+           \AttributeTok{alpha =} \FloatTok{0.8}\NormalTok{)}
+
+
+\CommentTok{\# Update plot with labels and colors}
+\NormalTok{psmplot }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Price"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Proportion of Respondents"}\NormalTok{,}
+       \AttributeTok{title =} \StringTok{"Price Sensitivity Plot for Product X"}\NormalTok{,}
+       \AttributeTok{caption =} \FunctionTok{paste}\NormalTok{(}\StringTok{"sample size:"}\NormalTok{,}
+\NormalTok{                       psm\_out}\SpecialCharTok{$}\NormalTok{total\_sample }\SpecialCharTok{{-}}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{invalid\_cases,}
+                       \StringTok{"respondents"}\NormalTok{))  }\SpecialCharTok{+} 
+  \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{name =} \StringTok{"Legend"}\NormalTok{,}
+                      \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"too cheap"} \OtherTok{=} \StringTok{"\#040453"}\NormalTok{,}
+                                 \StringTok{"not cheap"} \OtherTok{=} \StringTok{"\#040453"}\NormalTok{,}
+                                 \StringTok{"not expensive"} \OtherTok{=} \StringTok{"\#00b0f0"}\NormalTok{,}
+                                 \StringTok{"too expensive"} \OtherTok{=} \StringTok{"\#00b0f0"}\NormalTok{)) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_linetype\_manual}\NormalTok{(}\AttributeTok{name=}\StringTok{"Legend"}\NormalTok{,}
+                        \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"too cheap"} \OtherTok{=} \StringTok{"dotted"}\NormalTok{,}
+                                   \StringTok{"not cheap"} \OtherTok{=} \StringTok{"solid"}\NormalTok{,}
+                                   \StringTok{"not expensive"} \OtherTok{=} \StringTok{"solid"}\NormalTok{,}
+                                   \StringTok{"too expensive"} \OtherTok{=} \StringTok{"dotted"}\NormalTok{)) }\SpecialCharTok{+} 
+  \FunctionTok{annotate}\NormalTok{(}\AttributeTok{geom =} \StringTok{"text"}\NormalTok{, }\CommentTok{\# Label of Indifference Price Point}
+           \AttributeTok{x =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{idp }\SpecialCharTok{+} \DecValTok{5}\NormalTok{, }
+           \AttributeTok{y =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{ecdf\_not\_cheap[psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{price }\SpecialCharTok{==}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{idp] }\SpecialCharTok{+}\NormalTok{ .}\DecValTok{05}\NormalTok{,}
+           \AttributeTok{label =} \FunctionTok{paste}\NormalTok{(}\StringTok{"IDP: "}\NormalTok{, psm\_out}\SpecialCharTok{$}\NormalTok{idp)) }\SpecialCharTok{+} 
+  \FunctionTok{annotate}\NormalTok{(}\AttributeTok{geom =} \StringTok{"text"}\NormalTok{, }\CommentTok{\# Label of Optimal Price Point}
+           \AttributeTok{x =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{opp,}
+           \AttributeTok{y =}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{ecdf\_toocheap[psm\_out}\SpecialCharTok{$}\NormalTok{data\_vanwestendorp}\SpecialCharTok{$}\NormalTok{price }\SpecialCharTok{==}\NormalTok{ psm\_out}\SpecialCharTok{$}\NormalTok{opp] }\SpecialCharTok{+}\NormalTok{ .}\DecValTok{05}\NormalTok{,}
+           \AttributeTok{label =} \FunctionTok{paste}\NormalTok{(}\StringTok{"OPP: "}\NormalTok{, psm\_out}\SpecialCharTok{$}\NormalTok{opp)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myDataPriceFourQ }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(myDataVW}\SpecialCharTok{$}\NormalTok{Q26, myDataVW}\SpecialCharTok{$}\NormalTok{Q27, myDataVW}\SpecialCharTok{$}\NormalTok{Q28, myDataVW}\SpecialCharTok{$}\NormalTok{Q29)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{social-proof-testing}{%
+\subsection{7. Social proof testing}\label{social-proof-testing}}
+
+Here we are cleaning our data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# }\AlertTok{TODO}\CommentTok{: Wont Do.}
+
+\CommentTok{\# use correlation between them and see if they are very similar you group them}
+
+\CommentTok{\# Box plots for each product specific product}
+\CommentTok{\# Just show them graphically}
+\CommentTok{\# x products, y values from 1{-}7}
+
+\CommentTok{\# t{-}test for each product, to see if 5.1 is statistically signifanct than 4}
+\CommentTok{\# t{-}test for one arithmetic mean}
+
+\CommentTok{\# test of propotions, more than half of people would be interested in this product, cutoff 4}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{additional-important-key-parts-hypothesis}{%
+\subsection{8. Additional important key parts
+(hypothesis)}\label{additional-important-key-parts-hypothesis}}
+
+Here we are cleaning our data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# }\AlertTok{TODO}\CommentTok{: Wont Do.}
+\CommentTok{\# They ARE prepared to pay more!?}
+\CommentTok{\# Why DOES 1/3 not use the packages!?}
+\CommentTok{\# Do people see n26 as more secure for online shopping!?}
+\CommentTok{\# Include case studies from abroad}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{segmentation}{%
+\subsection{9. Segmentation}\label{segmentation}}
+
+\hypertarget{i-want-to-segment-our-customers}{%
+\section{I want to segment our
+customers}\label{i-want-to-segment-our-customers}}
+
+\hypertarget{we-need-to-segment-the-customers-in-different-segments.}{%
+\paragraph{We need to segment the customers in different
+segments.}\label{we-need-to-segment-the-customers-in-different-segments.}}
+
+\hypertarget{our-variables-will-be}{%
+\paragraph{Our variables will be:}\label{our-variables-will-be}}
+
+\hypertarget{max-5-variables-iteracija-10}{%
+\paragraph{Max 5 variables: (iteracija
+10)}\label{max-5-variables-iteracija-10}}
+
+\hypertarget{how-sustainable-is-your-lifestyle-stands-for-attitude-avg.-1-7}{%
+\paragraph{How sustainable is your lifestyle? (stands for Attitude)
+=\textgreater{} avg.
+1-7}\label{how-sustainable-is-your-lifestyle-stands-for-attitude-avg.-1-7}}
+
+\hypertarget{how-much-do-you-consider-sustainability-when-making-purchases}{%
+\paragraph{How much do you consider sustainability when making
+purchases?}\label{how-much-do-you-consider-sustainability-when-making-purchases}}
+
+\hypertarget{how-much-are-you-prepared-to-use-sustainable-packages-1-7}{%
+\paragraph{How much are you prepared to use sustainable packages?
+=\textgreater{}
+1-7}\label{how-much-are-you-prepared-to-use-sustainable-packages-1-7}}
+
+\hypertarget{how-much-are-you-willing-to-pay-for-a-normal-package-q18}{%
+\paragraph{How much are you willing to pay for a normal package:
+Q18}\label{how-much-are-you-willing-to-pay-for-a-normal-package-q18}}
+
+\hypertarget{how-much-are-you-willing-to-pay-for-a-sustainable-package-q24}{%
+\paragraph{How much are you willing to pay for a sustainable package:
+Q24}\label{how-much-are-you-willing-to-pay-for-a-sustainable-package-q24}}
+
+\hypertarget{how-much-do-you-use-financial-products-stands-for-usage-avg.-1--didnt-use}{%
+\paragraph{How much do you use financial products? (stands for Usage)
+=\textgreater{} avg. 1- =\textgreater{} Didnt
+use}\label{how-much-do-you-use-financial-products-stands-for-usage-avg.-1--didnt-use}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{segmentationData }\OtherTok{\textless{}{-}}\NormalTok{ mydata}
+
+\CommentTok{\# How much do you use financial products? (stands for Usage) =\textgreater{} avg. 1{-}7 =\textgreater{} maybe added maybe not}
+\CommentTok{\# How sustainable is your lifestyle? (stands for Attitude) =\textgreater{} avg. 1{-}7}
+\NormalTok{viewsOnSustainability}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] 4.4 3.8 6.6 5.2 5.4 3.6 5.0 6.0 6.2 4.4 6.2 4.0 2.2 4.0 4.6 5.6 3.8 6.2
+##  [19] 6.0 3.8 6.4 5.2 3.2 6.6 3.8 5.6 6.4 4.4 6.0 6.2 5.8 4.8 5.6 7.0 5.4 5.0
+##  [37] 4.8 5.2 4.0 3.4 5.2 6.0 6.6 5.6 3.4 5.2 4.4 6.4 6.6 6.6 5.6 3.6 4.8 4.8
+##  [55] 5.8 4.8 5.0 4.8 3.8 5.2 3.8 5.8 6.4 6.6 4.4 3.2 5.6 5.6 5.6 5.6 3.4 5.0
+##  [73] 6.0 4.6 5.8 5.8 5.0 7.0 5.4 4.6 6.0 4.6 5.2 6.4 6.0 5.6 6.4 5.0 6.0 5.0
+##  [91] 5.4 3.6 3.6 3.6 6.6 6.4 4.4 4.2 4.6 6.0 6.2 5.0 4.8 4.4 5.2 6.8 3.0 4.2
+## [109] 6.4 3.6 5.6 4.8 5.4 6.4 5.6 4.4 5.2 5.0 4.0 5.0 6.0 4.2 4.8 5.8 4.4 5.4
+## [127] 5.0 6.4 5.2 4.0 5.8 4.0 6.4 5.4 6.4 5.0 4.6 5.0 5.0 5.4 3.8 5.6 5.2 4.4
+## [145] 6.6 5.8 5.4 4.0 4.8 6.0 2.2 3.6 6.0 4.8 5.4 5.6 5.2 5.6 6.4 5.6 4.6 6.0
+## [163] 4.2 4.6 4.2 6.0 6.0 5.6 5.0 2.0 5.6 4.0 5.6 5.4 5.0 7.0 7.0 5.0 4.4 4.6
+## [181] 5.8 3.4 5.8 5.2 5.6 5.6 5.6 5.4 5.0 2.6 3.8 6.2 6.0 4.8 7.0 7.0 6.0 6.4
+## [199] 6.2 4.4 4.0 6.8 5.2 5.6 6.0 6.2 3.0 5.0 5.6 4.8 5.4 3.4 6.2 6.4 6.2 7.0
+## [217] 6.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{typeof}\NormalTok{(viewsOnSustainability)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "double"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{is.numeric}\NormalTok{(viewsOnSustainability)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# segmentationData}
+
+\NormalTok{segmentationData[}\StringTok{"LS\_avg"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ viewsOnSustainability}
+\CommentTok{\# segmentationData["LS\_avg"]}
+
+\CommentTok{\# Q21: How much do you consider sustainability when making purchases? }
+\FunctionTok{nrow}\NormalTok{(segmentationData[}\FunctionTok{c}\NormalTok{(}\StringTok{"Q21a"}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# How much are you prepared to use sustainable packages? =\textgreater{} 1{-}7}
+\NormalTok{segmentationData[}\StringTok{"Q23b"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(segmentationData[ ,}\StringTok{"Q23b"}\NormalTok{]))}
+\CommentTok{\# segmentationData["Q23b"]}
+
+\CommentTok{\# How much are you willing to pay for a normal package: Q18}
+\NormalTok{segmentationData[}\StringTok{"Q18"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(segmentationData[ ,}\StringTok{"Q18"}\NormalTok{]))}
+\CommentTok{\# segmentationData["Q18"]}
+
+\CommentTok{\# How much are you willing to pay for a sustainable package: Q24 }
+\NormalTok{segmentationData[}\StringTok{"Q24"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(segmentationData[ ,}\StringTok{"Q24"}\NormalTok{]))}
+\CommentTok{\# segmentationData["Q24"]}
+
+
+\FunctionTok{summary}\NormalTok{(segmentationData[}\FunctionTok{c}\NormalTok{(}\StringTok{"LS\_avg"}\NormalTok{, }\StringTok{"Q21a"}\NormalTok{, }\StringTok{"Q23b"}\NormalTok{, }\StringTok{"Q18"}\NormalTok{, }\StringTok{"Q24"}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      LS_avg           Q21a            Q23b            Q18        
+##  Min.   :2.000   Min.   :1.000   Min.   :1.000   Min.   : 0.000  
+##  1st Qu.:4.600   1st Qu.:4.000   1st Qu.:3.000   1st Qu.: 2.000  
+##  Median :5.200   Median :5.000   Median :5.000   Median : 5.000  
+##  Mean   :5.188   Mean   :4.475   Mean   :4.419   Mean   : 5.313  
+##  3rd Qu.:6.000   3rd Qu.:5.000   3rd Qu.:6.000   3rd Qu.: 8.000  
+##  Max.   :7.000   Max.   :7.000   Max.   :7.000   Max.   :15.000  
+##       Q24        
+##  Min.   : 0.000  
+##  1st Qu.: 4.000  
+##  Median : 6.000  
+##  Mean   : 6.866  
+##  3rd Qu.:10.000  
+##  Max.   :19.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{segmentationData\_std }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(segmentationData[}\FunctionTok{c}\NormalTok{(}\StringTok{"LS\_avg"}\NormalTok{, }\StringTok{"Q21a"}\NormalTok{, }\StringTok{"Q23b"}\NormalTok{, }\StringTok{"Q18"}\NormalTok{, }\StringTok{"Q24"}\NormalTok{)]))}
+
+\CommentTok{\# segmentationData\_std}
+
+\CommentTok{\# Finding outliers}
+\NormalTok{segmentationData\_std}\SpecialCharTok{$}\NormalTok{Dissimilarity }\OtherTok{=} \FunctionTok{sqrt}\NormalTok{(segmentationData\_std}\SpecialCharTok{$}\NormalTok{LS\_avg}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ segmentationData\_std}\SpecialCharTok{$}\NormalTok{Q21a}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ segmentationData\_std}\SpecialCharTok{$}\NormalTok{Q23b}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ segmentationData\_std}\SpecialCharTok{$}\NormalTok{Q18}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ segmentationData\_std}\SpecialCharTok{$}\NormalTok{Q24}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(segmentationData\_std[}\FunctionTok{order}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{segmentationData\_std}\SpecialCharTok{$}\NormalTok{Dissimilarity), ], }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        LS_avg      Q21a      Q23b        Q18       Q24 Dissimilarity
+## 153 -2.894589 -1.721948 -1.743463 -1.4380759 -1.570071      4.349322
+## 109 -2.119603 -2.417782 -1.743463 -1.4380759 -1.570071      4.232167
+## 72  -1.732111 -2.417782 -1.743463 -1.4380759 -1.570071      4.052003
+## 172 -3.088335 -1.026115 -1.743463 -0.3554654 -1.570071      4.027638
+## 79   1.755324  1.757221  1.315821  1.2684503  2.317172      3.857282
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# print(segmentationData[82, ]) \# Checking outliers}
+
+\CommentTok{\# nrow(segmentationData)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{segmentationData\_std\_NoDissimilarity }\OtherTok{\textless{}{-}}\NormalTok{ segmentationData\_std }\CommentTok{\# this step is REQUIRED, REMOVE DISSIMILARITY BEFORE DOING FURTHER ANALYSIS}
+\NormalTok{segmentationData\_std\_NoDissimilarity}\SpecialCharTok{$}\NormalTok{Dissimilarity }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+
+\FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(segmentationData\_std\_NoDissimilarity), }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        LS_avg Q21a  Q23b   Q18  Q24
+## LS_avg   1.00 0.51  0.27  0.08 0.15
+## Q21a     0.51 1.00  0.24  0.10 0.20
+## Q23b     0.27 0.24  1.00 -0.01 0.23
+## Q18      0.08 0.10 -0.01  1.00 0.70
+## Q24      0.15 0.20  0.23  0.70 1.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(factoextra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'factoextra' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{verbatim}
+## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Distances }\OtherTok{\textless{}{-}} \FunctionTok{get\_dist}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{method =} \StringTok{"euclidian"}\NormalTok{)}
+
+\FunctionTok{fviz\_dist}\NormalTok{(Distances)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-29-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{get\_clust\_tendency}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{n =} \FunctionTok{nrow}\NormalTok{(segmentationData\_std\_NoDissimilarity) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $hopkins_stat
+## [1] 0.6412715
+## 
+## $plot
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\NormalTok{(WARD }\OtherTok{\textless{}{-}}\NormalTok{ segmentationData\_std\_NoDissimilarity }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{get\_dist}\NormalTok{(}\AttributeTok{method =} \StringTok{"euclidian"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hclust}\NormalTok{(}\AttributeTok{method =} \StringTok{"ward.D2"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## hclust(d = ., method = "ward.D2")
+## 
+## Cluster method   : ward.D2 
+## Distance         : euclidean 
+## Number of objects: 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_dend}\NormalTok{(WARD)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `guides(<scale> = FALSE)` is deprecated. Please use `guides(<scale> =
+## "none")` instead.
+\end{verbatim}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-30-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_dend}\NormalTok{(WARD, }\AttributeTok{k =} \DecValTok{3}\NormalTok{, }\AttributeTok{palette =} \StringTok{"Set1"}\NormalTok{, }\AttributeTok{rect =} \ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# 15 proposed 3 as the best number of clusters}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `guides(<scale> = FALSE)` is deprecated. Please use `guides(<scale> =
+## "none")` instead.
+\end{verbatim}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-30-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_dend}\NormalTok{(WARD, }\AttributeTok{k =} \DecValTok{5}\NormalTok{, }\AttributeTok{palette =} \StringTok{"Set1"}\NormalTok{, }\AttributeTok{rect =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `guides(<scale> = FALSE)` is deprecated. Please use `guides(<scale> =
+## "none")` instead.
+\end{verbatim}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-30-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_dend}\NormalTok{(WARD, }\AttributeTok{k =} \DecValTok{4}\NormalTok{, }\AttributeTok{palette =} \StringTok{"Set1"}\NormalTok{, }\AttributeTok{rect =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `guides(<scale> = FALSE)` is deprecated. Please use `guides(<scale> =
+## "none")` instead.
+\end{verbatim}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-30-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+
+\FunctionTok{library}\NormalTok{(NbClust)}
+
+\NormalTok{Index }\OtherTok{\textless{}{-}} \FunctionTok{NbClust}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{distance =} \StringTok{"euclidean"}\NormalTok{, }\AttributeTok{method =} \StringTok{"ward.D2"}\NormalTok{, }\AttributeTok{index =} \StringTok{"all"}\NormalTok{, }\AttributeTok{min.nc =} \DecValTok{2}\NormalTok{, }\AttributeTok{max.nc =} \DecValTok{6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+\begin{verbatim}
+## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## 
+\end{verbatim}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-31-2.pdf}
+
+\begin{verbatim}
+## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 7 proposed 2 as the best number of clusters 
+## * 12 proposed 3 as the best number of clusters 
+## * 1 proposed 4 as the best number of clusters 
+## * 1 proposed 5 as the best number of clusters 
+## * 2 proposed 6 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  3 
+##  
+##  
+## *******************************************************************
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_Ward }\OtherTok{\textless{}{-}} \FunctionTok{cutree}\NormalTok{(WARD, }\AttributeTok{k =} \DecValTok{3}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(segmentationData)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Age Q1a Q1b Q1c Q1d Q1e Q1f Q1g    Q1g_text Q2a Q2b Q2c Q2d Q2e Q2f Q2g Q2h
+## 1   6   0   0   0   0   0   0   1 Investicije   1   0   0   0   0   0   1   0
+## 2   9   1   0   0   1   0   1   0          -2   1   0   0   0   0   0   1   0
+## 3   6   1   0   0   0   0   1   0          -2   1   0   0   0   1   0   0   0
+## 4   9   0   0   0   0   1   0   0          -2   1   0   0   1   0   0   0   0
+## 5   9   0   1   0   1   0   0   0          -2   1   0   0   1   1   0   0   0
+## 6   7   1   1   1   1   1   1   0          -2   0   1   1   0   0   0   0   0
+##   Q2h_text Q3a Q3b Q3c Q3d Q3e Q3f Q4a Q4b Q4c Q4d Q4e Q4f Q4g Q5a Q5b Q5c Q5d
+## 1       -2   5   5   2   5   7   6   6   6 -99   4   6 -99 -99   5 -99 -99 -99
+## 2       -2   5   5   7   7   7   7 -99   4   4   3 -99 -99 -99   7   7   7   7
+## 3       -2   6   5   7   7   5   7 -99   6 -99 -99 -99   6 -99 -99   6 -99 -99
+## 4       -2   7   5   5   7   6   7   7 -99 -99 -99 -99 -99 -99   7 -99 -99 -99
+## 5       -2   6   6   7   7   7   7   7 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+## 6       -2   1   1   4   6   6   7 -99   7   5   3 -99 -99 -99 -99   4 -99   4
+##   Q5e Q5f Q5g Q6a Q6b Q6c Q6d Q6e Q6f Q6g Q7a Q7b Q7c Q7d Q7e Q7f Q7g Q8
+## 1   1 -99 -99   6   7 -99   4   6 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  8
+## 3 -99   7 -99   7   7   7   6   7   7   7   7   7 -99   5 -99   6 -99  8
+## 4 -99 -99 -99   6   6 -99   6 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 5 -99 -99 -99   6 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 6 -99 -99 -99 -99   5   5   4 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  8
+##   Q8_12_text Q9a Q9b Q9c Q9d Q10 Q11a Q11b Q11c Q11d Q11e Q11f Q11g Q11g_text
+## 1         -2   3   6   6   5   3   -1    4    5    3    1    4   -1        -1
+## 2         -2   5   5   5   5   3    3    1    2    3    1    2   -1        -1
+## 3         -2   7   7   7   7   1    3    4    2    1    1    5   -1        -1
+## 4         -2   5   7   6   5   3    3    1    3    3    2    3   -1        -1
+## 5         -2   7   7   7   7   1    3    3    4    1    1    1    1        -1
+## 6         -2   5   7   6   6   4    2    2    3    2    2    1   -1        -1
+##   Q12a Q12b Q12c Q12d Q12e Q12f Q12g Q12h Q12i Q12j Q12k Q12l Q12l_text Q13
+## 1    0    0    0    0    0    0    1    1    0    0    0    0        -2   1
+## 2    0    0    0    1    0    0    0    1    0    0    0    0        -2   2
+## 3    0    0    0    0    0    0    0    1    0    1    0    0        -2   1
+## 4    0    0    0    0    0    0    1    0    0    0    0    0        -2   2
+## 5    0    0    1    0    0    0    1    0    0    0    0    0        -2   1
+## 6    0    0    0    0    0    0    0    1    0    1    0    0        -2   2
+##   Q14a Q14b Q14c Q14d Q14e Q14f Q14f_text Q15a Q15b Q15c Q15d Q16 Q17 Q18 Q19a
+## 1    6    7    7    7    6   -1        -1    7    7    6    4   1   1   0    6
+## 2   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   1   1   5    5
+## 3    7    7    7    7    7   -1        -1    7    7    6    5   2  -2  10    7
+## 4   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   1   2   5    5
+## 5    1    1    1    1    1    1        -1    7    7  -99  -99   2  -2   3    5
+## 6   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   2  -2  10    4
+##   Q19b Q19c Q19d Q19e Q21a Q22 Q23a Q23b Q23c Q23d Q23e Q23f Q23f_text Q24 Q26
+## 1    5    5    4    2    5   1    5    6    6    6    6   -1        -1   2   2
+## 2    7    3    3    1    1   1    7    7    7    7    7   -1        -1   5   3
+## 3    7    7    7    5    7   1    3    5    7    7    7   -1        -1  12   5
+## 4    6    5    6    4    4   1    4    5    7    7    7   -1        -1   7   1
+## 5    7    7    5    3    5   1    7    7    7    7    7   -1        -1   5   3
+## 6    7    1    2    4    4   2    1    1    7    7    7    1        -1   2   6
+##   Q27 Q28 Q29 XSPOL XIZ1a2 XIZ1a2_7_text XDS2a4 Q30 Q30_7_text Q31 XLOKACREGs
+## 1   3   5   5     1      1            -2      1   2         -2   1          4
+## 2   3   6  10     2      1            -2      2   4         -2   1          4
+## 3  10  20  20     1      4            -2      1   2         -2   1          8
+## 4   3  10   6     2      4            -2      2   4         -2   1          4
+## 5   5  10  13     2      4            -2      1   1         -2   2         12
+## 6   4  10   5     2      4            -2      1   3         -2   1          8
+##   XSPOL1 LS_avg Clustering_Ward
+## 1      1    4.4               1
+## 2      2    3.8               2
+## 3      2    6.6               3
+## 4      2    5.2               1
+## 5      2    5.4               1
+## 6      2    3.6               2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Leaders\_initial }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{by =} \FunctionTok{list}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_Ward), }\AttributeTok{FUN =}\NormalTok{ mean)}
+
+\NormalTok{Leaders\_initial}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Group.1     LS_avg       Q21a        Q23b        Q18        Q24
+## 1       1  0.1523628  0.1752398  0.05201429 -0.6492507 -0.4658517
+## 2       2 -1.2375474 -1.5022115 -0.49559705  0.1288603 -0.2161551
+## 3       3  0.4709733  0.5900159  0.20559703  1.1462201  1.0115893
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(kmeans\_clu }\OtherTok{\textless{}{-}} \FunctionTok{hkmeans}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{k =} \DecValTok{3}\NormalTok{, }\AttributeTok{hc.metric =} \StringTok{"euclidean"}\NormalTok{, }\AttributeTok{hc.method =} \StringTok{"ward.D2"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Hierarchical K-means clustering with 3 clusters of sizes 90, 60, 67
+## 
+## Cluster means:
+##       LS_avg       Q21a       Q23b        Q18        Q24
+## 1  0.3474340  0.3500903  0.2564023 -0.6862631 -0.6376408
+## 2 -0.9991034 -1.0956980 -0.6982075 -0.1208998 -0.2705123
+## 3  0.4280171  0.5109514  0.2808394  1.0301144  1.0987823
+## 
+## Clustering vector:
+##   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20 
+##   1   2   3   1   1   2   1   1   3   2   3   2   2   2   3   1   2   3   3   2 
+##  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40 
+##   1   1   2   3   2   3   3   2   1   1   1   1   3   3   2   3   3   1   2   2 
+##  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60 
+##   3   1   3   1   2   3   3   3   3   1   1   3   2   1   1   1   3   2   3   2 
+##  61  62  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  81  82 
+##   2   3   2   1   2   2   3   1   2   1   2   2   3   2   3   1   2   3   2   1 
+##  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 101 102 
+##   3   2   1   1   3   3   3   1   1   2   1   2   2   2   3   1   2   2   2   1 
+## 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 
+##   1   1   2   1   2   1   2   2   1   2   3   1   3   3   1   1   3   2   2   2 
+## 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 
+##   1   2   1   1   2   3   3   1   3   2   3   3   1   1   1   1   1   1   1   1 
+## 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 
+##   3   3   1   1   3   1   3   2   1   1   2   2   1   2   3   1   3   3   1   1 
+## 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 
+##   1   3   1   3   1   1   3   1   3   2   3   2   3   2   1   1   1   3   2   3 
+## 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 
+##   2   2   3   1   1   3   1   3   1   2   1   1   1   3   1   1   1   3   1   2 
+## 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 
+##   1   3   1   3   3   1   2   3   1   1   1   1   1   3   1   3   1 
+## 
+## Within cluster sum of squares by cluster:
+## [1] 220.6922 207.1379 191.8996
+##  (between_SS / total_SS =  42.6 %)
+## 
+## Available components:
+## 
+##  [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
+##  [6] "betweenss"    "size"         "iter"         "ifault"       "data"        
+## [11] "hclust"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_cluster}\NormalTok{(kmeans\_clu, }\AttributeTok{palette =} \StringTok{"Set1"}\NormalTok{, }\AttributeTok{repel =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{ggtheme =} \FunctionTok{theme\_linedraw}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(segmentationData\_std\_NoDissimilarity)}
+
+\FunctionTok{round}\NormalTok{(R, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        LS_avg  Q21a   Q23b    Q18   Q24
+## LS_avg  1.000 0.514  0.274  0.079 0.145
+## Q21a    0.514 1.000  0.244  0.101 0.204
+## Q23b    0.274 0.244  1.000 -0.009 0.232
+## Q18     0.079 0.101 -0.009  1.000 0.696
+## Q24     0.145 0.204  0.232  0.696 1.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(psych)}
+
+\FunctionTok{cortest.bartlett}\NormalTok{(R, }\AttributeTok{n =} \FunctionTok{nrow}\NormalTok{(segmentationData\_std\_NoDissimilarity))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $chisq
+## [1] 257.257
+## 
+## $p.value
+## [1] 1.614763e-49
+## 
+## $df
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{KMO}\NormalTok{(R)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Kaiser-Meyer-Olkin factor adequacy
+## Call: KMO(r = R)
+## Overall MSA =  0.52
+## MSA for each item = 
+## LS_avg   Q21a   Q23b    Q18    Q24 
+##   0.59   0.61   0.50   0.47   0.50
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(FactoMineR)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'FactoMineR' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{components }\OtherTok{\textless{}{-}} \FunctionTok{PCA}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{scale.unit =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
+
+\FunctionTok{get\_eigenvalue}\NormalTok{(components)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       eigenvalue variance.percent cumulative.variance.percent
+## Dim.1  2.0057648        40.301016                    40.30102
+## Dim.2  1.3979001        28.087437                    68.38845
+## Dim.3  0.8287534        16.651805                    85.04026
+## Dim.4  0.4843047         9.730937                    94.77119
+## Dim.5  0.2602355         5.228806                   100.00000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_eig}\NormalTok{(components, }\AttributeTok{choice =} \StringTok{"eigenvalue"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Screeplot"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Eigenvalues"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Principal Component"}\NormalTok{, }\AttributeTok{addlabels =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa.parallel}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{sim =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{fa =} \StringTok{"pc"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-38-1.pdf}
+
+\begin{verbatim}
+## Parallel analysis suggests that the number of factors =  NA  and the number of components =  2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(components }\OtherTok{\textless{}{-}} \FunctionTok{PCA}\NormalTok{(segmentationData\_std\_NoDissimilarity, }\AttributeTok{scale.unit =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{ncp =} \DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## **Results for the Principal Component Analysis (PCA)**
+## The analysis was performed on 217 individuals, described by 5 variables
+## *The results are available in the following objects:
+## 
+##    name               description                          
+## 1  "$eig"             "eigenvalues"                        
+## 2  "$var"             "results for the variables"          
+## 3  "$var$coord"       "coord. for the variables"           
+## 4  "$var$cor"         "correlations variables - dimensions"
+## 5  "$var$cos2"        "cos2 for the variables"             
+## 6  "$var$contrib"     "contributions of the variables"     
+## 7  "$ind"             "results for the individuals"        
+## 8  "$ind$coord"       "coord. for the individuals"         
+## 9  "$ind$cos2"        "cos2 for the individuals"           
+## 10 "$ind$contrib"     "contributions of the individuals"   
+## 11 "$call"            "summary statistics"                 
+## 12 "$call$centre"     "mean of the variables"              
+## 13 "$call$ecart.type" "standard error of the variables"    
+## 14 "$call$row.w"      "weights for the individuals"        
+## 15 "$call$col.w"      "weights for the variables"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(components}\SpecialCharTok{$}\NormalTok{var}\SpecialCharTok{$}\NormalTok{cor)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            Dim.1      Dim.2
+## LS_avg 0.6172223  0.5422439
+## Q21a   0.6459849  0.4807160
+## Q23b   0.4900439  0.3736032
+## Q18    0.6297286 -0.6826960
+## Q24    0.7616363 -0.5230700
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_pca\_var}\NormalTok{(components, }\AttributeTok{repel =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-39-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_pca\_biplot}\NormalTok{(components)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-40-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans }\OtherTok{\textless{}{-}}\NormalTok{ kmeans\_clu}\SpecialCharTok{$}\NormalTok{cluster}
+
+\CommentTok{\# Check if we need optimization}
+\FunctionTok{head}\NormalTok{(segmentationData) }\CommentTok{\# =\textgreater{} uneven}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Age Q1a Q1b Q1c Q1d Q1e Q1f Q1g    Q1g_text Q2a Q2b Q2c Q2d Q2e Q2f Q2g Q2h
+## 1   6   0   0   0   0   0   0   1 Investicije   1   0   0   0   0   0   1   0
+## 2   9   1   0   0   1   0   1   0          -2   1   0   0   0   0   0   1   0
+## 3   6   1   0   0   0   0   1   0          -2   1   0   0   0   1   0   0   0
+## 4   9   0   0   0   0   1   0   0          -2   1   0   0   1   0   0   0   0
+## 5   9   0   1   0   1   0   0   0          -2   1   0   0   1   1   0   0   0
+## 6   7   1   1   1   1   1   1   0          -2   0   1   1   0   0   0   0   0
+##   Q2h_text Q3a Q3b Q3c Q3d Q3e Q3f Q4a Q4b Q4c Q4d Q4e Q4f Q4g Q5a Q5b Q5c Q5d
+## 1       -2   5   5   2   5   7   6   6   6 -99   4   6 -99 -99   5 -99 -99 -99
+## 2       -2   5   5   7   7   7   7 -99   4   4   3 -99 -99 -99   7   7   7   7
+## 3       -2   6   5   7   7   5   7 -99   6 -99 -99 -99   6 -99 -99   6 -99 -99
+## 4       -2   7   5   5   7   6   7   7 -99 -99 -99 -99 -99 -99   7 -99 -99 -99
+## 5       -2   6   6   7   7   7   7   7 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99
+## 6       -2   1   1   4   6   6   7 -99   7   5   3 -99 -99 -99 -99   4 -99   4
+##   Q5e Q5f Q5g Q6a Q6b Q6c Q6d Q6e Q6f Q6g Q7a Q7b Q7c Q7d Q7e Q7f Q7g Q8
+## 1   1 -99 -99   6   7 -99   4   6 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 2 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  8
+## 3 -99   7 -99   7   7   7   6   7   7   7   7   7 -99   5 -99   6 -99  8
+## 4 -99 -99 -99   6   6 -99   6 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 5 -99 -99 -99   6 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  7
+## 6 -99 -99 -99 -99   5   5   4 -99 -99 -99 -99 -99 -99 -99 -99 -99 -99  8
+##   Q8_12_text Q9a Q9b Q9c Q9d Q10 Q11a Q11b Q11c Q11d Q11e Q11f Q11g Q11g_text
+## 1         -2   3   6   6   5   3   -1    4    5    3    1    4   -1        -1
+## 2         -2   5   5   5   5   3    3    1    2    3    1    2   -1        -1
+## 3         -2   7   7   7   7   1    3    4    2    1    1    5   -1        -1
+## 4         -2   5   7   6   5   3    3    1    3    3    2    3   -1        -1
+## 5         -2   7   7   7   7   1    3    3    4    1    1    1    1        -1
+## 6         -2   5   7   6   6   4    2    2    3    2    2    1   -1        -1
+##   Q12a Q12b Q12c Q12d Q12e Q12f Q12g Q12h Q12i Q12j Q12k Q12l Q12l_text Q13
+## 1    0    0    0    0    0    0    1    1    0    0    0    0        -2   1
+## 2    0    0    0    1    0    0    0    1    0    0    0    0        -2   2
+## 3    0    0    0    0    0    0    0    1    0    1    0    0        -2   1
+## 4    0    0    0    0    0    0    1    0    0    0    0    0        -2   2
+## 5    0    0    1    0    0    0    1    0    0    0    0    0        -2   1
+## 6    0    0    0    0    0    0    0    1    0    1    0    0        -2   2
+##   Q14a Q14b Q14c Q14d Q14e Q14f Q14f_text Q15a Q15b Q15c Q15d Q16 Q17 Q18 Q19a
+## 1    6    7    7    7    6   -1        -1    7    7    6    4   1   1   0    6
+## 2   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   1   1   5    5
+## 3    7    7    7    7    7   -1        -1    7    7    6    5   2  -2  10    7
+## 4   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   1   2   5    5
+## 5    1    1    1    1    1    1        -1    7    7  -99  -99   2  -2   3    5
+## 6   -2   -2   -2   -2   -2   -2        -2   -2   -2   -2   -2   2  -2  10    4
+##   Q19b Q19c Q19d Q19e Q21a Q22 Q23a Q23b Q23c Q23d Q23e Q23f Q23f_text Q24 Q26
+## 1    5    5    4    2    5   1    5    6    6    6    6   -1        -1   2   2
+## 2    7    3    3    1    1   1    7    7    7    7    7   -1        -1   5   3
+## 3    7    7    7    5    7   1    3    5    7    7    7   -1        -1  12   5
+## 4    6    5    6    4    4   1    4    5    7    7    7   -1        -1   7   1
+## 5    7    7    5    3    5   1    7    7    7    7    7   -1        -1   5   3
+## 6    7    1    2    4    4   2    1    1    7    7    7    1        -1   2   6
+##   Q27 Q28 Q29 XSPOL XIZ1a2 XIZ1a2_7_text XDS2a4 Q30 Q30_7_text Q31 XLOKACREGs
+## 1   3   5   5     1      1            -2      1   2         -2   1          4
+## 2   3   6  10     2      1            -2      2   4         -2   1          4
+## 3  10  20  20     1      4            -2      1   2         -2   1          8
+## 4   3  10   6     2      4            -2      2   4         -2   1          4
+## 5   5  10  13     2      4            -2      1   1         -2   2         12
+## 6   4  10   5     2      4            -2      1   3         -2   1          8
+##   XSPOL1 LS_avg Clustering_Ward Clustering_kmeans
+## 1      1    4.4               1                 1
+## 2      2    3.8               2                 2
+## 3      2    6.6               3                 3
+## 4      2    5.2               1                 1
+## 5      2    5.4               1                 1
+## 6      2    3.6               2                 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_Ward)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##   1   2   3 
+## 117  38  62
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1  2  3 
+## 90 60 67
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_Ward, segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    
+##      1  2  3
+##   1 86 22  9
+##   2  0 37  1
+##   3  4  1 57
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Leaders\_final }\OtherTok{\textless{}{-}}\NormalTok{ kmeans\_clu}\SpecialCharTok{$}\NormalTok{centers}
+\NormalTok{Leaders\_final}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       LS_avg       Q21a       Q23b        Q18        Q24
+## 1  0.3474340  0.3500903  0.2564023 -0.6862631 -0.6376408
+## 2 -0.9991034 -1.0956980 -0.6982075 -0.1208998 -0.2705123
+## 3  0.4280171  0.5109514  0.2808394  1.0301144  1.0987823
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# DESCRIBING CLUSTERS}
+
+\NormalTok{Figure }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(Leaders\_final)}
+
+\NormalTok{Figure}\SpecialCharTok{$}\NormalTok{ID }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(Figure)}
+
+\FunctionTok{library}\NormalTok{(tidyr)}
+
+\NormalTok{Figure }\OtherTok{\textless{}{-}} \FunctionTok{pivot\_longer}\NormalTok{(Figure, }\AttributeTok{cols =} \FunctionTok{c}\NormalTok{(}\StringTok{"LS\_avg"}\NormalTok{, }\StringTok{"Q21a"}\NormalTok{, }\StringTok{"Q23b"}\NormalTok{, }\StringTok{"Q18"}\NormalTok{, }\StringTok{"Q24"}\NormalTok{))}
+
+\NormalTok{Figure}\SpecialCharTok{$}\NormalTok{Group }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Figure}\SpecialCharTok{$}\NormalTok{ID, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"1"}\NormalTok{, }\StringTok{"2"}\NormalTok{, }\StringTok{"3"}\NormalTok{))}
+
+\NormalTok{Figure}\SpecialCharTok{$}\NormalTok{NameF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Figure}\SpecialCharTok{$}\NormalTok{name,}
+                       \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"LS\_avg"}\NormalTok{, }\StringTok{"Q21a"}\NormalTok{, }\StringTok{"Q23b"}\NormalTok{, }\StringTok{"Q18"}\NormalTok{, }\StringTok{"Q24"}\NormalTok{),}
+                       \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"LifeSust."}\NormalTok{, }\StringTok{"Sust. Purchases"}\NormalTok{, }\StringTok{"UseOfSustPckg"}\NormalTok{, }\StringTok{"NormalPckgPrice"}\NormalTok{, }\StringTok{"SustPckgPrice"}\NormalTok{))}
+
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\FunctionTok{ggplot}\NormalTok{(Figure, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ NameF, }\AttributeTok{y =}\NormalTok{ value)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_linedraw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{shape =}\NormalTok{ Group, }\AttributeTok{col =}\NormalTok{ Group), }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{group =}\NormalTok{ ID), }\AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Averages"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Cluster variables"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{2.2}\NormalTok{, }\FloatTok{2.2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{NLB_retail3_analysis_files/figure-latex/unnamed-chunk-43-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# aware and willing, not aware but willing, not aware}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(LS\_avg, Q21a, Q23b, Q18, Q24) }\SpecialCharTok{\textasciitilde{}} \FunctionTok{as.factor}\NormalTok{(Clustering\_kmeans), }\AttributeTok{data =}\NormalTok{ segmentationData ) }
+\CommentTok{\# }\AlertTok{TODO}\CommentTok{: Ask: WHICH DATA DO WE USE HERE? STD OR INITIAL????}
+
+\FunctionTok{summary}\NormalTok{(fit) }\CommentTok{\# all p values are good}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Response LS_avg :
+##                               Df  Sum Sq Mean Sq F value    Pr(>F)    
+## as.factor(Clustering_kmeans)   2  88.477  44.239  66.814 < 2.2e-16 ***
+## Residuals                    214 141.692   0.662                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+##  Response Q21a :
+##                               Df Sum Sq Mean Sq F value    Pr(>F)    
+## as.factor(Clustering_kmeans)   2 207.68 103.840  93.201 < 2.2e-16 ***
+## Residuals                    214 238.43   1.114                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+##  Response Q23b :
+##                               Df Sum Sq Mean Sq F value    Pr(>F)    
+## as.factor(Clustering_kmeans)   2 155.59  77.796  24.655 2.313e-10 ***
+## Residuals                    214 675.25   3.155                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+##  Response Q18 :
+##                               Df Sum Sq Mean Sq F value    Pr(>F)    
+## as.factor(Clustering_kmeans)   2 1561.2  780.58  120.39 < 2.2e-16 ***
+## Residuals                    214 1387.5    6.48                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+##  Response Q24 :
+##                               Df Sum Sq Mean Sq F value    Pr(>F)    
+## as.factor(Clustering_kmeans)   2 2330.9 1165.45  138.54 < 2.2e-16 ***
+## Residuals                    214 1800.2    8.41                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{validation}{%
+\subsubsection{VALIDATION}\label{validation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Further ( + descriptive) analysis needs to be perfomed}
+
+\CommentTok{\# PRIMARY FACTORS:}
+\CommentTok{\# GenderF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{GenderF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{XSPOL, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"M"}\NormalTok{, }\StringTok{"F"}\NormalTok{))}
+
+\CommentTok{\# AgeF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{AgeF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Age, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{11}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"18"}\NormalTok{, }\StringTok{"19"}\NormalTok{, }\StringTok{"20"}\NormalTok{, }\StringTok{"21"}\NormalTok{, }\StringTok{"22"}\NormalTok{, }\StringTok{"23"}\NormalTok{, }\StringTok{"24"}\NormalTok{, }\StringTok{"25"}\NormalTok{, }\StringTok{"26"}\NormalTok{, }\StringTok{"27"}\NormalTok{))}
+
+\CommentTok{\# NeobankUseF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{NeobankUseF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q16, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{))}
+
+\CommentTok{\# FrequencyOfDigitalPurchasesF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{FrequencyOfDigitalPurchasesF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q11a, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Not at all"}\NormalTok{, }\StringTok{" Once per month"}\NormalTok{, }\StringTok{"Several times per month"}\NormalTok{, }\StringTok{"Several times per week"}\NormalTok{, }\StringTok{"Every day"}\NormalTok{))}
+
+\CommentTok{\# ADDITIONAL:}
+\CommentTok{\#DigitalBankF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{DigitalBankF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q16, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{))}
+\CommentTok{\# BankTypePreferenceF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{BankTypePreferenceF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q17, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Digital"}\NormalTok{, }\StringTok{"Traditional"}\NormalTok{))}
+
+\CommentTok{\# ImpactOnEnvironmentF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{ImpactOnEnvironmentF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q22, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{))}
+\CommentTok{\# EmploymentF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{EmploymentF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{XDS2a4, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Student"}\NormalTok{, }\StringTok{"Employed"}\NormalTok{))}
+
+\CommentTok{\# LivingParentsF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{LivingParentsF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q31, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{))}
+
+\CommentTok{\# KidsF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{KidsF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{XSPOL1, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{))}
+
+\CommentTok{\# SalaryF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{SalaryF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q30, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Brez dohodka"}\NormalTok{, }\StringTok{"0{-}499"}\NormalTok{, }\StringTok{"500{-}999"}\NormalTok{, }\StringTok{"1000{-}1499"}\NormalTok{, }\StringTok{"1500{-}1999"}\NormalTok{, }\StringTok{"2000{-}2499"}\NormalTok{, }\StringTok{"2500+"}\NormalTok{))}
+
+\CommentTok{\# EducationF}
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{EducationF }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{XIZ1a2, }
+                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{), }
+                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Srednja sola"}\NormalTok{, }\StringTok{"Visja sola"}\NormalTok{, }\StringTok{"Visoka sola"}\NormalTok{, }\StringTok{"Uni. sola"}\NormalTok{, }\StringTok{"Magister"}\NormalTok{, }\StringTok{"Doktorat"}\NormalTok{, }\StringTok{"Other"}\NormalTok{))}
+
+
+
+
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{AgeF }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{AgeF))}
+
+\FunctionTok{aggregate}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{AgeF,}
+          \AttributeTok{by =} \FunctionTok{list}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans),}
+          \AttributeTok{FUN =} \StringTok{\textquotesingle{}mean\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Group.1        x
+## 1       1 22.30000
+## 2       2 22.98333
+## 3       3 22.22388
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Fit }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(AgeF }\SpecialCharTok{\textasciitilde{}} \FunctionTok{as.factor}\NormalTok{(Clustering\_kmeans), }\AttributeTok{data=}\NormalTok{ segmentationData)}
+
+\FunctionTok{summary}\NormalTok{(Fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                               Df Sum Sq Mean Sq F value Pr(>F)
+## as.factor(Clustering_kmeans)   2   22.5  11.233   1.825  0.164
+## Residuals                    214 1317.5   6.157
+\end{verbatim}
+
+\hypertarget{h0-meang1-meang2-meang3}{%
+\paragraph{H0: meanG1 = meanG2 = meanG3}\label{h0-meang1-meang2-meang3}}
+
+\hypertarget{h1-at-least-one-mean-is-different.}{%
+\paragraph{H1: At least one mean is
+different.}\label{h1-at-least-one-mean-is-different.}}
+
+\hypertarget{we-cannot-reject-h0-because-p-value-is-too-high.-the-means-of-the-three-groups-are-too-similar-to-be-statistically-significant.}{%
+\paragraph{We cannot reject H0 because p-value is too high. The means of
+the three groups are too similar to be statistically
+significant.}\label{we-cannot-reject-h0-because-p-value-is-too-high.-the-means-of-the-three-groups-are-too-similar-to-be-statistically-significant.}}
+
+\hypertarget{calculating-the-effect-size-r222.522.5-1317.5-0.017}{%
+\paragraph{Calculating the effect size: r**2=22.5/(22.5 + 1317.5) =
+0.017}\label{calculating-the-effect-size-r222.522.5-1317.5-0.017}}
+
+\hypertarget{effect-size-is-small-the-differences-are-small.}{%
+\paragraph{Effect size is small, the differences are
+small.}\label{effect-size-is-small-the-differences-are-small.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{segmentationData}\SpecialCharTok{$}\NormalTok{Q11a }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q11a))}
+
+\FunctionTok{aggregate}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Q11a,}
+          \AttributeTok{by =} \FunctionTok{list}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans),}
+          \AttributeTok{FUN =} \StringTok{\textquotesingle{}mean\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Group.1        x
+## 1       1 2.977778
+## 2       2 3.116667
+## 3       3 3.343284
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Fit1 }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(Q11a }\SpecialCharTok{\textasciitilde{}} \FunctionTok{as.factor}\NormalTok{(Clustering\_kmeans), }\AttributeTok{data=}\NormalTok{ segmentationData)}
+
+\FunctionTok{summary}\NormalTok{(Fit1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                               Df Sum Sq Mean Sq F value Pr(>F)
+## as.factor(Clustering_kmeans)   2    5.1   2.572   1.407  0.247
+## Residuals                    214  391.2   1.828
+\end{verbatim}
+
+\hypertarget{h0-meang1-meang2-meang3-1}{%
+\paragraph{H0: meanG1 = meanG2 =
+meanG3}\label{h0-meang1-meang2-meang3-1}}
+
+\hypertarget{h1-at-least-one-mean-is-different.-1}{%
+\paragraph{H1: At least one mean is
+different.}\label{h1-at-least-one-mean-is-different.-1}}
+
+\hypertarget{we-cannot-reject-h0-because-p-value-is-too-high.-the-means-of-the-three-groups-are-too-similar-to-be-statistically-significant.-1}{%
+\paragraph{We cannot reject H0 because p-value is too high. The means of
+the three groups are too similar to be statistically
+significant.}\label{we-cannot-reject-h0-because-p-value-is-too-high.-the-means-of-the-three-groups-are-too-similar-to-be-statistically-significant.-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chisq\_resultsGen }\OtherTok{\textless{}{-}} \FunctionTok{chisq.test}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{GenderF, }\FunctionTok{as.factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans))}
+\NormalTok{chisq\_resultsGen}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  segmentationData$GenderF and as.factor(segmentationData$Clustering_kmeans)
+## X-squared = 1.0725, df = 2, p-value = 0.5849
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{addmargins}\NormalTok{(chisq\_resultsGen}\SpecialCharTok{$}\NormalTok{observed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                         
+## segmentationData$GenderF   1   2   3 Sum
+##                      M    33  27  26  86
+##                      F    57  33  41 131
+##                      Sum  90  60  67 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsGen}\SpecialCharTok{$}\NormalTok{expected, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                         
+## segmentationData$GenderF     1     2     3
+##                        M 35.67 23.78 26.55
+##                        F 54.33 36.22 40.45
+\end{verbatim}
+
+\hypertarget{this-is-acceptable-because-all-values-are-above-5.}{%
+\paragraph{This is acceptable because all values are above
+5.}\label{this-is-acceptable-because-all-values-are-above-5.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsGen}\SpecialCharTok{$}\NormalTok{res, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                         
+## segmentationData$GenderF     1     2     3
+##                        M -0.45  0.66 -0.11
+##                        F  0.36 -0.54  0.09
+\end{verbatim}
+
+\hypertarget{no-validation-because-none-of-these-are-higher-than-1.64-in-absolute-terms---values-are-too-low-to-be-statistically-significant.}{%
+\paragraph{No validation because none of these are higher than 1.64 in
+absolute terms - values are too low to be statistically
+significant.}\label{no-validation-because-none-of-these-are-higher-than-1.64-in-absolute-terms---values-are-too-low-to-be-statistically-significant.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chisq\_resultsImp }\OtherTok{\textless{}{-}} \FunctionTok{chisq.test}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{ImpactOnEnvironmentF, }\FunctionTok{as.factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans))}
+\NormalTok{chisq\_resultsImp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  segmentationData$ImpactOnEnvironmentF and as.factor(segmentationData$Clustering_kmeans)
+## X-squared = 30.857, df = 2, p-value = 1.993e-07
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{addmargins}\NormalTok{(chisq\_resultsImp}\SpecialCharTok{$}\NormalTok{observed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##         1   2   3 Sum
+##   Yes  73  24  51 148
+##   No   17  36  16  69
+##   Sum  90  60  67 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsImp}\SpecialCharTok{$}\NormalTok{expected, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##           1     2    3
+##   Yes 61.38 40.92 45.7
+##   No  28.62 19.08 21.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsImp}\SpecialCharTok{$}\NormalTok{res, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##           1     2     3
+##   Yes  1.48 -2.65  0.78
+##   No  -2.17  3.87 -1.15
+\end{verbatim}
+
+\hypertarget{this-is-acceptable-because-all-of-these-values-are-above-5-expected-values.}{%
+\paragraph{This is acceptable because all of these values are above 5
+(expected
+values).}\label{this-is-acceptable-because-all-of-these-values-are-above-5-expected-values.}}
+
+\hypertarget{in-group1-there-is-less-people-than-expected-that-answered-no.-in-group2-there-is-more-people-than-expected-that-answered-no.-in-group3-there-is-no-significant-difference.}{%
+\paragraph{In Group1, there is less people than expected that answered
+NO. In Group2, there is more people than expected that answered NO. In
+Group3, there is no significant
+difference.}\label{in-group1-there-is-less-people-than-expected-that-answered-no.-in-group2-there-is-more-people-than-expected-that-answered-no.-in-group3-there-is-no-significant-difference.}}
+
+\hypertarget{with-the-variable-impactonenvironmentf-we-validated-the-results-because-the-results-were-not-what-we-expected.in-group-2-there-are-less-people-than-expected-who-want-to-know-about-their-impact-on-the-environment-and-more-people-than-expected-who-do-not-want-to-know-about-their-impact.}{%
+\paragraph{With the variable ImpactonEnvironmentF, we validated the
+results because the results were not what we expected.In Group 2, there
+are less people than expected who want to know about their impact on the
+environment and more people than expected who do not want to know about
+their
+impact.}\label{with-the-variable-impactonenvironmentf-we-validated-the-results-because-the-results-were-not-what-we-expected.in-group-2-there-are-less-people-than-expected-who-want-to-know-about-their-impact-on-the-environment-and-more-people-than-expected-who-do-not-want-to-know-about-their-impact.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lets do Cramer test to see the effect size and interpret}
+
+\FunctionTok{library}\NormalTok{(DescTools)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'DescTools' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'DescTools'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:psych':
+## 
+##     AUC, ICC, SD
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{CramerV}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{ImpactOnEnvironmentF, }\FunctionTok{as.factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.377094
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# can see that this is mid effect \textless{}= check theory and fix this verdict, 0.377}
+
+\CommentTok{\# Denis then did fisher test here}
+
+\FunctionTok{fisher.test}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{ImpactOnEnvironmentF, }\FunctionTok{as.factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  segmentationData$ImpactOnEnvironmentF and as.factor(segmentationData$Clustering_kmeans)
+## p-value = 3.986e-07
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chisq\_resultsDig}\OtherTok{\textless{}{-}} \FunctionTok{chisq.test}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{DigitalBankF, }\FunctionTok{as.factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans))}
+\NormalTok{chisq\_resultsDig}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  segmentationData$DigitalBankF and as.factor(segmentationData$Clustering_kmeans)
+## X-squared = 3.7445, df = 2, p-value = 0.1538
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{addmargins}\NormalTok{(chisq\_resultsDig}\SpecialCharTok{$}\NormalTok{observed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                              
+## segmentationData$DigitalBankF   1   2   3 Sum
+##                           Yes  58  43  37 138
+##                           No   32  17  30  79
+##                           Sum  90  60  67 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsDig}\SpecialCharTok{$}\NormalTok{expected, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                              
+## segmentationData$DigitalBankF     1     2     3
+##                           Yes 57.24 38.16 42.61
+##                           No  32.76 21.84 24.39
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsDig}\SpecialCharTok{$}\NormalTok{res, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                              
+## segmentationData$DigitalBankF     1     2     3
+##                           Yes  0.10  0.78 -0.86
+##                           No  -0.13 -1.04  1.14
+\end{verbatim}
+
+\hypertarget{values-are-too-low-to-be-statistically-significant.}{%
+\paragraph{Values are too low to be statistically
+significant.}\label{values-are-too-low-to-be-statistically-significant.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chisq\_resultsEmp }\OtherTok{\textless{}{-}} \FunctionTok{chisq.test}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{EmploymentF, }\FunctionTok{as.factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans))}
+\NormalTok{chisq\_resultsEmp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  segmentationData$EmploymentF and as.factor(segmentationData$Clustering_kmeans)
+## X-squared = 8.8122, df = 2, p-value = 0.0122
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{addmargins}\NormalTok{(chisq\_resultsEmp}\SpecialCharTok{$}\NormalTok{observed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                             
+## segmentationData$EmploymentF   1   2   3 Sum
+##                     Student   71  35  52 158
+##                     Employed  19  25  15  59
+##                     Sum       90  60  67 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsEmp}\SpecialCharTok{$}\NormalTok{expected, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                             
+## segmentationData$EmploymentF     1     2     3
+##                     Student  65.53 43.69 48.78
+##                     Employed 24.47 16.31 18.22
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsEmp}\SpecialCharTok{$}\NormalTok{res, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                             
+## segmentationData$EmploymentF     1     2     3
+##                     Student   0.68 -1.31  0.46
+##                     Employed -1.11  2.15 -0.75
+\end{verbatim}
+
+\hypertarget{in-group-2-more-people-than-expected-are-employed.in-group-1-and-group-3-the-differences-are-too-small-to-be-statistically-significant.}{%
+\paragraph{In Group 2, more people than expected are employed.In Group 1
+and Group 3, the differences are too small to be statistically
+significant.}\label{in-group-2-more-people-than-expected-are-employed.in-group-1-and-group-3-the-differences-are-too-small-to-be-statistically-significant.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chisq\_resultsLiv }\OtherTok{\textless{}{-}} \FunctionTok{chisq.test}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{LivingParentsF, }\FunctionTok{as.factor}\NormalTok{(segmentationData}\SpecialCharTok{$}\NormalTok{Clustering\_kmeans))}
+\NormalTok{chisq\_resultsLiv}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  segmentationData$LivingParentsF and as.factor(segmentationData$Clustering_kmeans)
+## X-squared = 0.56225, df = 2, p-value = 0.7549
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{addmargins}\NormalTok{(chisq\_resultsLiv}\SpecialCharTok{$}\NormalTok{observed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##         1   2   3 Sum
+##   Yes  64  42  44 150
+##   No   26  18  23  67
+##   Sum  90  60  67 217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsLiv}\SpecialCharTok{$}\NormalTok{expected, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##           1     2     3
+##   Yes 62.21 41.47 46.31
+##   No  27.79 18.53 20.69
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(chisq\_resultsLiv}\SpecialCharTok{$}\NormalTok{res, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##           1     2     3
+##   Yes  0.23  0.08 -0.34
+##   No  -0.34 -0.12  0.51
+\end{verbatim}
+
+\hypertarget{values-are-too-low-to-be-statistically-significant.-1}{%
+\paragraph{Values are too low to be statistically
+significant.}\label{values-are-too-low-to-be-statistically-significant.-1}}
+
+\hypertarget{we-performed-hierarchical-clustering-of-217-units-based-on-5-cluster-variables-squared-euclidean-distance-ward-algorithm.-the-results-were-further-optimized-with-k-means-clustering.}{%
+\subsection{We performed hierarchical clustering of 217 units based on 5
+cluster variables (Squared Euclidean Distance, Ward Algorithm). The
+results were further optimized with k-means
+clustering.}\label{we-performed-hierarchical-clustering-of-217-units-based-on-5-cluster-variables-squared-euclidean-distance-ward-algorithm.-the-results-were-further-optimized-with-k-means-clustering.}}
+
+\hypertarget{description-of-cluster-1}{%
+\paragraph{Description of Cluster 1:}\label{description-of-cluster-1}}
+
+\hypertarget{name-green-penny-pinchers}{%
+\paragraph{Name: GREEN PENNY-PINCHERS}\label{name-green-penny-pinchers}}
+
+\hypertarget{cluster-1-represents-the-largest-group-of-customers-estimated-at-41-who-believe-that-sustainability-is-important.-they-lead-a-sustainable-lifestyle-on-a-daily-basis-consider-sustainability-when-making-purchases-and-would-be-interested-in-using-a-sustainable-financial-solution-integrated-into-their-digital-bank.-in-this-group-there-are-fewer-people-than-expected-that-said-that-they-would-not-like-to-know-their-impact-on-the-environment-based-on-their-spending-habits-which-further-confirms-their-awareness-about-sustainability.-these-customers-are-not-prepared-to-pay-either-for-a-normal-banking-package-or-for-a-sustainable-banking-package.in-this-group-there-are-37-of-men-and-63-of-women-64-use-a-digital-bank-and-36-do-not.-the-first-group-consists-of-79-students-and-21-of-employed-young-individuals-which-could-explain-the-fact-that-customers-in-this-group-are-not-prepared-to-pay-for-banking-packages-since-students-mostly-have-less-money-to-spend-than-employed-individuals.}{%
+\paragraph{Cluster 1 represents the largest group of customers
+(estimated at 41 \%) who believe that sustainability is important. They
+lead a sustainable lifestyle on a daily basis, consider sustainability
+when making purchases and would be interested in using a sustainable
+financial solution integrated into their digital bank. In this group,
+there are fewer people than expected that said that they would not like
+to know their impact on the environment based on their spending habits,
+which further confirms their awareness about sustainability. These
+customers are not prepared to pay either for a normal banking package or
+for a sustainable banking package.In this group, there are 37 \% of men
+and 63 \% of women, 64 \% use a digital bank and 36 \% do not. The first
+group consists of 79 \% students and 21 \% of employed young individuals
+which could explain the fact that customers in this group are not
+prepared to pay for banking packages since students mostly have less
+money to spend than employed
+individuals.}\label{cluster-1-represents-the-largest-group-of-customers-estimated-at-41-who-believe-that-sustainability-is-important.-they-lead-a-sustainable-lifestyle-on-a-daily-basis-consider-sustainability-when-making-purchases-and-would-be-interested-in-using-a-sustainable-financial-solution-integrated-into-their-digital-bank.-in-this-group-there-are-fewer-people-than-expected-that-said-that-they-would-not-like-to-know-their-impact-on-the-environment-based-on-their-spending-habits-which-further-confirms-their-awareness-about-sustainability.-these-customers-are-not-prepared-to-pay-either-for-a-normal-banking-package-or-for-a-sustainable-banking-package.in-this-group-there-are-37-of-men-and-63-of-women-64-use-a-digital-bank-and-36-do-not.-the-first-group-consists-of-79-students-and-21-of-employed-young-individuals-which-could-explain-the-fact-that-customers-in-this-group-are-not-prepared-to-pay-for-banking-packages-since-students-mostly-have-less-money-to-spend-than-employed-individuals.}}
+
+\hypertarget{description-of-cluster-2}{%
+\paragraph{Description of Cluster 2:}\label{description-of-cluster-2}}
+
+\hypertarget{name-anti-greenies}{%
+\paragraph{Name: ANTI-GREENIES}\label{name-anti-greenies}}
+
+\hypertarget{cluster-2-represents-the-smallest-group-of-customers-estimated-at-28-who-are-not-aware-of-the-importance-of-sustainability.-they-do-not-lead-a-sustainable-lifestyle-on-a-daily-basis-do-not-consider-sustainability-when-making-purchases-and-would-not-be-interested-in-using-a-sustainable-financial-solution-integrated-into-their-digital-bank.-more-than-expected-this-group-would-not-be-interested-in-knowing-about-the-impact-their-spending-has-on-the-environment-which-further-confirms-them-being-unaware-of-the-importance-of-sustainability.-these-customers-are-not-prepared-to-pay-for-both-a-normal-banking-package-as-well-as-a-sustainable-banking-package.-in-this-group-there-are-45-of-men-and-55-of-women-72-use-a-digital-bank-and-28-do-not.-the-second-group-consists-of-58-of-students-and-42-of-employed-young-people.-considering-the-variable-of-employment-there-are-more-employed-young-individuals-in-this-group-than-expected-which-can-be-explained-by-them-being-unaware-of-the-importance-of-sustainability-which-they-consider-as-a-cause-on-which-they-are-not-prepared-to-spend-their-money.}{%
+\paragraph{Cluster 2 represents the smallest group of customers
+(estimated at 28 \%) who are not aware of the importance of
+sustainability. They do not lead a sustainable lifestyle on a daily
+basis, do not consider sustainability when making purchases and would
+not be interested in using a sustainable financial solution integrated
+into their digital bank. More than expected, this group would not be
+interested in knowing about the impact their spending has on the
+environment, which further confirms them being unaware of the importance
+of sustainability. These customers are not prepared to pay for both a
+normal banking package as well as a sustainable banking package. In this
+group, there are 45 \% of men and 55 \% of women, 72 \% use a digital
+bank and 28 \% do not. The second group consists of 58 \% of students
+and 42 \% of employed young people. Considering the variable of
+employment, there are more employed young individuals in this group than
+expected, which can be explained by them being unaware of the importance
+of sustainability which they consider as a cause on which they are not
+prepared to spend their
+money.}\label{cluster-2-represents-the-smallest-group-of-customers-estimated-at-28-who-are-not-aware-of-the-importance-of-sustainability.-they-do-not-lead-a-sustainable-lifestyle-on-a-daily-basis-do-not-consider-sustainability-when-making-purchases-and-would-not-be-interested-in-using-a-sustainable-financial-solution-integrated-into-their-digital-bank.-more-than-expected-this-group-would-not-be-interested-in-knowing-about-the-impact-their-spending-has-on-the-environment-which-further-confirms-them-being-unaware-of-the-importance-of-sustainability.-these-customers-are-not-prepared-to-pay-for-both-a-normal-banking-package-as-well-as-a-sustainable-banking-package.-in-this-group-there-are-45-of-men-and-55-of-women-72-use-a-digital-bank-and-28-do-not.-the-second-group-consists-of-58-of-students-and-42-of-employed-young-people.-considering-the-variable-of-employment-there-are-more-employed-young-individuals-in-this-group-than-expected-which-can-be-explained-by-them-being-unaware-of-the-importance-of-sustainability-which-they-consider-as-a-cause-on-which-they-are-not-prepared-to-spend-their-money.}}
+
+\hypertarget{description-of-cluster-3}{%
+\paragraph{Description of Cluster 3:}\label{description-of-cluster-3}}
+
+\hypertarget{name-generous-environmentalists}{%
+\paragraph{Name: GENEROUS
+ENVIRONMENTALISTS}\label{name-generous-environmentalists}}
+
+\hypertarget{cluster-3-represents-the-second-largest-group-of-customers-estimated-at-31-who-believe-that-sustainability-is-important.-they-lead-a-sustainable-lifestyle-on-a-daily-basis-consider-sustainability-when-making-purchases-and-would-be-interested-in-using-a-sustainable-financial-solution-integrated-into-their-digital-bank.-these-customers-are-prepared-to-pay-for-both-their-normal-banking-package-as-well-as-a-sustainable-banking-package.in-this-group-there-are-39-of-men-and-61-of-women-55-use-a-digital-bank-and-45-do-not.-the-third-group-consists-of-78-students-and-22-of-employed-young-individuals-which-is-interesting-because-the-group-constitution-based-on-employment-is-very-similar-to-the-first-group-so-these-customers-clearly-consider-sustainability-as-a-cause-that-is-worth-spending-money-on-since-they-are-prepared-to-pay-for-a-sustainable-banking-package.}{%
+\paragraph{Cluster 3 represents the second largest group of customers
+(estimated at 31 \%) who believe that sustainability is important. They
+lead a sustainable lifestyle on a daily basis, consider sustainability
+when making purchases and would be interested in using a sustainable
+financial solution integrated into their digital bank. These customers
+are prepared to pay for both their normal banking package as well as a
+sustainable banking package.In this group, there are 39 \% of men and 61
+\% of women, 55 \% use a digital bank and 45 \% do not. The third group
+consists of 78 \% students and 22 \% of employed young individuals,
+which is interesting because the group constitution based on employment
+is very similar to the first group, so these customers clearly consider
+sustainability as a cause that is worth spending money on since they are
+prepared to pay for a sustainable banking
+package.}\label{cluster-3-represents-the-second-largest-group-of-customers-estimated-at-31-who-believe-that-sustainability-is-important.-they-lead-a-sustainable-lifestyle-on-a-daily-basis-consider-sustainability-when-making-purchases-and-would-be-interested-in-using-a-sustainable-financial-solution-integrated-into-their-digital-bank.-these-customers-are-prepared-to-pay-for-both-their-normal-banking-package-as-well-as-a-sustainable-banking-package.in-this-group-there-are-39-of-men-and-61-of-women-55-use-a-digital-bank-and-45-do-not.-the-third-group-consists-of-78-students-and-22-of-employed-young-individuals-which-is-interesting-because-the-group-constitution-based-on-employment-is-very-similar-to-the-first-group-so-these-customers-clearly-consider-sustainability-as-a-cause-that-is-worth-spending-money-on-since-they-are-prepared-to-pay-for-a-sustainable-banking-package.}}
+
+\end{document}

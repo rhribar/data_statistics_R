@@ -2,7 +2,9 @@
 title: "NLB_retail3_analysis"
 author: "Rok Hribar"
 date: "31 1 2022"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -79,8 +81,8 @@ https://www.nijz.si/sites/www.nijz.si/files/uploaded/publikacije/letopisi/2016/2
 ## 4. Hypothesis testing (refer to the document on hypothesis)
 
 ### RQ: 3. Why are young people choosing other financial technology solutions instead of traditional banking solutions?
-### H: Young people use financial technology solutions because of its convenience.
-### T: regression model
+### H: Young people use financial technology solutions because of its price.
+### T: one way anova
 
 Consultation Notes:
 - repeated measures to see what stands out, 
@@ -96,8 +98,175 @@ Consultation Notes:
 
 ```{r}
 # idk, we have here numerical scale
-# lm()
-# TODO
+
+# hočem ugotoviti, kateri je najbolj vplival!:)
+# avg za vsakega uporabnika
+# potem primerjaš med odgovori
+
+# 1. Cleanup
+
+myDataReasons <- mydata %>% replace_with_na(replace = list(Q14a = c(-2, -3, -99), Q14b = c(-2, -3, -99), Q14c = c(-2, -3, -99), Q14d = c(-2, -3, -99), Q14e = c(-2, -3, -99)))
+
+myDataReasons <- drop_na(myDataReasons)
+nrow(myDataReasons) # 83 makes sense as data is cleaned
+
+myDataReasons$Q14a <- as.numeric(as.character(myDataReasons$Q14a))
+myDataReasons$Q14b <- as.numeric(as.character(myDataReasons$Q14b))
+myDataReasons$Q14c <- as.numeric(as.character(myDataReasons$Q14c))
+myDataReasons$Q14d <- as.numeric(as.character(myDataReasons$Q14d))
+myDataReasons$Q14e <- as.numeric(as.character(myDataReasons$Q14e))
+
+# myDataReasons$Q14a
+myDataReasons <- data.frame(myDataReasons$Q14a, myDataReasons$Q14b, myDataReasons$Q14c, myDataReasons$Q14d, myDataReasons$Q14e)
+
+myDataReasons <- tibble::rowid_to_column(myDataReasons, "ID")
+
+head(myDataReasons)
+
+```
+
+```{r}
+library(rstatix)
+library(tidyverse)
+
+names(myDataReasons)[2] <- "Spletni_nakupi"
+names(myDataReasons)[3] <- "Brezplacni_dvigi"
+names(myDataReasons)[4] <- "Enostavna_aplikacija"
+names(myDataReasons)[5] <- "Brezplacna_aplikacija"
+names(myDataReasons)[6] <- "Priporocilo_prijateljev"
+
+myDataReasons_long <- myDataReasons %>%
+                 gather(key = "Reason", value = "Importance", Spletni_nakupi, Brezplacni_dvigi, Enostavna_aplikacija, Brezplacna_aplikacija, Priporocilo_prijateljev) %>%
+                 convert_as_factor(Reason)
+
+
+tail(myDataReasons_long, 10)
+```
+
+```{r}
+library(ggpubr)
+ggboxplot(myDataReasons_long, 
+          x = "Reason", 
+          y = "Importance", 
+          add = "jitter")
+
+```
+
+### Repeated measures ANOVA
+```{r}
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+
+head(myDataReasons_long)
+
+myDataReasons_long %>%
+  group_by(Reason) %>%
+  identify_outliers(Importance)
+
+```
+```{r}
+
+myDataReasons_long <- myDataReasons_long %>%
+  filter(!ID == 3, !ID == 11, !ID == 12, !ID == 18, !ID == 24, !ID == 40, !ID == 51, !ID == 53, !ID == 54, !ID == 56, !ID == 57, !ID == 61, !ID == 63, !ID == 3, !ID == 20, !ID == 41, !ID == 57, !ID == 61, !ID == 63, !ID == 3, !ID == 11, !ID == 12, !ID == 23, !ID == 26, !ID == 27, !ID == 36, !ID == 57, !ID == 61, !ID == 63, !ID == 74)
+
+```
+
+
+```{r}
+
+myDataReasons_long %>%
+  group_by(Reason) %>%
+  shapiro_test(Importance)
+
+
+ggqqplot(myDataReasons_long, "Importance", facet.by = "Reason")
+
+```
+```{r}
+library(rstatix)
+myDataReasons_long %>%
+  group_by(Reason) %>%
+  get_summary_stats(Importance, type = "common")
+
+```
+
+```{r}
+ANOVA_results <- anova_test(dv = Importance, #Dependent variable
+                            wid = ID, #Subject identifier
+                            within = Reason, #Within-subject factor variable
+                            data = myDataReasons_long)
+
+get_anova_table(ANOVA_results)
+
+
+```
+
+```{r}
+pwc <- myDataReasons_long %>%
+  pairwise_t_test(Importance ~ Reason, 
+                  paired = TRUE,
+                  p.adjust.method = "bonferroni")
+
+pwc
+```
+
+```{r}
+library(rstatix)
+pwc <- pwc %>% 
+       add_y_position(fun = "median", step.increase = 0.35)
+
+library(ggpubr)
+ggboxplot(myDataReasons_long, x = "Reason", y = "Importance", add = "point", ylim=c(0, 18)) +
+  stat_pvalue_manual(pwc, hide.ns = FALSE) +
+  stat_summary(fun = mean, geom = "point", shape = 16, size = 4,
+               aes(group = Reason), color = "darkred",
+               position = position_dodge(width = 0.8)) +
+  stat_summary(fun = mean, colour = "darkred", 
+               position = position_dodge(width = 0.8),
+               geom = "text", vjust = 0.5, hjust = -2,
+               aes(label = round(..y.., digits = 2), group = Reason)) +
+  labs(subtitle = get_test_label(ANOVA_results,  detailed = TRUE),
+       caption = get_pwc_label(pwc))
+```
+
+
+### RQ: 1. What percentage of young people use digital banking?
+### H: More than 60 % of young people use digital banking. 
+### T: test of proportions
+
+```{r}
+# 1. Hypothesis's
+# H0: p = 0.6
+# H1: p =| 0.6
+
+# 2. Data Selecting
+
+mydata$Q16 <- as.numeric(as.character(mydata$Q16))
+
+# 3. Getting the relevant data
+
+counterNDigital <- 0
+
+for(i in 1:length(mydata$Q16)) {
+  if(mydata$Q16[i] == 1) {
+    counterNDigital <- counterNDigital + 1
+  }
+}
+
+counterNDigital
+length(mydata$Q16)
+
+# 4. Testing whether we need Binomial or prop test
+
+pi0_H1 <- 0.58
+pi0_H1 * length(mydata$Q16) > 5 && length(mydata$Q16)* (1 - pi0_H1) > 5
+
+# We can use prop test as above condition holds true.
+
+prop.test(x = counterNDigital, n = length(mydata$Q16), p = pi0_H1, correct = FALSE, alternative = "greater")
+
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.04748
 
 ```
 
@@ -141,7 +310,7 @@ pi0 * sampleSize > 5 && sampleSize * (1 - pi0) > 5
 
 prop.test(x = counter, n = sampleSize, p = pi0, correct = FALSE, alternative = "greater")
 
-# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.0368.
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.02792.
 
                                      
 ```
@@ -180,7 +349,6 @@ for(i in 1:length(viewsOnSustainabilityQ19a)) {
 
 # length(viewsOnSustainability)
 # employmentData
-viewsOnSustainability
 
 viewsOnSustainabilityReference <- data.frame(mydata["Q19a"], mydata["Q19b"], mydata["Q19c"], mydata["Q19d"], mydata["Q19e"])
 
@@ -223,12 +391,12 @@ ggqqplot(viewsOnSustainabilityNew, "viewsOnSustainability", facet.by = "Employed
 ```{r}
 t.test(viewsOnSustainabilityNew$viewsOnSustainability ~ viewsOnSustainabilityNew$EmployedF, paired = FALSE, var.equal = FALSE, alternative = "two.sided")
 
-# VERDICT: We cannot reject  H0 (p = 0.3344), this makes sense because means are very close. TODO: How can we reject it?:)
+# VERDICT: We cannot reject  H0 (p = 0.3509), this makes sense because means are very close. TODO: How can we reject it?:)
 
 ```
 
 ### RQ: 7. What percentage of young people is interested in using sustainable financial products?
-### H: More than 58% of young people would rather use a financial package that includes sustainable options compared to a financial package without sustainable options.
+### H: More than 60% of young people would rather use a financial package that includes sustainable options compared to a financial package without sustainable options.
 ### T: test of proportions
 
 ```{r}
@@ -265,8 +433,7 @@ pi0_h7 * myDataH7SampleSize > 5 && myDataH7SampleSize * (1 - pi0_h7) > 5
 
 prop.test(x = counterH7, n = myDataH7SampleSize, p = pi0_h7, correct = FALSE, alternative = "greater")
 
-# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.01384
-
+# VERDICT: We can overthrow null hypothesis and accept the H1 hypothesis, p-value = 0.006822
 ```
 
 ## 5. Perception testing
@@ -433,8 +600,12 @@ cenaNA <- c(NKBM_cenaNA, NLB_cenaNA, SKB_cenaNA, DH_cenaNA, N26_cenaNA, Rev_cena
 ugledNA <- c(NKBM_ugledNA, NLB_ugledNA, SKB_ugledNA, DH_ugledNA, N26_ugledNA, Rev_ugledNA, Bills_ugledNA)
 odgovornostNA <- c(NKBM_odgovornostNA, NLB_odgovornostNA, SKB_odgovornostNA, DH_odgovornostNA, N26_odgovornostNA, Rev_odgovornostNA, Bills_odgovornostNA)
 
+Convenience <- dostopnostNA
+Price <- cenaNA
+Brand_Reputation <- ugledNA
+Responsibility <- odgovornostNA
 
-finalNA <- data.frame(dostopnostNA, cenaNA, ugledNA, odgovornostNA)
+finalNA <- data.frame(Convenience, Price, Brand_Reputation, Responsibility)
 rownames(finalNA) <- c("NKBM", "NLB", "SKB", "DH", "N26", "Revolut", "mBills")
 ugledNA
 finalNA
@@ -566,16 +737,12 @@ myDataPriceFourQ <- data.frame(myDataVW$Q26, myDataVW$Q27, myDataVW$Q28, myDataV
 
 ```
 
-```{r}
-myDataPriceFourQ
-```
-
 ## 7. Social proof testing
 
 Here we are cleaning our data:
 
 ```{r}
-# TODO:
+# TODO: Wont Do.
 
 # use correlation between them and see if they are very similar you group them
 
@@ -594,13 +761,11 @@ Here we are cleaning our data:
 Here we are cleaning our data:
 
 ```{r}
-# TODO:
+# TODO: Wont Do.
 # They ARE prepared to pay more!?
 # Why DOES 1/3 not use the packages!?
 # Do people see n26 as more secure for online shopping!?
 # Include case studies from abroad
-
-
 
 ```
 
@@ -926,6 +1091,9 @@ Fit <- aov(AgeF ~ as.factor(Clustering_kmeans), data= segmentationData)
 
 summary(Fit)
 ```
+#### H0: meanG1 = meanG2 = meanG3
+#### H1: At least one mean is different.
+#### We cannot reject H0 because p-value is too high. The means of the three groups are too similar to be statistically significant.
 #### Calculating the effect size: r**2=22.5/(22.5 + 1317.5) = 0.017
 #### Effect size is small, the differences are small. 
 
@@ -950,6 +1118,8 @@ chisq_resultsGen <- chisq.test(segmentationData$GenderF, as.factor(segmentationD
 chisq_resultsGen
 
 addmargins(chisq_resultsGen$observed)
+
+round(chisq_resultsGen$expected, 2)
 ```
 #### This is acceptable because all values are above 5.
 ```{r}
@@ -963,6 +1133,18 @@ chisq_resultsImp
 
 addmargins(chisq_resultsImp$observed)
 ```
+
+```{r}
+round(chisq_resultsImp$expected, 2)
+
+round(chisq_resultsImp$res, 2)
+```
+#### This is acceptable because all of these values are above 5 (expected values).
+
+#### In Group1, there is less people than expected that answered NO. In Group2, there is more people than expected that answered NO. In Group3, there is no significant difference.
+
+#### With the variable ImpactonEnvironmentF, we validated the results because the results were not what we expected.In Group 2, there are less people than expected who want to know about their impact on the environment and more people than expected who do not want to know about their impact.
+
 ```{r}
 # Lets do Cramer test to see the effect size and interpret
 
@@ -975,47 +1157,7 @@ CramerV(segmentationData$ImpactOnEnvironmentF, as.factor(segmentationData$Cluste
 # Denis then did fisher test here
 
 fisher.test(segmentationData$ImpactOnEnvironmentF, as.factor(segmentationData$Clustering_kmeans))
-
-
 ```
-
-#### This is acceptable because all of these values are above 5.
-
-```{r}
-round(chisq_resultsImp$expected, 2)
-
-round(chisq_resultsImp$res, 2)
-```
-#### There is less than expected people in group one that answered NO. Second group same. 3rd no difference.
-
-#### With the variable ImpactonEnvironmentF, we validated the results because the results were not what we expected.In Group 2, there are less people than expected who want to know about their impact on the environment and more people than expected who do not want to know about their impact.
-
-```{r}
-chisq_resultsEdu <- chisq.test(segmentationData$EducationF, as.factor(segmentationData$Clustering_kmeans))
-chisq_resultsEdu
-
-addmargins(chisq_resultsEdu$observed)
-
-round(chisq_resultsEdu$res, 2) ### do fisher test
-
-fisher.test(segmentationData$EducationF, as.factor(segmentationData$Clustering_kmeans),simulate.p.value=TRUE,B=1e7) # very intensive
-
-# use this if error : Error in fisher.test(segmentationData$EducationF, as.factor(segmentationData$Clustering_kmeans)) : FEXACT error 7(location). LDSTP=18630 is too small for this problem,
-
-```
-
-#### Not statistically significant because values are too low.
-```{r}
-chisq_resultsNeo<- chisq.test(segmentationData$NeobankUseF, as.factor(segmentationData$Clustering_kmeans))
-chisq_resultsNeo
-
-addmargins(chisq_resultsNeo$observed)
-
-round(chisq_resultsNeo$expected, 2)
-
-round(chisq_resultsNeo$res, 2)
-```
-#### Values are too low to be statistically significant.
 
 ```{r}
 chisq_resultsDig<- chisq.test(segmentationData$DigitalBankF, as.factor(segmentationData$Clustering_kmeans))
@@ -1023,22 +1165,11 @@ chisq_resultsDig
 
 addmargins(chisq_resultsDig$observed)
 
+round(chisq_resultsDig$expected, 2)
+
 round(chisq_resultsDig$res, 2)
 ```
 #### Values are too low to be statistically significant.
-
-```{r}
-chisq_resultsType <- chisq.test(segmentationData$BankTypePreferenceF, as.factor(segmentationData$Clustering_kmeans))
-chisq_resultsType
-
-addmargins(chisq_resultsType$observed)
-
-round(chisq_resultsType$expected, 2)
-
-round(chisq_resultsType$res, 2)
-```
-#### None of the groups are statistically significant - values are too low.
-#### I do not think this variable can be used for segmentation because not all respondents answered this question.
 
 ```{r}
 chisq_resultsEmp <- chisq.test(segmentationData$EmploymentF, as.factor(segmentationData$Clustering_kmeans))
@@ -1046,9 +1177,11 @@ chisq_resultsEmp
 
 addmargins(chisq_resultsEmp$observed)
 
+round(chisq_resultsEmp$expected, 2)
+
 round(chisq_resultsEmp$res, 2)
 ```
-#### Values are too low to be statistically significant.
+#### In Group 2, more people than expected are employed.In Group 1 and Group 3, the differences are too small to be statistically significant. 
 
 ```{r}
 chisq_resultsLiv <- chisq.test(segmentationData$LivingParentsF, as.factor(segmentationData$Clustering_kmeans))
@@ -1056,50 +1189,31 @@ chisq_resultsLiv
 
 addmargins(chisq_resultsLiv$observed)
 
+round(chisq_resultsLiv$expected, 2)
+
 round(chisq_resultsLiv$res, 2)
 ```
 #### Values are too low to be statistically significant.
 
-```{r}
-chisq_resultsKids <- chisq.test(segmentationData$KidsF, as.factor(segmentationData$Clustering_kmeans))
-chisq_resultsKids
-
-addmargins(chisq_resultsKids$observed)
-
-round(chisq_resultsKids$res, 2)
-
-```
-#### Values are too low to be statistically significant.
-
-```{r}
-chisq_resultsSal <- chisq.test(segmentationData$SalaryF, as.factor(segmentationData$Clustering_kmeans))
-chisq_resultsSal
-
-addmargins(chisq_resultsSal$observed)
-
-round(chisq_resultsSal$res, 2)
-
-# fix the test here, fischer test should be used
-# recode, then instead of chi use OWA ...
-
-# SalaryF
-segmentationData$SalaryF_aov <- factor(segmentationData$Q30, 
-                            levels = c(1, 2, 3, 4, 5, 6, 7), 
-                            labels = c("0", "499", "999", "1499", "1999", "2499", "2500"))
-
-segmentationData$SalaryF_aov <- as.numeric(as.character(segmentationData$SalaryF_aov))
 
 
-segmentationData$SalaryF_aov
-
-aov(segmentationData$SalaryF_aov ~ as.factor(segmentationData$Clustering_kmeans))
-```
-#### Values are too low to be statistically significant.
-
-# We performed hierarchical clustering of 217 units based on 5 cluster variables (Squared Euclidean Distance, Ward Algorithm). The results were further optimized with k-means clustering.
+## We performed hierarchical clustering of 217 units based on 5 cluster variables (Squared Euclidean Distance, Ward Algorithm). The results were further optimized with k-means clustering.
 
 #### Description of Cluster 1:
 
-#### Name: ECONOMICAL RECYCLERS
+#### Name: GREEN PENNY-PINCHERS
 
-#### Cluster 1 represents the largest group of customers (estimated at 41 %) who believe that sustainability is important. They lead a sustainable lifestyle on a daily basis, consider sustainability when making purchases and would be interested in using a sustainable financial solution integrated into their digital bank. More than expected, this group would like to know their impact on the environment based on their spending habits. These customers are not prepared to pay either for a normal banking package or for a sustainable banking package. In this group, there are 37 % of men and 63 % of women, 64 % use a digital bank and 36 % do not. The first group consists of 79 % students and 21 % of employed young individuals which could explain the fact that customers in this group are not prepared to pay for banking packages since students mostly have less money to spend than employed individuals.  
+#### Cluster 1 represents the largest group of customers (estimated at 41 %) who believe that sustainability is important. They lead a sustainable lifestyle on a daily basis, consider sustainability when making purchases and would be interested in using a sustainable financial solution integrated into their digital bank. In this group, there are fewer people than expected that said that they would not like to know their impact on the environment based on their spending habits, which further confirms their awareness about sustainability. These customers are not prepared to pay either for a normal banking package or for a sustainable banking package.In this group, there are 37 % of men and 63 % of women, 64 % use a digital bank and 36 % do not. The first group consists of 79 % students and 21 % of employed young individuals which could explain the fact that customers in this group are not prepared to pay for banking packages since students mostly have less money to spend than employed individuals.  
+
+#### Description of Cluster 2:
+
+#### Name: ANTI-GREENIES
+
+#### Cluster 2 represents the smallest group of customers (estimated at 28 %) who are not aware of the importance of sustainability. They do not lead a sustainable lifestyle on a daily basis, do not consider sustainability when making purchases and would not be interested in using a sustainable financial solution integrated into their digital bank. More than expected, this group would not be interested in knowing about the impact their spending has on the environment, which further confirms them being unaware of the importance of sustainability. These customers are not prepared to pay for both a normal banking package as well as a sustainable banking package. In this group, there are 45 % of men and 55 % of women, 72 % use a digital bank and 28 % do not. The second group consists of 58 % of students and 42 % of employed young people. Considering the variable of employment, there are more employed young individuals in this group than expected, which can be explained by them being unaware of the importance of sustainability which they consider as a cause on which they are not prepared to spend their money.
+
+#### Description of Cluster 3:
+
+#### Name: GENEROUS ENVIRONMENTALISTS
+
+#### Cluster 3 represents the second largest group of customers (estimated at 31 %) who believe that sustainability is important. They lead a sustainable lifestyle on a daily basis, consider sustainability when making purchases and would be interested in using a sustainable financial solution integrated into their digital bank. These customers are prepared to pay for both their normal banking package as well as a sustainable banking package.In this group, there are 39 % of men and 61 % of women, 55 % use a digital bank and 45 % do not. The third group consists of 78 % students and 22 % of employed young individuals, which is interesting because the group constitution based on employment is very similar to the first group, so these customers clearly consider sustainability as a cause that is worth spending money on since they are prepared to pay for a sustainable banking package.
+
